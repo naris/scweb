@@ -7,10 +7,24 @@
  * @version 
  */
 
-require_once ('App_Db_Table_Abstract.php');
+namespace SourceCraft\Model;
 
-class Race extends App_Db_Table_Abstract
+#use DomainException;
+#use Laminas\Filter\StringTrim;
+#use Laminas\Filter\StripTags;
+#use Laminas\Filter\ToInt;
+#use Laminas\InputFilter\InputFilter;
+#use Laminas\InputFilter\InputFilterAwareInterface;
+#use Laminas\InputFilter\InputFilterInterface;
+#use Laminas\Validator\StringLength;
+
+#require_once ('App_Db_Table_Abstract.php');
+
+#class Race extends App_Db_Table_Abstract
+#class Race implements InputFilterAwareInterface
+class Race
 {
+	/*
 	protected $_use_adapter = "sc";
 	protected $_name = 'sc_races';
 	protected $_primary = array("race_ident");
@@ -27,7 +41,51 @@ class Race extends App_Db_Table_Abstract
 		'tech_level'  		=> 'tech_level',
 		'add_date'		=> 'add_date'
 	);
+	*/
+	
+	public $race_ident;
+	public $race_name;
+	public $long_name;
+	public $parent_name;
+	public $faction;
+	public $type;
+	public $description;
+	public $image;
+	public $required_level;
+	public $tech_level;
+	public $add_date;
 
+    public function exchangeArray(array $data)
+    {
+        $this->race_ident     = !empty($data['race_ident'])     ? $data['race_ident']     : null;
+        $this->race_name      = !empty($data['race_name'])      ? $data['race_name']      : null;
+        $this->parent_name    = !empty($data['parent_name'])    ? $data['parent_name']    : null;
+        $this->faction        = !empty($data['faction'])        ? $data['faction']        : null;
+        $this->type           = !empty($data['type'])           ? $data['type']           : null;
+        $this->description    = !empty($data['description'])    ? $data['description']    : null;
+        $this->image          = !empty($data['image'])          ? $data['image']          : null;
+        $this->required_level = !empty($data['required_level']) ? $data['required_level'] : null;
+        $this->tech_level     = !empty($data['tech_level'])     ? $data['tech_level']     : null;
+        $this->add_date       = !empty($data['add_date'])       ? $data['add_date']       : null;
+    }
+	
+    public function getArrayCopy()
+    {
+        return [
+            'race_ident'     => $this->race_ident,
+            'race_name'      => $this->race_name,
+            'parent_name'    => $this->parent_name,
+            'faction'        => $this->faction,
+            'type'           => $this->type,
+            'description'    => $this->description,
+            'image'          => $this->image,
+            'required_level' => $this->required_level,
+            'tech_level'     => $this->tech_level,
+            'add_date'       => $this->add_date,
+        ];
+    }
+
+/***************************************************************************************
 	public function getRaceList($fetch=false)
 	{
 		$select = $this->getRaceSelect()
@@ -107,4 +165,5 @@ class Race extends App_Db_Table_Abstract
 			    ->where('player_ident = ?', $ident)
 			    ->order('long_name');
 	}
+ ***************************************************************************************/
 }

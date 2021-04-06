@@ -7,22 +7,73 @@
  * @version 
  */
 
-require_once 'Zend/Controller/Action.php';
+namespace SourceCraft\Controller;
 
-require_once 'Upgrade.php';
-require_once 'Race.php';
+#require_once 'Zend/Controller/Action.php';
+use Laminas\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
 
-class Sc_RaceController extends Zend_Controller_Action
+#require_once 'Race.php';
+use SourceCraft\Model\RaceTable;
+#use SourceCraft\Form\RaceForm;
+use SourceCraft\Model\Race;
+
+#require_once 'Upgrade.php';
+use SourceCraft\Model\Upgrade;
+
+
+#class Sc_RaceController extends Zend_Controller_Action
+class RaceController extends AbstractActionController
 {
+    private $table;
+
+    public function __construct(RaceTable $table)
+    {
+        $this->table = $table;
+    }
+
+	/**
+	 * The default action - show the home page
+	 *
+	public function indexAction()
+	{
+		$this->_forward('list');
+	}
+	*
+    public function indexAction()
+    {
+        // Grab the paginator from the RaceTable:
+        $paginator = $this->table->fetchAll(true);
+
+        // Set the current page to what has been passed in query string,
+        // or to 1 if none is set, or the page is invalid:
+        $page = (int) $this->params()->fromQuery('page', 1);
+        $page = ($page < 1) ? 1 : $page;
+        $paginator->setCurrentPageNumber($page);
+
+        // Set the number of items per page to 10:
+        $paginator->setItemCountPerPage(10);
+
+        return new ViewModel(['paginator' => $paginator]);
+    }
+	*/
+    public function indexAction()
+    {
+        return new ViewModel([
+            'races' => $this->table->fetchAll(),
+        ]);
+    }	
+
+/***************************************************************************************
     /**
      * @var Zend_Session_Namespace
-     */
+     *
     protected $session = null;
 
     /**
      * Overriding the init method to also load the session from the registry
      *
-     */
+     *
     public function init()
     {
         parent::init();
@@ -39,13 +90,6 @@ class Sc_RaceController extends Zend_Controller_Action
         return $view;
     }
     
-	/**
-	 * The default action - show the home page
-	 */
-	public function indexAction()
-	{
-		$this->_forward('list');
-	}
 	
 	public function findAction()
 	{
@@ -193,5 +237,6 @@ class Sc_RaceController extends Zend_Controller_Action
 		$this->view->paginator = $paginator;
 		$this->render();
 	}
+ ***************************************************************************************/
 }
 ?>

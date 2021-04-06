@@ -1,0 +1,46 @@
+<?php
+// module/SourceCraft/view/souce-craft/race/index.phtml:
+/**
+ * Race display page view
+ * 
+ */
+
+$title = 'Race List:';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<p>
+    <a href="<?= $this->url('race', ['action' => 'add']) ?>">Add new race</a>
+</p>
+
+<table class="table">
+<tr>
+    <th>Name</th>
+    <th>Parent</th>
+    <th>Faction</th>
+    <th>Type</th>
+    <th>Description</th>
+    <th>Image</th>
+    <th>Req. Level</th>
+    <th>Tech Level</th>
+    <th>Add Date</th>
+    <th>&nbsp;</th>
+</tr>
+<?php foreach ($races as $race) : ?>
+    <tr>
+        <td><?= $this->escapeHtml($race->race_name) ?></td>
+        <td><?= $this->escapeHtml($race->parent_name) ?></td>
+        <td><?= $this->escapeHtml($race->faction) ?></td>
+        <td><?= $this->escapeHtml($race->type) ?></td>
+        <td><?= $this->escapeHtml($race->description) ?></td>
+        <td><?= $this->escapeHtml($race->image) ?></td>
+        <td><?= $this->escapeHtml($race->required_level) ?></td>
+        <td><?= $this->escapeHtml($race->tech_level) ?></td>
+        <td><?= $this->escapeHtml($race->add_date) ?></td>
+        <td>
+            <a href="<?= $this->url('race', ['action' => 'edit', 'id' => $album->id]) ?>">Edit</a>
+            <a href="<?= $this->url('race', ['action' => 'delete', 'id' => $album->id]) ?>">Delete</a>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</table>
