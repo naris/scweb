@@ -12,6 +12,7 @@
  * This should be an array of module namespaces used in the application.
  */
 return [
+    'Laminas\Paginator',
     'Laminas\Session',
     'Laminas\Form',
     'Laminas\I18n',
@@ -23,4 +24,5 @@ return [
     'Laminas\Router',
     'Laminas\Validator',
     'Application',
+	'SourceCraft',
 ];

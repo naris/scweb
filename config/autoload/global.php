@@ -13,5 +13,10 @@
  */
 
 return [
-    // ...
+    'db' => [
+        'driver' => 'Pdo',
+        'dsn'    => 'mysql:dbname=sourcemod;host=host.docker.internal;charset=utf8;username=root;password=siran1354',
+        #'username' => '__USER__',
+        #'password' => '__PASS__',
+    ],
 ];
