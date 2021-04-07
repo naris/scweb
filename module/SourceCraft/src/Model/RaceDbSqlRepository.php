@@ -8,10 +8,13 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\Sql\Sql;
 
-//use Laminas\Db\ResultSet\ResultSet;
 //use Laminas\Hydrator\ReflectionHydrator;
 use Laminas\Hydrator\HydratorInterface;
 use Laminas\Db\ResultSet\HydratingResultSet;
+use Laminas\Db\ResultSet\ResultSet;
+
+use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
+use Laminas\Paginator\Paginator;
 
 use SourceCraft\Model\RaceRepositoryInterface;
 
@@ -74,14 +77,18 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
 
     private function fetchPaginatedResults($sql, $select)
     {
+        // Create a new result set based on the Album entity:
+        $resultSetPrototype = new ResultSet();
+        $resultSetPrototype->setArrayObjectPrototype($this->racePrototype);
+
         // Create a new pagination adapter object:
         $paginatorAdapter = new DbSelect(
             // our configured select object:
             $select,
             // the adapter to run it against:
-            $db,
+            $sql,
             // the result set to hydrate:
-            $racePrototype
+            $resultSetPrototype
         );
 
         $paginator = new Paginator($paginatorAdapter);

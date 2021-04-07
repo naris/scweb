@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "46788816bdd79d89504386a01450e273",
+    "content-hash": "0299e31e732f93e980bd82dd802a0556",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1524,6 +1524,68 @@
                 }
             ],
             "time": "2021-02-25T21:39:49+00:00"
+        },
+        {
+            "name": "laminas/laminas-paginator-adapter-laminasdb",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laminas/laminas-paginator-adapter-laminasdb.git",
+                "reference": "567bf94a4b878fcff76552dd7aa6e40c22ace466"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laminas/laminas-paginator-adapter-laminasdb/zipball/567bf94a4b878fcff76552dd7aa6e40c22ace466",
+                "reference": "567bf94a4b878fcff76552dd7aa6e40c22ace466",
+                "shasum": ""
+            },
+            "require": {
+                "laminas/laminas-db": "^2.12",
+                "laminas/laminas-paginator": "^2.10",
+                "php": "^7.3 || ~8.0.0"
+            },
+            "require-dev": {
+                "laminas/laminas-coding-standard": "~2.1.4",
+                "phpunit/phpunit": "^9.3",
+                "psalm/plugin-phpunit": "^0.15.1",
+                "vimeo/psalm": "^4.6"
+            },
+            "type": "library",
+            "extra": {
+                "laminas": {
+                    "component": "Laminas\\Paginator\\Adapter\\LaminasDb",
+                    "config-provider": "Laminas\\Paginator\\Adapter\\LaminasDb\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laminas\\Paginator\\Adapter\\LaminasDb\\": "src//"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "laminas-db adapters for laminas-paginator",
+            "keywords": [
+                "db",
+                "laminas",
+                "pagination"
+            ],
+            "support": {
+                "docs": "https://docs.laminas.dev/laminas-laminas-paginator-adapter-db/",
+                "forum": "https://discourse.laminas.dev/",
+                "issues": "https://github.com/laminas/laminas-laminas-paginator-adapter-db/issues",
+                "rss": "https://github.com/laminas/laminas-laminas-paginator-adapter-db/releases.atom",
+                "source": "https://github.com/laminas/laminas-laminas-paginator-adapter-db"
+            },
+            "funding": [
+                {
+                    "url": "https://funding.communitybridge.org/projects/laminas-project",
+                    "type": "community_bridge"
+                }
+            ],
+            "time": "2021-02-25T23:06:06+00:00"
         },
         {
             "name": "laminas/laminas-router",

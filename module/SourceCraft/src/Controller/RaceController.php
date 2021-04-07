@@ -45,29 +45,7 @@ class RaceController extends AbstractActionController
 
 	/**
 	 * The default action - show the home page
-	 *
-	public function indexAction()
-	{
-		$this->_forward('list');
-	}
-	*
-    public function indexAction()
-    {
-        // Grab the paginator from the RaceTable:
-        $paginator = $this->repository->fetchAll(true);
-
-        // Set the current page to what has been passed in query string,
-        // or to 1 if none is set, or the page is invalid:
-        $page = (int) $this->params()->fromQuery('page', 1);
-        $page = ($page < 1) ? 1 : $page;
-        $paginator->setCurrentPageNumber($page);
-
-        // Set the number of items per page to 10:
-        $paginator->setItemCountPerPage(10);
-
-        return new ViewModel(['paginator' => $paginator]);
-    }
-	*/
+	 */
     public function indexAction()
     {
 		// Grab the paginator from the Repository:
@@ -79,8 +57,8 @@ class RaceController extends AbstractActionController
 		$page = ($page < 1) ? 1 : $page;
 		$paginator->setCurrentPageNumber($page);
 
-		// Set the number of items per page to 10:
-		$paginator->setItemCountPerPage(10);
+		// Set the number of items per page to 4:
+		$paginator->setItemCountPerPage(4);
 
 		return new ViewModel(['paginator' => $paginator]);
     }	
