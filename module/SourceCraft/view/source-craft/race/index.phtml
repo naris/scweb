@@ -9,38 +9,93 @@ $title = 'Race List:';
 $this->headTitle($title);
 ?>
 <h1><?= $this->escapeHtml($title) ?></h1>
-<p>
+<!--p>
     <a href="<?= $this->url('race', ['action' => 'add']) ?>">Add new race</a>
-</p>
+</p-->
 
-<table class="table">
-<tr>
-    <th>Name</th>
-    <th>Parent</th>
-    <th>Faction</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Image</th>
-    <th>Req. Level</th>
-    <th>Tech Level</th>
-    <th>Add Date</th>
-    <th>&nbsp;</th>
-</tr>
-<?php foreach ($races as $race) : ?>
-    <tr>
-        <td><?= $this->escapeHtml($race->race_name) ?></td>
-        <td><?= $this->escapeHtml($race->parent_name) ?></td>
-        <td><?= $this->escapeHtml($race->faction) ?></td>
-        <td><?= $this->escapeHtml($race->type) ?></td>
-        <td><?= $this->escapeHtml($race->description) ?></td>
-        <td><?= $this->escapeHtml($race->image) ?></td>
-        <td><?= $this->escapeHtml($race->required_level) ?></td>
-        <td><?= $this->escapeHtml($race->tech_level) ?></td>
-        <td><?= $this->escapeHtml($race->add_date) ?></td>
-        <td>
-            <a href="<?= $this->url('race', ['action' => 'edit', 'id' => $album->id]) ?>">Edit</a>
-            <a href="<?= $this->url('race', ['action' => 'delete', 'id' => $album->id]) ?>">Delete</a>
-        </td>
-    </tr>
-<?php endforeach; ?>
-</table>
+<div class="race_container" width="100%">
+	<table class="race_detail">
+
+    <table class="table">
+    <!--tr>
+        <th>Name</th>
+        <th>Parent</th>
+        <th>Faction</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Req. Level</th>
+        <th>Tech Level</th>
+        <th>Add Date</th>
+        <th>&nbsp;</th>
+    </tr-->
+        <?php foreach ($this->paginator as $race) : ?>
+            <!--p><?= var_dump($race) ?></p-->
+            <!--tr>
+                <td><?= $this->escapeHtml($race->race_name) ?></td>
+                <td><?= $this->escapeHtml($race->parent_name) ?></td>
+                <td><?= $this->escapeHtml($race->faction) ?></td>
+                <td><?= $this->escapeHtml($race->type) ?></td>
+                <td><?= $this->escapeHtml($race->description) ?></td>
+                <td><?= $this->escapeHtml($race->image) ?></td>
+                <td><?= $this->escapeHtml($race->required_level) ?></td>
+                <td><?= $this->escapeHtml($race->tech_level) ?></td>
+                <td><?= $this->escapeHtml($race->add_date) ?></td>
+                <td>
+                    <a href="<?= $this->url('race', ['action' => 'edit', 'id' => $race->getId()]) ?>">Edit</a>
+                    <a href="<?= $this->url('race', ['action' => 'delete', 'id' => $race->getId()]) ?>">Delete</a>
+                </td>
+            </tr-->
+            <tr>
+			<td width="100%"><table width="100%">
+				<tr>
+					<table width="100%">
+						<tr>
+							<td><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><img src="/img/<?= $race->getImage() ?>" width="250" /></a></td>
+							<td width="100%" style="vertical-align:top">
+								<table class="race_title" width="100%">
+									<tr>
+										<th width='100%' style="text-align: center;"><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><?= $this->escapeHtml($race->getLongName()) ?></a></th>
+									</tr>
+								</table>
+								<table class="race_data">
+									<tr>
+										<th width="150px" align="right">Faction :</th>
+										<td><a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>"><?= $this->escapeHtml($race->getFactionName()) ?></a></td>
+									</tr>
+									<tr>
+										<th width="150px" align="right">Type :</th>
+										<td><?= $this->escapeHtml($race->getType()) ?></td>
+									</tr>
+                                        <?php if (!empty($race->getParentName())): ?>
+                                            <tr>
+                                                <th width="150px" align="right">Summoned From :</th>
+                                                <td><a href="<?= $this->url('faction', ['action' => 'show', 'name' => $race->getParentName()]) ?>"><?= $this->escapeHtml($race->getParentLongName()) ?></a></td>
+                                            </tr>
+                                        <?php endif; ?>
+                                        <?php if ($race->getRequiredLevel() > 0): ?>
+                                            <tr>
+                                                <th width="150px" align="right">Required Level :</th>
+                                                <td><?= $this->escapeHtml($race->getRequiredLevel()) ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+                                        <?php if ($race->getTechLevel() > 0): ?>
+                                            <tr>
+                                                <th width="150px" align="right">Required Tech Level :</th>
+                                                <td><?= $this->escapeHtml($race->getTechLevel()) ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+								</table>
+								<table width="100%">
+									<tr>
+										<td><?= $race->getDescription() ?></td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>
+				</tr>
+			</td></table>
+		</tr>
+        <?php endforeach; ?>
+    </table>

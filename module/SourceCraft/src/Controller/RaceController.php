@@ -14,7 +14,8 @@ use Laminas\View\Model\ViewModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 
 #require_once 'Race.php';
-use SourceCraft\Model\RaceTable;
+#use SourceCraft\Model\RaceTable;
+use SourceCraft\Model\RaceRepositoryInterface;
 #use SourceCraft\Form\RaceForm;
 use SourceCraft\Model\Race;
 
@@ -25,11 +26,21 @@ use SourceCraft\Model\Upgrade;
 #class Sc_RaceController extends Zend_Controller_Action
 class RaceController extends AbstractActionController
 {
-    private $table;
+    /**
+     * @var RaceRepositoryInterface
+     */
+    private $repository;
 
-    public function __construct(RaceTable $table)
+    /*
+	public function __construct(Racerepository $table)
     {
-        $this->table = $table;
+        $this->repository = $table;
+    }
+	*/
+
+    public function __construct(RaceRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
     }
 
 	/**
@@ -43,7 +54,7 @@ class RaceController extends AbstractActionController
     public function indexAction()
     {
         // Grab the paginator from the RaceTable:
-        $paginator = $this->table->fetchAll(true);
+        $paginator = $this->repository->fetchAll(true);
 
         // Set the current page to what has been passed in query string,
         // or to 1 if none is set, or the page is invalid:
@@ -59,9 +70,19 @@ class RaceController extends AbstractActionController
 	*/
     public function indexAction()
     {
-        return new ViewModel([
-            'races' => $this->table->fetchAll(),
-        ]);
+		// Grab the paginator from the Repository:
+		$paginator = $this->repository->fetchAll(true);
+
+		// Set the current page to what has been passed in query string,
+		// or to 1 if none is set, or the page is invalid:
+		$page = (int) $this->params()->fromQuery('page', 1);
+		$page = ($page < 1) ? 1 : $page;
+		$paginator->setCurrentPageNumber($page);
+
+		// Set the number of items per page to 10:
+		$paginator->setItemCountPerPage(10);
+
+		return new ViewModel(['paginator' => $paginator]);
     }	
 
 /***************************************************************************************

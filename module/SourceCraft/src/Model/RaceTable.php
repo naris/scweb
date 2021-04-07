@@ -93,4 +93,5 @@ class RaceTable
     {
         $this->tableGateway->delete(['race_ident' => (int) $race_ident]);
     }
+
 }
