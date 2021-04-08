@@ -7,23 +7,103 @@
  * @version 
  */
 
-require_once 'Zend/Controller/Action.php';
+namespace SourceCraft\Controller;
 
-require_once 'Faction.php';
-require_once 'Upgrade.php';
-require_once 'Race.php';
+#require_once 'Zend/Controller/Action.php';
+use Laminas\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
 
-class Sc_FactionController extends Zend_Controller_Action
+#require_once 'Faction.php';
+use SourceCraft\Model\Faction;
+use SourceCraft\Model\FactionRepositoryInterface;
+
+#require_once 'Upgrade.php';
+#require_once 'Race.php';
+use SourceCraft\Model\Race;
+
+#class Sc_FactionController extends Zend_Controller_Action
+class FactionController extends AbstractActionController
 {
     /**
-     * @var Zend_Session_Namespace
+     * @var FactionRepositoryInterface
      */
+    private $repository;
+
+    public function __construct(FactionRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
+
+	/**
+	 * The default action - show the list of factions
+	 */
+	public function indexAction()
+	{
+		// Grab the paginator from the Repository:
+		$paginator = $this->repository->fetchAll(true);
+
+		// Set the current page to what has been passed in query string,
+		// or to 1 if none is set, or the page is invalid:
+		$page = (int) $this->params()->fromQuery('page', 1);
+		$page = ($page < 1) ? 1 : $page;
+		$paginator->setCurrentPageNumber($page);
+
+		// Set the number of items per page to 4:
+		$paginator->setItemCountPerPage(4);
+
+		return new ViewModel(['paginator' => $paginator]);
+	}
+	
+	public function showAction()
+	{
+		$ident = $this->params()->fromRoute('id');
+		if ($ident)
+		{
+			$faction = $this->repository->findFaction($ident);
+			if ($faction)
+				return new ViewModel(['faction' => $faction,]);
+			else
+				return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
+
+			/*
+			$faction_table = new Faction();
+			$view = $this->initView();
+			$faction = $faction_table->getFaction($ident);
+			if ($faction)
+			{
+				$view->faction 	= $faction;
+
+				$race_table 	= new Race();
+				$view->races 	= $race_table->getRaceListForFaction($ident, true);
+
+				$upgrade_table 	= new Upgrade();
+				$view->upgrades = $upgrade_table->getUpgradeListForFaction($ident, true);
+			}
+			else
+			{
+				$view->error = 'Faction ' . $ident . ' was not found';
+			}
+			$this->render();
+			*/
+		}
+		else
+		{
+			/*
+			$this->_forward('list');
+			*/
+		}
+	}
+
+/***************************************************************************************
+    /**
+     * @var Zend_Session_Namespace
+     *
     protected $session = null;
 
     /**
      * Overriding the init method to also load the session from the registry
      *
-     */
+     *
     public function init()
     {
         parent::init();
@@ -42,7 +122,7 @@ class Sc_FactionController extends Zend_Controller_Action
     
 	/**
 	 * The default action - show the home page
-	 */
+	 *
 	public function indexAction()
 	{
 		$this->_forward('list');
@@ -95,6 +175,7 @@ class Sc_FactionController extends Zend_Controller_Action
 		$this->view->paginator = $paginator;
 		$this->render();
 	}
+	***************************************************************************************/
 }
 ?>
 

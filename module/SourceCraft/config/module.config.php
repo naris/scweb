@@ -7,13 +7,17 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 return [
     'service_manager' => [
         'aliases' => [
-            Model\RaceInterface::class => Model\RaceDbSqlRepository::class,
-            Model\RaceRepositoryInterface::class => Model\RaceDbSqlRepository::class,
+            Model\RaceRepositoryInterface::class => Model\RaceDbSelect::class,
+            Model\FactionRepositoryInterface::class => Model\FactionDbSelect::class,
         ],
         'factories' => [
-            Controller\RaceController::class => Factory\RaceControllerFactory::class,
-            Model\RaceDbSqlRepository::class => Factory\RaceDbSqlRepositoryFactory::class,
             Model\RaceRepository::class => InvokableFactory::class,
+            Model\RaceDbSelect::class => Factory\RaceDbSelectFactory::class,
+            Controller\RaceController::class => Factory\RaceControllerFactory::class,
+
+            Model\FactionRepository::class => InvokableFactory::class,
+            Model\FactionDbSelect::class => Factory\FactionDbSelectFactory::class,
+            Controller\FactionController::class => Factory\FactionControllerFactory::class,
         ],
     ],
 
@@ -22,6 +26,9 @@ return [
         'factories' => [
             Model\RaceRepository::class => InvokableFactory::class,
             Controller\RaceController::class => Factory\RaceControllerFactory::class,
+
+            Model\FactionRepository::class => InvokableFactory::class,
+            Controller\FactionController::class => Factory\FactionControllerFactory::class,
         ],
     ],
 	/**/
@@ -31,13 +38,14 @@ return [
             'faction' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route' => '/race[/:action[/:id]]',
+                    'route' => '/faction[/:action[/:id][/name/:name]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
+                        'name'   => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ],
                     'defaults' => [
-                        'controller' => Controller\RaceController::class,
+                        'controller' => Controller\FactionController::class,
                         'action'     => 'index',
                     ],
                 ],
@@ -45,10 +53,11 @@ return [
             'race' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route' => '/race[/:action[/:id]]',
+                    'route' => '/race[/:action[/:id][/name/:name]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
+                        'name'   => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ],
                     'defaults' => [
                         'controller' => Controller\RaceController::class,

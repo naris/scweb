@@ -24,21 +24,21 @@ namespace SourceCraft\Model;
 #class Race implements InputFilterAwareInterface
 class Race
 {
-	public $race_ident;
-	public $race_name;
-	public $long_name;
-	public $parent_name;
-	public $faction;
-	public $type;
-	public $description;
-	public $image;
-	public $required_level;
-	public $tech_level;
-	public $add_date;
+	private $race_ident;
+	private $race_name;
+	private $long_name;
+	private $parent_name;
+	private $faction;
+	private $type;
+	private $description;
+	private $image;
+	private $required_level;
+	private $tech_level;
+	private $add_date;
 
 	// Columns from joins to other tables
-	public $faction_name;
-	public $parent_long_name;
+	private $faction_name;
+	private $parent_long_name;
 
     /**
      * @param string      $race_name

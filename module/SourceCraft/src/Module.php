@@ -37,7 +37,12 @@ class Module implements ConfigProviderInterface
             'factories' => [
                 Controller\RaceController::class => function($container) {
                     return new Controller\RaceController(
-                        $container->get(Model\RaceTable::class)
+                        $container->get(Model\RaceDbSelect::class)
+                    );
+                },
+                Controller\FactionController::class => function($container) {
+                    return new Controller\FactionController(
+                        $container->get(Model\FactionDbSelect::class)
                     );
                 },
             ],

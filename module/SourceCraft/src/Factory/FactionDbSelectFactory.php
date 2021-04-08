@@ -1,5 +1,5 @@
 <?php
-// In module/SourceCraft/src/Factory/RaceDbSqlRepositoryFactory.php
+// In module/SourceCraft/src/Factory/FactionDbSelectFactory.php
 
 namespace SourceCraft\Factory;
 
@@ -8,21 +8,21 @@ use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Hydrator\ReflectionHydrator;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
-use SourceCraft\Model\Race;
-use SourceCraft\Model\RaceDbSqlRepository;
+use SourceCraft\Model\Faction;
+use SourceCraft\Model\FactionDbSelect;
 
-class RaceDbSqlRepositoryFactory implements FactoryInterface
+class FactionDbSelectFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param null|array $options
-     * @return RaceDbSqlRepository
+     * @return FactionDbSelect
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new RaceDbSqlRepository($container->get(AdapterInterface::class),
+        return new FactionDbSelect($container->get(AdapterInterface::class),
         new ReflectionHydrator(),
-        new Race());
+        new Faction());
     }
 }

@@ -19,4 +19,20 @@ interface RaceRepositoryInterface
      * @return Race
      */
     public function findRace($id);
+
+    /**
+     * Return a single race by name.
+     *
+     * @param  int $name name of the race to return.
+     * @return Race
+     */
+    public function findRacebyName($name);
+
+    /**
+     * Return a set of all races that match $name (have $name in them).
+     *
+     * @param  int $name name of the race to match.
+     * @return Race
+     */
+	public function findMatchingRaces($name);
 }

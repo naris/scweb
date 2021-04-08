@@ -18,7 +18,7 @@ use Laminas\Paginator\Paginator;
 
 use SourceCraft\Model\RaceRepositoryInterface;
 
-class RaceDbSqlRepository implements RaceRepositoryInterface
+class RaceDbSelect implements RaceRepositoryInterface
 {
     /**
      * @var AdapterInterface
@@ -33,18 +33,18 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
     /**
      * @var Race
      */
-    private $racePrototype;
+    private $prototype;
 
     /**
      * @param AdapterInterface $db
      */
     public function __construct(AdapterInterface $db,
                                 HydratorInterface $hydrator,
-                                Race $racePrototype)
+                                Race $prototype)
     {
-        $this->db            = $db;
-        $this->hydrator      = $hydrator;
-        $this->racePrototype = $racePrototype;
+        $this->db        = $db;
+        $this->hydrator  = $hydrator;
+        $this->prototype = $prototype;
     }
 
     /**
@@ -53,7 +53,7 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
     public function fetchAll($paginated = false)
     {
         $sql    = new Sql($this->db);
-        $select = $this->getRaceSelect($sql);
+        $select = $this->getSelect($sql);
 
         if ($paginated)
         {
@@ -69,7 +69,7 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
                 return [];
             }
         
-            $resultSet = new HydratingResultSet($this->hydrator, $this->racePrototype);
+            $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
             $resultSet->initialize($result);
             return $resultSet;
         }
@@ -79,7 +79,7 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
     {
         // Create a new result set based on the Album entity:
         $resultSetPrototype = new ResultSet();
-        $resultSetPrototype->setArrayObjectPrototype($this->racePrototype);
+        $resultSetPrototype->setArrayObjectPrototype($this->prototype);
 
         // Create a new pagination adapter object:
         $paginatorAdapter = new DbSelect(
@@ -103,8 +103,8 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
     public function findRace($id)
     {
         $sql    = new Sql($this->db);
-        $select = $this->getRaceSelect($sql);
-        $select->where(['race_ident = ?' => $id]);
+        $select = $this->getSelect($sql);
+        $select->where(['r.race_ident = ?' => $id]);
     
         $statement = $sql->prepareStatementForSqlObject($select);
         $result    = $statement->execute();
@@ -116,21 +116,78 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
             ));
         }
     
-        $resultSet = new HydratingResultSet($this->hydrator, $this->postPrototype);
+        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
         $resultSet->initialize($result);
-        $post = $resultSet->current();
+        $result = $resultSet->current();
     
-        if (! $post) {
+        if (! $result) {
             throw new InvalidArgumentException(sprintf(
                 'Race with identifier "%s" not found.',
                 $id
             ));
         }
     
-        return $post;
+        return $result;
     }
 
-    private function getRaceSelect($sql)
+    /**
+     * {@inheritDoc}
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
+    public function findRacebyName($name)
+    {
+        $sql    = new Sql($this->db);
+        $select = $this->getSelect($sql);
+        $select->where(['r.race_name = ?' => $name]);
+    
+        $statement = $sql->prepareStatementForSqlObject($select);
+        $result    = $statement->execute();
+    
+        if (! $result instanceof ResultInterface || ! $result->isQueryResult()) {
+            throw new RuntimeException(sprintf(
+                'Failed retrieving race with name "%s"; unknown database error.',
+                $name
+            ));
+        }
+    
+        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
+        $resultSet->initialize($result);
+        $result = $resultSet->current();
+    
+        if (! $result) {
+            throw new InvalidArgumentException(sprintf(
+                'Race with name "%s" not found.',
+                $name
+            ));
+        }
+    
+        return $result;
+    }
+
+	public function findMatchingRaces($name)
+	{
+        $sql    = new Sql($this->db);
+        $select = $this->getSelect($sql);
+		$select->where(function (Where $where) {
+                    $where->like('r.race_name', '%'.$name.'%');
+               })
+               ->order('long_name');
+
+        $stmt   = $sql->prepareStatementForSqlObject($select);
+        $result = $stmt->execute();
+
+        if (! $result instanceof ResultInterface || ! $result->isQueryResult())
+        {
+            return [];
+        }
+    
+        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
+        $resultSet->initialize($result);
+        return $resultSet;
+	}
+
+    private function getSelect($sql)
 	{
         $select = $sql->select();
 		return $select->from(['r' => 'sc_races'])
@@ -144,25 +201,9 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
 	}
 
 /***************************************************************************************
-	private function getRaceSelect()
-	{
-		return $this->select()
-			->setIntegrityCheck(false)
-			->from(array('r' => 'sc_races'),
-				array('race_ident', 'long_name', 'faction', 'type',
-			              'parent_name', 'image', 'required_level', 'tech_level',
-			       	      'description' => 'r.description'))
-			->joinLeft(array('f' => 'sc_factions'),
-				'f.faction = r.faction',
-				array('faction_name' => 'f.long_name'))
-			->joinLeft(array('rp' => 'sc_races'),
-				'rp.race_name = r.parent_name',
-				array('parent_long_name' => 'rp.long_name'));
-	}
-
 	public function getRaceList($fetch=false)
 	{
-		$select = $this->getRaceSelect()
+		$select = $this->getSelect()
 			->order('long_name');
 
 		return $fetch ? $this->fetchAll($select) : $select;		
@@ -170,7 +211,7 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
 
 	public function getRaceListForFaction($factionId, $fetch=false)
 	{
-		$select = $this->getRaceSelect()
+		$select = $this->getSelect()
 			->where('r.faction = ?', $factionId)
 			->order('long_name');
 
@@ -179,7 +220,7 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
 
 	public function getRaceListForPlayer($player_ident, $fetch=false)
 	{
-		$select = $this->getRaceSelect()
+		$select = $this->getSelect()
 			->join(array('pr' => 'sc_player_races'),
 			      	     'pr.race_ident = r.race_ident',
 			      	     array('xp', 'level'))
@@ -189,18 +230,9 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
 		return $fetch ? $this->fetchAll($select) : $select;		
 	}
 
-	public function getRaceListForName($name, $fetch=false)
-	{
-		$select = $this->getRaceSelect()
-			->where('r.race_name like ?', '%' . $name . '%')
-			->order('long_name');
-
-		return $fetch ? $this->fetchAll($select) : $select;		
-	}
-
 	public function getRaceForIdent($ident)
 	{
-		$select = $this->getRaceSelect()
+		$select = $this->getSelect()
 			->where('r.race_ident = ?', $ident);
 
 		return $this->fetchRow($select);
@@ -208,7 +240,7 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
 
 	public function getRaceForName($name)
 	{
-		$select = $this->getRaceSelect()
+		$select = $this->getSelect()
 			->where('r.race_name like ?', '%' . $name . '%');
 
 		return $this->fetchRow($select);
@@ -216,7 +248,7 @@ class RaceDbSqlRepository implements RaceRepositoryInterface
 	
 	public function selectPlayerRaces($ident)
 	{
-		return $this->getRaceSelect()
+		return $this->getSelect()
 			    ->joinLeft(array('sc_player_races', 'pr'),
 				       'r.player_ident == pr.player_ident',
 				       array('pr.xp','pr.level'))

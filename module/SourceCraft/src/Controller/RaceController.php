@@ -14,10 +14,10 @@ use Laminas\View\Model\ViewModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 
 #require_once 'Race.php';
-#use SourceCraft\Model\RaceTable;
-use SourceCraft\Model\RaceRepositoryInterface;
-#use SourceCraft\Form\RaceForm;
 use SourceCraft\Model\Race;
+use SourceCraft\Model\RaceRepositoryInterface;
+#use SourceCraft\Model\RaceTable;
+#use SourceCraft\Form\RaceForm;
 
 #require_once 'Upgrade.php';
 use SourceCraft\Model\Upgrade;
@@ -31,20 +31,13 @@ class RaceController extends AbstractActionController
      */
     private $repository;
 
-    /*
-	public function __construct(Racerepository $table)
-    {
-        $this->repository = $table;
-    }
-	*/
-
     public function __construct(RaceRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
 
 	/**
-	 * The default action - show the home page
+	 * The default action - show the list of races
 	 */
     public function indexAction()
     {
@@ -62,6 +55,90 @@ class RaceController extends AbstractActionController
 
 		return new ViewModel(['paginator' => $paginator]);
     }	
+
+	/**
+	 * The show action - show a single race
+	 */
+	public function showAction()
+	{
+		$ident = $this->params()->fromRoute('id');
+		if ($ident)
+		{
+			#$race_table = new Race();
+			#$view = $this->initView();
+			#$race = $race_table->getRaceForIdent($ident);
+			$race = $this->repository->findRace($ident);
+			if ($race)
+				return new ViewModel(['race' => $race,]);
+			else
+				return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
+		}
+		else
+		{
+			$name = $this->params()->fromRoute('name');
+			if ($name)
+			{
+				$race = $this->repository->findRaceByName($name);
+				if ($race)
+					return new ViewModel(['race' => $race,]);
+				else
+					return new ViewModel(['error' => 'Race  ' . $name . ' was not found',]);
+				/*
+				else
+				{
+					$raceList = $this->repository->findMatchingRaces($name);
+					if ($raceList)
+						return new ViewModel(['race_list' => $raceList,]);
+					else
+						return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
+				}
+				*/
+				/*
+				#$race_table = new Race();
+				#$view = $this->initView();
+				$race_rowset = $race_table->getRaceListForName($name);
+				$race_count = count($race_rowset);
+				if ($race_count == 1)
+				{
+					$race = $race_rowset->current();
+					$ident = $race->race_ident;
+					$view->race = $race;
+				}
+				else if ($race_count > 1)
+				{
+					$this->_forward('match', 'race', 'sc',
+						array('name' => $name));
+					return;
+				}
+				else
+				{
+					$view->error = 'Race ' . $name . ' was not found';
+					$this->render();
+					return;
+				}
+				*/
+			}
+		}
+
+		/*
+		if (isset($race) && $race)
+		{
+			$upgrade_table 	= new Upgrade();
+			$upgradeList = $upgrade_table->getUpgradeListForRace($ident, true);
+			$this->render();
+		}
+		else
+		{
+			$this->_forward('index');
+		}
+		*/
+
+		if ($race)
+			return new ViewModel(['race' => $race,
+			                      'upgrade_table' => $upgradeList]);
+		else
+			return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
+	}
 
 /***************************************************************************************
     /**
@@ -125,67 +202,6 @@ class RaceController extends AbstractActionController
 			// Not a POST request, show find race form
 			$view = $this->initView();
 			$this->render();
-		}
-	}
-
-	public function showAction()
-	{
-		$ident = $this->getRequest()->getParam('ident');
-		if ($ident)
-		{
-			$race_table = new Race();
-			$view = $this->initView();
-			$race = $race_table->getRaceForIdent($ident);
-			if ($race)
-			{
-				$view->race = $race;
-			}
-			else
-			{
-				$view->error = 'Race Ident ' . $ident . ' was not found';
-				$this->render();
-				return;
-			}
-		}
-		else
-		{
-			$name = $this->getRequest()->getParam('name');
-			if ($name)
-			{
-				$race_table = new Race();
-				$view = $this->initView();
-				$race_rowset = $race_table->getRaceListForName($name, true);
-				$race_count = count($race_rowset);
-				if ($race_count == 1)
-				{
-					$race = $race_rowset->current();
-					$ident = $race->race_ident;
-					$view->race = $race;
-				}
-				else if ($race_count > 1)
-				{
-					$this->_forward('match', 'race', 'sc',
-						array('name' => $name));
-					return;
-				}
-				else
-				{
-					$view->error = 'Race ' . $name . ' was not found';
-					$this->render();
-					return;
-				}
-			}
-		}
-
-		if (isset($race) && $race)
-		{
-			$upgrade_table 	= new Upgrade();
-			$view->upgrades = $upgrade_table->getUpgradeListForRace($ident, true);
-			$this->render();
-		}
-		else
-		{
-			$this->_forward('list');
 		}
 	}
 

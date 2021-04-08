@@ -6,59 +6,94 @@
  * @author wilsonmu
  * @version 
  */
+namespace SourceCraft\Model;
 
-require_once ('App_Db_Table_Abstract.php');
+#require_once ('App_Db_Table_Abstract.php');
 
-class Faction extends App_Db_Table_Abstract
+#class Faction extends App_Db_Table_Abstract
+class Faction
 {
-	protected $_use_adapter = "sc";
-	protected $_name = 'sc_factions';
-	protected $_primary = array("faction");
-	protected $_cols = array(
-		'faction'	=> 'faction',
-		'long_name'	=> 'long_name',
-		'description'	=> 'description',
-		'image'		=> 'image',
-		'add_date'	=> 'add_date'
-	);	
+	private $faction;
+	private $long_name;
+	private $description;
+	private $image;
+	private $add_date;
 
-	public function getFactionList($has_races=false,$fetch=false)
-	{
-		$select = $this->select()
-			->from(array('f' => 'sc_factions'),
-			       array('faction', 'long_name', 'image',
-			       	     'description' => 'f.description'));
+	/**
+     * @param string      $faction
+     * @param string      $long_name
+     * @param string      $description
+     * @param string      $image
+     * @param timestamp   $add_date
+     */
+    public function __construct($faction='', $long_name='', $description='',
+								$image='', $add_date=null)
+    {
+        $this->faction     = $faction;
+        $this->long_name   = $long_name;
+        $this->description = $description;
+        $this->image       = $image;
+        $this->add_date    = $add_date;
+    }
 
-		if ($has_races)
-		{
-			$select->where('exists (select * from sc_races r where r.faction = f.faction)');
-		}
+    public function exchangeArray(array $data)
+    {
+        $this->faction          = !empty($data['faction'])     ? $data['faction']     : null;
+        $this->long_name        = !empty($data['long_name'])   ? $data['long_name']   : null;
+        $this->parent_name      = !empty($data['parent_name']) ? $data['parent_name'] : null;
+        $this->description      = !empty($data['description']) ? $data['description'] : null;
+        $this->image            = !empty($data['image'])       ? $data['image']       : null;
+        $this->add_date         = !empty($data['add_date'])    ? $data['add_date']    : null;
+    }
+	
+    public function getArrayCopy()
+    {
+        return [
+            'faction'     => $this->faction,
+            'long_name'   => $this->long_name,
+            'description' => $this->description,
+            'image'       => $this->image,
+            'add_date'    => $this->add_date,
+        ];
+    }
 
-		$select->order('long_name');
+    /**
+     * @return string
+     */
+    public function getFaction()
+    {
+        return $this->faction;
+    }
 
-		return $fetch ? $this->fetchAll($select) : $select;		
-	}
+    /**
+     * @return string
+     */
+    public function getLongName()
+    {
+        return $this->long_name;
+    }
 
-	public function getFactionListForPlayer($player_ident, $fetch=false)
-	{
-		$select = $this->select()
-				->setIntegrityCheck(false)
-				->from(array('f' => 'sc_factions'),
-	                               array('faction', 'long_name', 'image',
-			       	             'description' => 'f.description'))
-				->joinLeft(array('pt' => 'sc_player_tech'),
-				   		 'f.faction = pt.faction',
-				           array('pt.tech_count','pt.tech_level'))
-				->where('player_ident = ?', $player_ident)
-				->order('long_name');
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-		return $fetch ? $this->fetchAll($select) : $select;		
-	}
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 
-	public function getFaction($factionId)
-	{
-		$select = $this->select()
-				->where('faction = ?', $factionId);
-		return $this->fetchRow($select);
-	}
+    /**
+     * @return timestamp|null
+     */
+    public function getAddDate()
+    {
+        return $this->add_date;
+    }
 }
