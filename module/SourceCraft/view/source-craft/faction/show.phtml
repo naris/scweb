@@ -5,16 +5,17 @@
  * @version $Id: show.phtml,v 1.4 2007-12-04 16:54:49 seva Exp $
  */
 
-require_once 'Zend/Controller/Front.php';
+#require_once 'Zend/Controller/Front.php';
 
 // Render common HTML header
-echo $this->render('partials/html_header.phtml');
-
+#echo $this->render('partials/html_header.phtml');
+$title = 'Faction:';
+$this->headTitle($title);
 ?>
 
 <?php if (isset($this->error)): ?>
 	<div class="error">
-		<?= $this->escape($this->error); ?>
+		<?= $this->escapeHtml($this->error); ?>
 	</div>
 <?php elseif (! empty($this->faction)): ?>
 
@@ -25,16 +26,16 @@ echo $this->render('partials/html_header.phtml');
 				<tr>
 					<table width="100%">
 						<tr>
-							<td><img src="/sc/images/<?= $this->escape($this->faction->image) ?>" width="250" /></td>
+							<td><img src="/img/<?= $faction->getImage() ?>" width="250" /></td>
 							<td width="100%" style="vertical-align:top">
 								<table class="race_title" width="100%">
 									<tr>
-										<th width='100%' style="text-align: center;"><?= $this->escape($this->faction->long_name) ?></th>
+										<th width='100%' style="text-align: center;"><?= $this->escapeHtml($faction->getLongName()) ?></th>
 									</tr>
 								</table>
 								<table width="100%">
 									<tr>
-										<td><?= $this->faction->description ?></td>
+										<td><?= $this->escapeHtml($faction->getDescription()) ?></td>
 									</tr>
 								</table>
 							</td>
@@ -58,47 +59,44 @@ echo $this->render('partials/html_header.phtml');
 				<tr>
 					<table width="100%">
 						<tr>
-							<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/race/show/ident/' . urlencode($race['race_ident']) ?>"><img src="/sc/images/<?= $this->escape($race['image']) ?>" width="250" /></a></td>
+							<td><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><img src="/img/<?= $race->getImage() ?>" width="250" /></a></td>
 							<td width="100%" style="vertical-align:top">
 								<table class="race_title" width="100%">
 									<tr>
-										<th width='100%' style="text-align: center;"><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/race/show/ident/' . urlencode($race['race_ident']) ?>"><?= $this->escape($race['long_name']) ?></a></th>
+										<th width='100%' style="text-align: center;"><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><?= $this->escapeHtml($race->getLongName()) ?></a></th>
 									</tr>
 								</table>
 								<table class="race_data">
 									<tr>
 										<th width="75px">Faction :</th>
-										<td><?= $this->escape($this->faction->long_name) ?></td>
+										<td><?= $this->escapeHtml($race->getFactionName()) ?></td>
 									</tr>
 									<tr>
 										<th width="75px">Type :</th>
-										<td><?= $this->escape($race['type']) ?></td>
+										<td><?= $this->escapeHtml($race->getType()) ?></td>
 									</tr>
-<?php if (isset($race['parent_name']) && !empty($race['parent_name'])): ?>
-									<tr>
-										<th width="150px" align="right">Summoned From :</th>
-										<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/race/show/name/' . urlencode($race['parent_name']) ?>"><?= $this->escape($race['parent_long_name']) ?></a></td>
-									</tr>
-<?php endif; ?>
-<?php if (isset($race['required_level']) && $race['required_level'] > 0): ?>
-									<tr>
-										<th width="150px" align="right">Required Level :</th>
-										<td><?= $this->escape($race['required_level']) ?></td>
-									</tr>
-<?php endif; ?>
-<?php if (isset($race['tech_level']) && $race['tech_level'] > 0): ?>
-									<tr>
-										<th width="150px" align="right">Required Tech Level :</th>
-										<td><?= $this->escape($race['tech_level']) ?></td>
-									</tr>
-<?php endif; ?>
+									<?php if (!empty($race->getParentName())): ?>
+										<tr>
+											<th width="150px" align="right">Summoned From :</th>
+											<td><a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>"><?= $this->escapeHtml($race->getParentLongName()) ?></a></td>
+										</tr>
+									<?php endif; ?>
+									<?php if ($race->getRequiredLevel() > 0): ?>
+										<tr>
+											<th width="150px" align="right">Required Level :</th>
+											<td><?= $this->escapeHtml($race->getRequiredLevel()) ?></td>
+										</tr>
+									<?php endif; ?>
+									<?php if ($race->getTechLevel() > 0): ?>
+										<tr>
+											<th width="150px" align="right">Required Tech Level :</th>
+											<td><?= $this->escapeHtml($race->getTechLevel()) ?></td>
+										</tr>
+									<?php endif; ?>
 								</table>
 								<table width="100%">
 									<tr>
-										<td><?= $race['description'] ?></td>
+										<td><?= $this->escapeHtml($race->getDescription()) ?></td>
 									</tr>
 								</table>
 							</td>
@@ -177,4 +175,4 @@ echo $this->render('partials/html_header.phtml');
 <?php endif; ?>
 </div>
 
-<?= $this->render('partials/html_footer.phtml'); ?>
+<!--?= $this->render('partials/html_footer.phtml'); ?-->

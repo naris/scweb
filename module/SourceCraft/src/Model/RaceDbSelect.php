@@ -55,44 +55,7 @@ class RaceDbSelect implements RaceRepositoryInterface
         $sql    = new Sql($this->db);
         $select = $this->getSelect($sql);
 
-        if ($paginated)
-        {
-            return $this->fetchPaginatedResults($sql, $select);
-        }
-        else
-        {
-            $stmt   = $sql->prepareStatementForSqlObject($select);
-            $result = $stmt->execute();
-    
-            if (! $result instanceof ResultInterface || ! $result->isQueryResult())
-            {
-                return [];
-            }
-        
-            $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
-            $resultSet->initialize($result);
-            return $resultSet;
-        }
-    }
-
-    private function fetchPaginatedResults($sql, $select)
-    {
-        // Create a new result set based on the Album entity:
-        $resultSetPrototype = new ResultSet();
-        $resultSetPrototype->setArrayObjectPrototype($this->prototype);
-
-        // Create a new pagination adapter object:
-        $paginatorAdapter = new DbSelect(
-            // our configured select object:
-            $select,
-            // the adapter to run it against:
-            $sql,
-            // the result set to hydrate:
-            $resultSetPrototype
-        );
-
-        $paginator = new Paginator($paginatorAdapter);
-        return $paginator;
+        return $this->fetchSelect($sql, $select, $paginated);
     }
 
     /**
@@ -165,7 +128,7 @@ class RaceDbSelect implements RaceRepositoryInterface
         return $result;
     }
 
-	public function findMatchingRaces($name)
+	public function findMatchingRaces($name, $paginated = false)
 	{
         $sql    = new Sql($this->db);
         $select = $this->getSelect($sql);
@@ -174,18 +137,60 @@ class RaceDbSelect implements RaceRepositoryInterface
                })
                ->order('long_name');
 
-        $stmt   = $sql->prepareStatementForSqlObject($select);
-        $result = $stmt->execute();
-
-        if (! $result instanceof ResultInterface || ! $result->isQueryResult())
-        {
-            return [];
-        }
-    
-        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
-        $resultSet->initialize($result);
-        return $resultSet;
+        return $this->fetchSelect($sql, $select, $paginated);
 	}
+
+    public function fetchRacesForFaction($factionId, $paginated = false)
+	{
+        $sql    = new Sql($this->db);
+		$select = $this->getSelect($sql)
+			->where(['r.faction' => $factionId])
+			->order('long_name');
+
+        return $this->fetchSelect($sql, $select, $paginated);
+	}
+
+    private function fetchSelect($sql, $select, $paginated = false)
+    {
+        if ($paginated)
+        {
+            return $this->fetchPaginatedResults($sql, $select);
+        }
+        else
+        {
+            $stmt   = $sql->prepareStatementForSqlObject($select);
+            $result = $stmt->execute();
+    
+            if (! $result instanceof ResultInterface || ! $result->isQueryResult())
+            {
+                return [];
+            }
+        
+            $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
+            $resultSet->initialize($result);
+            return $resultSet;
+        }
+    }
+
+    private function fetchPaginatedResults($sql, $select)
+    {
+        // Create a new result set based on the Album entity:
+        $resultSetPrototype = new ResultSet();
+        $resultSetPrototype->setArrayObjectPrototype($this->prototype);
+
+        // Create a new pagination adapter object:
+        $paginatorAdapter = new DbSelect(
+            // our configured select object:
+            $select,
+            // the adapter to run it against:
+            $sql,
+            // the result set to hydrate:
+            $resultSetPrototype
+        );
+
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
+    }
 
     private function getSelect($sql)
 	{

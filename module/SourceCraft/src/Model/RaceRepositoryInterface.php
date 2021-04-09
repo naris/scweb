@@ -8,6 +8,7 @@ interface RaceRepositoryInterface
      *
      * Each entry should be a Race instance.
      *
+     * @param  bool $paginated true to return paginated results.
      * @return Race[]
      */
     public function fetchAll($paginated = false);
@@ -32,7 +33,17 @@ interface RaceRepositoryInterface
      * Return a set of all races that match $name (have $name in them).
      *
      * @param  int $name name of the race to match.
+     * @param  bool $paginated true to return paginated results.
      * @return Race
      */
-	public function findMatchingRaces($name);
+	public function findMatchingRaces($name, $paginated = false);
+
+    /**
+     * Return a set of all races that belong to a faction.
+     *
+     * @param  int $factionId the faction to get races for.
+     * @param  bool $paginated true to return paginated results.
+     * @return Race
+     */
+    public function fetchRacesForFaction($factionId, $paginated = false);
 }

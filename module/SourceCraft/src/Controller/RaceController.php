@@ -29,11 +29,11 @@ class RaceController extends AbstractActionController
     /**
      * @var RaceRepositoryInterface
      */
-    private $repository;
+    private $raceRepository;
 
-    public function __construct(RaceRepositoryInterface $repository)
+    public function __construct(RaceRepositoryInterface $raceRepository)
     {
-        $this->repository = $repository;
+        $this->raceRepository = $raceRepository;
     }
 
 	/**
@@ -42,7 +42,7 @@ class RaceController extends AbstractActionController
     public function indexAction()
     {
 		// Grab the paginator from the Repository:
-		$paginator = $this->repository->fetchAll(true);
+		$paginator = $this->raceRepository->fetchAll(true);
 
 		// Set the current page to what has been passed in query string,
 		// or to 1 if none is set, or the page is invalid:
@@ -67,7 +67,7 @@ class RaceController extends AbstractActionController
 			#$race_table = new Race();
 			#$view = $this->initView();
 			#$race = $race_table->getRaceForIdent($ident);
-			$race = $this->repository->findRace($ident);
+			$race = $this->raceRepository->findRace($ident);
 			if ($race)
 				return new ViewModel(['race' => $race,]);
 			else
@@ -78,7 +78,7 @@ class RaceController extends AbstractActionController
 			$name = $this->params()->fromRoute('name');
 			if ($name)
 			{
-				$race = $this->repository->findRaceByName($name);
+				$race = $this->raceRepository->findRaceByName($name);
 				if ($race)
 					return new ViewModel(['race' => $race,]);
 				else
@@ -86,7 +86,7 @@ class RaceController extends AbstractActionController
 				/*
 				else
 				{
-					$raceList = $this->repository->findMatchingRaces($name);
+					$raceList = $this->raceRepository->findMatchingRaces($name);
 					if ($raceList)
 						return new ViewModel(['race_list' => $raceList,]);
 					else

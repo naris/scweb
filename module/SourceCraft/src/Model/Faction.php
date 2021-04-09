@@ -60,6 +60,14 @@ class Faction
     /**
      * @return string
      */
+    public function getId()
+    {
+        return $this->faction;
+    }
+
+    /**
+     * @return string
+     */
     public function getFaction()
     {
         return $this->faction;

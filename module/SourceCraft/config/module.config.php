@@ -41,7 +41,8 @@ return [
                     'route' => '/faction[/:action[/:id][/name/:name]]',
                     'constraints' => [
                         'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                        'id'     => '[0-9]+',
+                        /*'id'     => '(Terran|Protoss|Zerg|HumanAlliance|OrcishHorde|NightElf|UndeadScourge|BurningLegion|Hellbourne|TheLegion|Sentinel|Naga|Titan|XelNaga|Pony)',*/
+                        'id'     => '[A-Z][a-zA-Z0-9_-]+',
                         'name'   => '[a-zA-Z][a-zA-Z0-9_-]*',
                     ],
                     'defaults' => [

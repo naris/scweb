@@ -17,9 +17,11 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use SourceCraft\Model\Faction;
 use SourceCraft\Model\FactionRepositoryInterface;
 
-#require_once 'Upgrade.php';
 #require_once 'Race.php';
 use SourceCraft\Model\Race;
+use SourceCraft\Model\RaceRepositoryInterface;
+
+#require_once 'Upgrade.php';
 
 #class Sc_FactionController extends Zend_Controller_Action
 class FactionController extends AbstractActionController
@@ -27,11 +29,18 @@ class FactionController extends AbstractActionController
     /**
      * @var FactionRepositoryInterface
      */
-    private $repository;
+    private $factionRepository;
 
-    public function __construct(FactionRepositoryInterface $repository)
+    /**
+     * @var RaceRepositoryInterface
+     */
+    private $raceRepository;
+
+    public function __construct(FactionRepositoryInterface $factionRepository,
+	                            RaceRepositoryInterface $raceRepository)
     {
-        $this->repository = $repository;
+        $this->factionRepository = $factionRepository;
+        $this->raceRepository = $raceRepository;
     }
 
 	/**
@@ -40,7 +49,7 @@ class FactionController extends AbstractActionController
 	public function indexAction()
 	{
 		// Grab the paginator from the Repository:
-		$paginator = $this->repository->fetchAll(true);
+		$paginator = $this->factionRepository->fetchAll(true);
 
 		// Set the current page to what has been passed in query string,
 		// or to 1 if none is set, or the page is invalid:
@@ -59,11 +68,14 @@ class FactionController extends AbstractActionController
 		$ident = $this->params()->fromRoute('id');
 		if ($ident)
 		{
-			$faction = $this->repository->findFaction($ident);
+			$faction = $this->factionRepository->findFaction($ident);
 			if ($faction)
-				return new ViewModel(['faction' => $faction,]);
+			{
+				$races = $this->raceRepository->fetchRacesForFaction($ident);
+				return new ViewModel(['faction' => $faction, 'races' => $races]);
+			}
 			else
-				return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
+				return new ViewModel(['error' => 'Faction Ident ' . $ident . ' was not found',]);
 
 			/*
 			$faction_table = new Faction();
