@@ -9,8 +9,8 @@
 namespace SourceCraft\Model;
 
 #require_once ('App_Db_Table_Abstract.php');
-
 #class Faction extends App_Db_Table_Abstract
+
 class Faction
 {
 	private $faction;

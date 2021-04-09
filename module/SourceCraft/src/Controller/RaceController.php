@@ -21,7 +21,7 @@ use SourceCraft\Model\RaceRepositoryInterface;
 
 #require_once 'Upgrade.php';
 use SourceCraft\Model\Upgrade;
-
+use SourceCraft\Model\UpgradeRepositoryInterface;
 
 #class Sc_RaceController extends Zend_Controller_Action
 class RaceController extends AbstractActionController
@@ -31,9 +31,16 @@ class RaceController extends AbstractActionController
      */
     private $raceRepository;
 
-    public function __construct(RaceRepositoryInterface $raceRepository)
+    /**
+     * @var UpgradeRepositoryInterface
+     */
+    private $upgradeRepository;
+
+    public function __construct(RaceRepositoryInterface $raceRepository,
+	                            UpgradeRepositoryInterface $upgradeRepository)
     {
         $this->raceRepository = $raceRepository;
+        $this->upgradeRepository = $upgradeRepository;
     }
 
 	/**
@@ -69,7 +76,10 @@ class RaceController extends AbstractActionController
 			#$race = $race_table->getRaceForIdent($ident);
 			$race = $this->raceRepository->findRace($ident);
 			if ($race)
-				return new ViewModel(['race' => $race,]);
+			{
+				$upgrades = $this->upgradeRepository->fetchUpgradesForRace($ident);
+				return new ViewModel(['race' => $race, 'upgrades' => $upgrades]);
+			}
 			else
 				return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
 		}
@@ -80,7 +90,10 @@ class RaceController extends AbstractActionController
 			{
 				$race = $this->raceRepository->findRaceByName($name);
 				if ($race)
-					return new ViewModel(['race' => $race,]);
+				{
+					$upgrades = $this->raceRepository->findRace($ident);
+					return new ViewModel(['race' => $race, 'upgrades' => $upgrades]);
+				}
 				else
 					return new ViewModel(['error' => 'Race  ' . $name . ' was not found',]);
 				/*

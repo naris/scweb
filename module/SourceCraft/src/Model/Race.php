@@ -55,11 +55,10 @@ class Race
      * @param string|null $parent_long_name
      * @param int|null    $id
      */
-    public function __construct($race_name='', $long_name='', $parent_name='',
-                                $faction='', $type='', $description='', $image='',
+    public function __construct($race_name=null, $long_name=null, $parent_name=null,
+                                $faction=null, $type=null, $description=null, $image=null,
                                 $required_level=0, $tech_level=0, $add_date=null,
-                                $faction_name = null, $parent_long_name = null,
-                                $id = null)
+                                $faction_name=null, $parent_long_name=null, $id=null)
     {
         $this->race_ident       = $id;
         $this->race_name        = $race_name;
@@ -87,7 +86,7 @@ class Race
         $this->type             = !empty($data['type'])             ? $data['type']             : null;
         $this->description      = !empty($data['description'])      ? $data['description']      : null;
         $this->image            = !empty($data['image'])            ? $data['image']            : null;
-        $this->requiredLevel    = !empty($data['required_level'])   ? $data['required_level']   : null;
+        $this->required_level   = !empty($data['required_level'])   ? $data['required_level']   : null;
         $this->tech_level       = !empty($data['tech_level'])       ? $data['tech_level']       : null;
         $this->add_date         = !empty($data['add_date'])         ? $data['add_date']         : null;
 
@@ -180,7 +179,7 @@ class Race
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getRequiredLevel()
     {
@@ -188,7 +187,7 @@ class Race
     }
 
     /**
-     * @return int|null
+     * @return int
      */
     public function getTechLevel()
     {
@@ -196,7 +195,7 @@ class Race
     }
 
     /**
-     * @return timestamp|null
+     * @return timestamp
      */
     public function getAddDate()
     {

@@ -8,12 +8,15 @@ return [
     'service_manager' => [
         'aliases' => [
             Model\RaceRepositoryInterface::class => Model\RaceDbSelect::class,
+            Model\UpgradeRepositoryInterface::class => Model\UpgradeDbSelect::class,
             Model\FactionRepositoryInterface::class => Model\FactionDbSelect::class,
         ],
         'factories' => [
             Model\RaceRepository::class => InvokableFactory::class,
             Model\RaceDbSelect::class => Factory\RaceDbSelectFactory::class,
             Controller\RaceController::class => Factory\RaceControllerFactory::class,
+
+            Model\UpgradeDbSelect::class => Factory\UpgradeDbSelectFactory::class,
 
             Model\FactionRepository::class => InvokableFactory::class,
             Model\FactionDbSelect::class => Factory\FactionDbSelectFactory::class,

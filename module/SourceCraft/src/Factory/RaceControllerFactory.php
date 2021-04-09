@@ -8,6 +8,9 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 use SourceCraft\Controller\RaceController;
 use SourceCraft\Model\RaceRepositoryInterface;
 
+use SourceCraft\Controller\UpgradeController;
+use SourceCraft\Model\UpgradeRepositoryInterface;
+
 class RaceControllerFactory implements FactoryInterface
 {
     /**
@@ -18,6 +21,7 @@ class RaceControllerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new RaceController($container->get(RaceRepositoryInterface::class));
+        return new RaceController($container->get(RaceRepositoryInterface::class),
+                                  $container->get(UpgradeRepositoryInterface::class));
     }
 }
