@@ -22,60 +22,52 @@ $this->headTitle($title);
 	<div class="race_container">
 		<table class="race_detail">
 			<tr>
-				<td width="100%"><table width="100%">
-					<tr>
-						<table width="100%">
+				<td><img src="/sc/img/<?= $race->getImage() ?>" width="250" /></td>
+				<td width="100%" style="vertical-align:top">
+					<table class="race_title" width="100%">
+						<tr>
+							<th width='100%' style="text-align: center;"><?= $this->escapeHtml($race->getLongName()) ?></th>
+						</tr>
+					</table>
+					<table class="race_data">
+						<tr>
+							<th width="150px" align="right">Faction :</th>
+							<td><a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>"><?= $this->escapeHtml($race->getFactionName()) ?></a></td>
+						</tr>
+						<tr>
+							<th width="150px" align="right">Type :</th>
+							<td><?= $this->escapeHtml($race->getType()) ?></td>
+						</tr>
+						<?php if (!empty($race->getParentName())): ?>
 							<tr>
-								<td><img src="/sc/img/<?= $race->getImage() ?>" width="250" /></td>
-								<td width="100%" style="vertical-align:top">
-									<table class="race_title" width="100%">
-										<tr>
-											<th width='100%' style="text-align: center;"><?= $this->escapeHtml($race->getLongName()) ?></th>
-										</tr>
-									</table>
-									<table class="race_data">
-										<tr>
-											<th width="150px" align="right">Faction :</th>
-											<td><a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>"><?= $this->escapeHtml($race->getFactionName()) ?></a></td>
-										</tr>
-										<tr>
-											<th width="150px" align="right">Type :</th>
-											<td><?= $this->escapeHtml($race->getType()) ?></td>
-										</tr>
-										<?php if (!empty($race->getParentName())): ?>
-											<tr>
-												<th width="150px" align="right">Summoned From :</th>
-												<td><a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>"><?= $this->escapeHtml($race->getParentLongName()) ?></a></td>
-											</tr>
-										<?php endif; ?>
-										<?php if ($race->getRequiredLevel() > 0): ?>
-											<tr>
-												<th width="150px" align="right">Required Level :</th>
-												<td><?= $this->escapeHtml($this->race->getRequiredLevel()) ?></td>
-											</tr>
-										<?php endif; ?>
-										<?php if ($race->getTechLevel() > 0): ?>
-											<tr>
-												<th width="150px" align="right">Required Tech Level :</th>
-												<td><?= $this->escapeHtml($trace->getTechLevel()) ?></td>
-											</tr>
-										<?php endif; ?>
-									</table>
-									<table width="100%">
-										<tr>
-											<td><?= $this->escapeHtml($race->getDescription()) ?></td>
-										</tr>
-									</table>
-								</td>
+								<th width="150px" align="right">Summoned From :</th>
+								<td><a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>"><?= $this->escapeHtml($race->getParentLongName()) ?></a></td>
 							</tr>
-						</table>
-					</tr>
-				</td></table>
+						<?php endif; ?>
+						<?php if ($race->getRequiredLevel() > 0): ?>
+							<tr>
+								<th width="150px" align="right">Required Level :</th>
+								<td><?= $this->escapeHtml($this->race->getRequiredLevel()) ?></td>
+							</tr>
+						<?php endif; ?>
+						<?php if ($race->getTechLevel() > 0): ?>
+							<tr>
+								<th width="150px" align="right">Required Tech Level :</th>
+								<td><?= $this->escapeHtml($trace->getTechLevel()) ?></td>
+							</tr>
+						<?php endif; ?>
+					</table>
+					<table width="100%">
+						<tr>
+							<td><?= $this->escapeHtml($race->getDescription()) ?></td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 		<br/>
 		<?php if (! empty($this->upgrades)): ?>
-			<ul><table class="upgrade_detail" width='100%'>
+			<table class="upgrade_detail" width='100%'>
 				<tr>
 					<th></th>
 					<th></th>
@@ -130,7 +122,7 @@ $this->headTitle($title);
 					<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
 					<td width="100%"></td>
 				</tr>
-			</table></ul>
+			</table>
 		<?php endif; ?>
 	</div>
 <?php else: ?>

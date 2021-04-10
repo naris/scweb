@@ -49,7 +49,7 @@
                                 ->setUlClass('nav navbar-nav')
                         ?>
                     </div>
-                </div>
+                </div> <!-- #header -->
             </nav>
             <div id = "middle" class="container">
                 <?= $this->navigation('navigation')
@@ -58,7 +58,7 @@
                     ->setPartial('partial/breadcrumb')
                 ?>
                 <?= $this->content ?>
-            </div>
+            </div> <!-- #middle -->
             <hr>
             <footer id="footer">
                 <div class="copyright text-center">&copy; 2021 Jigglys FunHouse, all rights reserved.</div>
@@ -68,7 +68,7 @@
                     <span>This site is in no way associated with or endorsed by Blizzard Entertainment&reg; nor Valve Corporation&reg;.</span>
                 </div>
             </footer>
-        </div>
+        </div> <!-- #everything -->
         <?= $this->inlineScript()
             ->prependFile($this->basePath('js/bootstrap.min.js'))
             ->prependFile($this->basePath('js/jquery-3.5.1.min.js')) ?>

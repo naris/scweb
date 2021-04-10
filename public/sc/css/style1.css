@@ -14,8 +14,8 @@ ul { padding:10px; }
 li { list-style:none; background:url(/sc/img/bullet2.gif) 0 10px no-repeat;  padding-left:30px; line-height:25px;  }
 
 #everything {
-	 min-height: 100%;
-	 position:relative;
+	min-height: 100%;
+	position:relative;
  }
 
 #header {
@@ -25,9 +25,9 @@ li { list-style:none; background:url(/sc/img/bullet2.gif) 0 10px no-repeat;  pad
 	padding:0 350px;
 }
 
-#header h1 { padding-top:50px; margin:0; color:white; }
 #header a { color:#98ffff; }
-#header a:hover { color:#ffffff } 
+#header a:hover { color:white } 
+#header h1 { padding-top:50px; margin:0; color:white; }
 
 .navbar { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/bg2.jpg); }
 .card { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/background_2.jpg); }
