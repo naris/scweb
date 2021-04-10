@@ -14,57 +14,53 @@ $this->headTitle($title);
 </p-->
 
 <div class="race_container" width="100%">
-	<table class="race_detail">
+	<table>
         <?php foreach ($this->paginator as $race) : ?>
             <tr>
                 <td width="100%">
-                    <table width="100%">
+                    <table class="race_detail" width="100%">
                         <tr>
-                            <table width="100%">
-                                <tr>
-                                    <td><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><img src="/sc/img/<?= $race->getImage() ?>" width="250" /></a></td>
-                                    <td width="100%" style="vertical-align:top">
-                                        <table class="race_title" width="100%">
+                            <td><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><img src="/sc/img/<?= $race->getImage() ?>" width="250" /></a></td>
+                            <td width="100%" style="vertical-align:top">
+                                <table class="race_title" width="100%">
+                                    <tr>
+                                        <th width='100%' style="text-align: center;"><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><?= $this->escapeHtml($race->getLongName()) ?></a></th>
+                                    </tr>
+                                </table>
+                                <table class="race_data">
+                                    <tr>
+                                        <th width="150px" align="right">Faction :</th>
+                                        <td><a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>"><?= $this->escapeHtml($race->getFactionName()) ?></a></td>
+                                    </tr>
+                                    <tr>
+                                        <th width="150px" align="right">Type :</th>
+                                        <td><?= $this->escapeHtml($race->getType()) ?></td>
+                                    </tr>
+                                        <?php if (!empty($race->getParentName())): ?>
                                             <tr>
-                                                <th width='100%' style="text-align: center;"><a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>"><?= $this->escapeHtml($race->getLongName()) ?></a></th>
+                                                <th width="150px" align="right">Summoned From :</th>
+                                                <td><a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>"><?= $this->escapeHtml($race->getParentLongName()) ?></a></td>
                                             </tr>
-                                        </table>
-                                        <table class="race_data">
+                                        <?php endif; ?>
+                                        <?php if ($race->getRequiredLevel() > 0): ?>
                                             <tr>
-                                                <th width="150px" align="right">Faction :</th>
-                                                <td><a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>"><?= $this->escapeHtml($race->getFactionName()) ?></a></td>
+                                                <th width="150px" align="right">Required Level :</th>
+                                                <td><?= $this->escapeHtml($race->getRequiredLevel()) ?></td>
                                             </tr>
+                                        <?php endif; ?>
+                                        <?php if ($race->getTechLevel() > 0): ?>
                                             <tr>
-                                                <th width="150px" align="right">Type :</th>
-                                                <td><?= $this->escapeHtml($race->getType()) ?></td>
+                                                <th width="150px" align="right">Required Tech Level :</th>
+                                                <td><?= $this->escapeHtml($race->getTechLevel()) ?></td>
                                             </tr>
-                                                <?php if (!empty($race->getParentName())): ?>
-                                                    <tr>
-                                                        <th width="150px" align="right">Summoned From :</th>
-                                                        <td><a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>"><?= $this->escapeHtml($race->getParentLongName()) ?></a></td>
-                                                    </tr>
-                                                <?php endif; ?>
-                                                <?php if ($race->getRequiredLevel() > 0): ?>
-                                                    <tr>
-                                                        <th width="150px" align="right">Required Level :</th>
-                                                        <td><?= $this->escapeHtml($race->getRequiredLevel()) ?></td>
-                                                    </tr>
-                                                <?php endif; ?>
-                                                <?php if ($race->getTechLevel() > 0): ?>
-                                                    <tr>
-                                                        <th width="150px" align="right">Required Tech Level :</th>
-                                                        <td><?= $this->escapeHtml($race->getTechLevel()) ?></td>
-                                                    </tr>
-                                                <?php endif; ?>
-                                        </table>
-                                        <table width="100%">
-                                            <tr>
-                                                <td><?= $this->escapeHtml($race->getDescription()) ?></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </table>
+                                        <?php endif; ?>
+                                </table>
+                                <table width="100%">
+                                    <tr>
+                                        <td><?= $this->escapeHtml($race->getDescription()) ?></td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                     </table>
                 </td>

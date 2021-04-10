@@ -50,6 +50,108 @@ class ItemController extends AbstractActionController
 		return new ViewModel(['paginator' => $paginator]);
     }	
 
+	public function showAction()
+	{
+		$ident = $this->params()->fromRoute('id');
+		if ($ident)
+		{
+			$item = $this->itemRepository->findItem($ident);
+			if ($item)
+			{
+				return new ViewModel(['item' => $item]);
+			}
+			else
+				return new ViewModel(['error' => 'Item Ident ' . $ident . ' was not found',]);
+
+			/*
+			$item_table = new Item();
+			$view = $this->initView();
+			$item = $item_table->getItemForIdent($ident);
+			if ($item)
+			{
+				$view->item = $item;
+			}
+			else
+			{
+				$view->error = 'Item Ident ' . $ident . ' was not found';
+				$this->render();
+				return;
+			}
+			*/
+		}
+		else
+		{
+			/*
+			$name = $this->getRequest()->getParam('name');
+			if ($name)
+			{
+				$item_table = new Item();
+				$view = $this->initView();
+				$item_rowset = $item_table->getItemListForName($name, true);
+				$item_count = count($item_rowset);
+				if ($item_count == 1)
+				{
+					$item = $item_rowset->current();
+					$ident = $item->item_ident;
+					$view->item = $item;
+				}
+				else if ($item_count > 1)
+				{
+					$this->_forward('match', 'item', 'sc',
+						array('name' => $name));
+					return;
+				}
+				else
+				{
+					$view->error = 'Item ' . $name . ' was not found';
+					$this->render();
+					return;
+				}
+			}
+			else
+			{
+				$category = $this->getRequest()->getParam('category');
+				if ($category)
+				{
+					$item_table = new Item();
+					$view = $this->initView();
+					$item_rowset = $item_table->getItemListForCategory($category, true);
+					$item_count = count($item_rowset);
+					if ($item_count == 1)
+					{
+						$item = $item_rowset->current();
+						$ident = $item->item_ident;
+						$view->item = $item;
+					}
+					else if ($item_count > 1)
+					{
+						$this->_forward('match', 'item', 'sc',
+							array('category' => $category));
+						return;
+					}
+					else
+					{
+						$view->error = 'There are no ' . $category . ' items!';
+						$this->render();
+						return;
+					}
+				}
+			}
+			*/
+		}
+
+		/*
+		if (isset($item) && $item)
+		{
+			$this->render();
+		}
+		else
+		{
+			$this->_forward('list');
+		}
+		*/
+	}
+
 /***************************************************************************************
 	/**
      * @var Zend_Session_Namespace
@@ -119,94 +221,6 @@ class ItemController extends AbstractActionController
 			// Not a POST request, show find item form
 			$view = $this->initView();
 			$this->render();
-		}
-	}
-
-	public function showAction()
-	{
-		$ident = $this->getRequest()->getParam('ident');
-		if ($ident)
-		{
-			$item_table = new Item();
-			$view = $this->initView();
-			$item = $item_table->getItemForIdent($ident);
-			if ($item)
-			{
-				$view->item = $item;
-			}
-			else
-			{
-				$view->error = 'Item Ident ' . $ident . ' was not found';
-				$this->render();
-				return;
-			}
-		}
-		else
-		{
-			$name = $this->getRequest()->getParam('name');
-			if ($name)
-			{
-				$item_table = new Item();
-				$view = $this->initView();
-				$item_rowset = $item_table->getItemListForName($name, true);
-				$item_count = count($item_rowset);
-				if ($item_count == 1)
-				{
-					$item = $item_rowset->current();
-					$ident = $item->item_ident;
-					$view->item = $item;
-				}
-				else if ($item_count > 1)
-				{
-					$this->_forward('match', 'item', 'sc',
-						array('name' => $name));
-					return;
-				}
-				else
-				{
-					$view->error = 'Item ' . $name . ' was not found';
-					$this->render();
-					return;
-				}
-			}
-			else
-			{
-				$category = $this->getRequest()->getParam('category');
-				if ($category)
-				{
-					$item_table = new Item();
-					$view = $this->initView();
-					$item_rowset = $item_table->getItemListForCategory($category, true);
-					$item_count = count($item_rowset);
-					if ($item_count == 1)
-					{
-						$item = $item_rowset->current();
-						$ident = $item->item_ident;
-						$view->item = $item;
-					}
-					else if ($item_count > 1)
-					{
-						$this->_forward('match', 'item', 'sc',
-							array('category' => $category));
-						return;
-					}
-					else
-					{
-						$view->error = 'There are no ' . $category . ' items!';
-						$this->render();
-						return;
-					}
-				}
-			}
-		}
-
-		if (isset($item) && $item)
-		{
-			$this->render();
-		}
-		else
-		{
-			$this->_forward('list');
 		}
 	}
 
