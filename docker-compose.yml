@@ -1,7 +1,9 @@
-scweb:
-  build: .
-  dockerfile: Dockerfile
-#  ports:
-#   - "8080:80"
-  volumes:
-   - .:/var/www
+version: '3.8'
+services:
+  scweb:
+    build: .
+    dockerfile: Dockerfile
+#    ports:
+#    - "8080:80"
+    volumes:
+     - .:/var/www
