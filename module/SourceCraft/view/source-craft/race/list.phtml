@@ -27,7 +27,7 @@ echo $this->render('partials/html_header.phtml');
 					<table width="100%">
 						<tr>
 							<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/race/show/ident/' . urlencode($item['race_ident']) ?>"><img src="/sc/images/<?= $this->escape($item['image']) ?>" width="250" /></a></td>
+			'/sc/race/show/ident/' . urlencode($item['race_ident']) ?>"><img src="/sc/img/<?= $this->escape($item['image']) ?>" width="250" /></a></td>
 							<td width="100%" style="vertical-align:top">
 								<table class="race_title" width="100%">
 									<tr>
@@ -93,7 +93,7 @@ echo $this->render('partials/html_header.phtml');
 <?php endif; ?>
 <?php endforeach; ?>
 		<tr>
-			<td width="100%"><img src="/sc/images/spacer.gif" width="100%" height="1"/></td>
+			<td width="100%"><img src="/sc/img/spacer.gif" width="100%" height="1"/></td>
 		</tr>
 	</table>
 	</div>

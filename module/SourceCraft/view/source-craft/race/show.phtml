@@ -26,7 +26,7 @@ $this->headTitle($title);
 					<tr>
 						<table width="100%">
 							<tr>
-								<td><img src="/img/<?= $race->getImage() ?>" width="250" /></td>
+								<td><img src="/sc/img/<?= $race->getImage() ?>" width="250" /></td>
 								<td width="100%" style="vertical-align:top">
 									<table class="race_title" width="100%">
 										<tr>
@@ -103,7 +103,7 @@ $this->headTitle($title);
 						<?php if (empty($upgrade->getImage())): ?>
 							<td><li></td>
 						<?php else: ?>
-							<td><img src="/img/<?= $upgrade->getImage() ?>" width="38px" /></td>
+							<td><img src="/sc/img/<?= $upgrade->getImage() ?>" width="38px" /></td>
 						<?php endif; ?>
 						<td><b><?= $this->escapeHtml($upgrade->getLongName()) ?><?= (($upgrade->getCategory() > 0) ? "<br><font color='cyan'> +ultimate" . $this->escapeHtml($upgrade->getCategory()) . "</font>" : "") ?></b></td>
 						<td><center><?= $upgrade->getMaxLevel() ?></center></td>

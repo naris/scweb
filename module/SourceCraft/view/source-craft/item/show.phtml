@@ -28,7 +28,7 @@ echo $this->render('partials/html_header.phtml');
 <?php if (empty($this->item->image)): ?>
 							<td width="250"></td>
 <?php else: ?>
-							<td width="250"><img src="/sc/images/<?= $this->escape($this->item->image) ?>" width="250" /></td>
+							<td width="250"><img src="/sc/img/<?= $this->escape($this->item->image) ?>" width="250" /></td>
 <?php endif; ?>
 							<td width="100%" style="vertical-align:top">
 								<table class="item_title" width="100%">

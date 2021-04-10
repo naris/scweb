@@ -1,16 +1,16 @@
 /* Stylesheet 1 -------------------------------*/
 
-body { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/img/background_2.jpg); } 
+body { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/background_2.jpg); } 
 a { color:#22afcd; }
 a:visited { color:#105362}
 a:hover { color:#98ffff }
 
-.navbar, .card { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/img/background_2.jpg); } 
-.jumbotron, .breadcrumb { font:12px Tahoma; color:#DDEEFF; background:url(/img/extras_bg2.jpg); }
+.navbar, .card { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/background_2.jpg); } 
+.jumbotron, .breadcrumb { font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/extras_bg2.jpg); }
 
-#everything { width:1000px; margin:0 auto;  background:url(/img/background_2.jpg); border:1px solid black; border-width:0px 1px; }
+#everything { width:1000px; margin:0 auto;  background:url(/sc/img/background_2.jpg); border:1px solid black; border-width:0px 1px; }
 
-#header { height:162px; background:url(/img/scheader_2.jpg) right no-repeat; padding:0 395px; }
+#header { height:162px; background:url(/sc/img/scheader_2.jpg) right no-repeat; padding:0 395px; }
 #header h1 { padding-top:50px; margin:0; color:white; }
 
 .page-item { background-image:none; color:white; text-align: center; }
@@ -18,7 +18,7 @@ a:hover { color:#98ffff }
 .page-link:hover { background-position:0 bottom; }
 .page-link:visited { color: #007bff; }
 .page-link {
-	 background:url(/img/buttons2-small.png) no-repeat;
+	 background:url(/sc/img/buttons2-small.png) no-repeat;
 	 background-color: transparent !important;
 	 width:61px;
 	 height:25px;
@@ -34,17 +34,17 @@ a:hover { color:#98ffff }
 	 text-align: center;
 }
 
-#footer { clear:both; padding:20px background:url(/img/bg_2.gif) 50% 0 repeat-y black; }
+#footer { clear:both; padding:20px background:url(/sc/img/bg_2.gif) 50% 0 repeat-y black; }
 	#subnav { margin:10px 0;}	
 	#subnav a { color:#22afcd; }
 	#subnav a:hover { color:#98ffff } 
 	.copyright { font-size:10px;}
 
-#middle { clear:both; background:url(/img/horiz_2.gif) repeat-x; padding:20px 10px; }	
+#middle { clear:both; background:url(/sc/img/horiz_2.gif) repeat-x; padding:20px 10px; }	
 	
 	#left_column { width:195px; float:left; }
 	.horizontal #left_column { width:auto; float:none; }
-		#navigation a { background:url(/img/buttons2.gif) no-repeat; width:135px; height:25px; display:block; padding-left:25px; margin:5px 0;
+		#navigation a { background:url(/sc/img/buttons2.gif) no-repeat; width:135px; height:25px; display:block; padding-left:25px; margin:5px 0;
 						font-size:13px; color:white; text-decoration:none; line-height:25px;}
 		#navigation a:hover { background-position:0 bottom;  }
 		.horizontal #navigation a { float:left; } 
@@ -54,23 +54,23 @@ a:hover { color:#98ffff }
 	#middle_column.two_column { float:left; width:75%; } 
 	.horizontal #middle_column { width:auto; float:none; }
 		.date_break { font-size:19px; border-bottom:1px solid #98ffff; margin-bottom:10px; }
-		.post { background: url(/img/blue_overlay.jpg); border:1px solid #98ffff; margin-bottom:35px; line-height:18px; } 
-		.post h1 { background:url(/img/title_2.gif) repeat-x #98ffff; padding:2px 10px; margin:0; font-size:15px; color:white;} 
+		.post { background: url(/sc/img/blue_overlay.jpg); border:1px solid #98ffff; margin-bottom:35px; line-height:18px; } 
+		.post h1 { background:url(/sc/img/title_2.gif) repeat-x #98ffff; padding:2px 10px; margin:0; font-size:15px; color:white;} 
 		.post_body { padding:5px 15px; }
 		.post .postedby { float:left; clear:both; }
 		.post .timestamp { float:right }
 
 		ul { margin:20px; padding:10px; }
-		li { list-style:none; background:url(/img/bullet2.gif) 0 10px no-repeat;  padding-left:30px; line-height:25px;  }
+		li { list-style:none; background:url(/sc/img/bullet2.gif) 0 10px no-repeat;  padding-left:30px; line-height:25px;  }
 		.list_left, .list_right { width:48%; float:left }
 
 		.post_info { clear:both; padding-top:10px; }
 	
 	#right_column { width:26%; float:left; }
-		.box { background:url(/img/extras_bg2.jpg); border:1px solid #98ffff; margin:10px 0 25px 0; padding:10px; }
+		.box { background:url(/sc/img/extras_bg2.jpg); border:1px solid #98ffff; margin:10px 0 25px 0; padding:10px; }
 
 .player_list, .item_list {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 	border: 1px solid black;
 	padding: 3px;
 	font-size: 10pt;
@@ -96,7 +96,7 @@ a:hover { color:#98ffff }
 }
 
 .player_detail {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 	padding:2px 10px;
 	margin: 0px;
         font-size:15px;
@@ -115,14 +115,14 @@ a:hover { color:#98ffff }
 }
 
 .alias_container {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 	margin-bottom:35px;
 	line-height:18px;
 	width: 100%;
 }
 
 .alias_detail {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 	margin-bottom: 20px;
 	border:1px solid #98ffff;
 	/* margin:10px 0 25px 0; */
@@ -132,14 +132,14 @@ a:hover { color:#98ffff }
 }
 
 .tech_container {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 	margin-bottom:35px;
 	line-height:18px;
 	width: 100%;
 }
 
 .tech_detail {
-	background: url(/img/blue_overlay.jpg) repeat;
+	background: url(/sc/img/blue_overlay.jpg) repeat;
 	border:1px solid #98ffff;
 	/* margin:10px 0 25px 0; */
 	/* padding:10px; */
@@ -148,7 +148,7 @@ a:hover { color:#98ffff }
 }
 
 .race_container, .item_container {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 	margin-bottom:35px;
 	line-height:18px;
 	width: 100%;
@@ -160,7 +160,7 @@ a:hover { color:#98ffff }
 }
 
 .race_title TH, .item_title TH {
-	background:url(/img/title_2.gif) repeat-x #98ffff;
+	background:url(/sc/img/title_2.gif) repeat-x #98ffff;
 	font-size: 24pt;
 	font-weight: bold;	
 	text-align: center;
@@ -177,7 +177,7 @@ a:hover { color:#98ffff }
 }
 
 .upgrade_detail {
-	background: url(/img/blue_overlay.jpg) repeat;
+	background: url(/sc/img/blue_overlay.jpg) repeat;
 	border:1px solid #98ffff;
 	/* margin:10px 0 25px 0; */
 	/* padding:10px; */
@@ -201,11 +201,11 @@ a:hover { color:#98ffff }
 }
 
 .dialog_container {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 }
 
 .container {
-	background:url(/img/extras_bg2.jpg);
+	background:url(/sc/img/extras_bg2.jpg);
 }
 
 FORM {
@@ -267,7 +267,7 @@ FORM INPUT[type=text], FORM INPUT[type=password] {
 } 
 
 .scsoria .dijitButtonNode  {
-	background:url(/img/buttons2.gif) no-repeat;
+	background:url(/sc/img/buttons2.gif) no-repeat;
 	width:135px;
 	height:25px;
 	display:block;
@@ -282,7 +282,7 @@ FORM INPUT[type=text], FORM INPUT[type=password] {
 }
 
 .scsoria .dijitDropDownButtonHover .dijitButtonNode {
-	background:url(/img/buttons2.gif) no-repeat;
+	background:url(/sc/img/buttons2.gif) no-repeat;
 	background-position:0 bottom;
 	width:135px;
 	height:25px;
@@ -298,7 +298,7 @@ FORM INPUT[type=text], FORM INPUT[type=password] {
 }
 
 .scsoria .dijitDropDownButtonActive .dijitButtonNode {
-	background:url(/img/buttons2.gif) no-repeat;
+	background:url(/sc/img/buttons2.gif) no-repeat;
 	background-position:0 bottom;
 	width:135px;
 	height:25px;

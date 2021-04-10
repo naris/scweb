@@ -36,7 +36,7 @@ echo $this->render('partials/html_header.phtml');
 			<td width="50px"><li></td>
 <?php else: ?>
 			<td width="50px"><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/item/show/ident/' . urlencode($item['item_ident']) ?>"><img src="/sc/images/<?= $this->escape($item['image']) ?>" width="38px" /></td>
+			'/sc/item/show/ident/' . urlencode($item['item_ident']) ?>"><img src="/sc/img/<?= $this->escape($item['image']) ?>" width="38px" /></td>
 <?php endif; ?>
 			<td width="200px"><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
 			'/sc/item/show/ident/' . urlencode($item['item_ident']) ?>"><?= $this->escape($item['long_name']) ?></td>
