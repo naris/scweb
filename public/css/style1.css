@@ -5,8 +5,8 @@ a { color:#22afcd; }
 a:visited { color:#105362}
 a:hover { color:#98ffff }
 
-.navbar { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/img/background_2.jpg); } 
-.jumbotron, .card, .breadcrumb { font:12px Tahoma; color:#DDEEFF; background:url(/img/extras_bg2.jpg); }
+.navbar, .card { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/img/background_2.jpg); } 
+.jumbotron, .breadcrumb { font:12px Tahoma; color:#DDEEFF; background:url(/img/extras_bg2.jpg); }
 
 #everything { width:1000px; margin:0 auto;  background:url(/img/background_2.jpg); border:1px solid black; border-width:0px 1px; }
 

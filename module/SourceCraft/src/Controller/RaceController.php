@@ -91,7 +91,7 @@ class RaceController extends AbstractActionController
 				$race = $this->raceRepository->findRaceByName($name);
 				if ($race)
 				{
-					$upgrades = $this->raceRepository->findRace($ident);
+					$upgrades = $this->upgradeRepository->fetchUpgradesForRace($race->getId());
 					return new ViewModel(['race' => $race, 'upgrades' => $upgrades]);
 				}
 				else
