@@ -7,11 +7,16 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 return [
     'service_manager' => [
         'aliases' => [
+            Model\ItemRepositoryInterface::class => Model\ItemDbSelect::class,
             Model\RaceRepositoryInterface::class => Model\RaceDbSelect::class,
             Model\UpgradeRepositoryInterface::class => Model\UpgradeDbSelect::class,
             Model\FactionRepositoryInterface::class => Model\FactionDbSelect::class,
         ],
         'factories' => [
+            Model\ItemRepository::class => InvokableFactory::class,
+            Model\ItemDbSelect::class => Factory\ItemDbSelectFactory::class,
+            Controller\ItemController::class => Factory\ItemControllerFactory::class,
+
             Model\RaceRepository::class => InvokableFactory::class,
             Model\RaceDbSelect::class => Factory\RaceDbSelectFactory::class,
             Controller\RaceController::class => Factory\RaceControllerFactory::class,
@@ -27,6 +32,9 @@ return [
     /**/
     'controllers' => [
         'factories' => [
+            Model\ItemRepository::class => InvokableFactory::class,
+            Controller\ItemController::class => Factory\ItemControllerFactory::class,
+
             Model\RaceRepository::class => InvokableFactory::class,
             Controller\RaceController::class => Factory\RaceControllerFactory::class,
 
@@ -65,6 +73,21 @@ return [
                     ],
                     'defaults' => [
                         'controller' => Controller\RaceController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'item' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/item[/:action[/:id][/name/:name]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                        'name'   => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ItemController::class,
                         'action'     => 'index',
                     ],
                 ],
