@@ -1,7 +1,7 @@
-laminas:
+scweb:
   build: .
   dockerfile: Dockerfile
-  ports:
-   - "8080:80"
+#  ports:
+#   - "8080:80"
   volumes:
    - .:/var/www
