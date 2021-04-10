@@ -7,20 +7,29 @@
     <h1 class="display-4 text-center">Welcome to SourceCraft</h1>
     <hr class="my-4">
 	<p>
-        <strong>SourceCraft</strong> is a TF2 mod that adds Role Playing (RPG) and Real Time Strategy (RTS) elements into the game.
+        <strong>SourceCraft</strong> is a <a href="https://www.teamfortress.com/">Team Fortress 2</a> mod that adds Role Playing (RPG) and Real Time Strategy (RTS) elements into the game.
     </p>
 	<p>
-        There are many races, mostly based on the StarCraft and WarCraft games, each with it's own strengths and weaknesses.
+        There are many <a href="<?= $this->url('race', ['action' => 'index']) ?>">races</a>, mostly based on the <a href="https://starcraft2.com/">StarCraft</a>,
+        <a href="https://playwarcraft3.com/">WarCraft</a> &amp; <a href="https://worldofwarcraft.com/">World of Warcraft</a> games, each with it's own strengths and weaknesses.
         Each race also has certain upgrades (abilities) that they can use. When players first join the game, they will be prompted to choose a race.
         They can also change race at any time, but they won't become the new race until they respawn.
     </p>
 	<p>
         There are also several "summon" races that are not available directly, they have to be "summoned" from another race that has the ability to summon it.
-        An example is Protoss Archon, which is summoned from Protoss Templar.
+        An example is <a href="<?= $this->url('race', ['action' => 'show', 'name' => 'archon']) ?>">Protoss Archon</a>, which is summoned from
+        <a href="<?= $this->url('race', ['action' => 'show', 'name' => 'templar']) ?>">Protoss Templar</a>.
     </p>
 	<p>
-        Races are grouped into Factions, such as Terran, Protoss, Zerg, Human Alliance, Undead Scourge, Night Elf, Orcish Hord, etc, based on the backstory of the race.
-        The race menu is then categorized by those factions.
+        Races are grouped into <a href="<?= $this->url('faction', ['action' => 'index']) ?>">Factions</a>, such as
+        <a href="<?= $this->url('faction', ['action' => 'show', 'id' => 'Terran']) ?>">Terran</a>,
+        <a href="<?= $this->url('faction', ['action' => 'show', 'id' => 'Protoss']) ?>">Protoss</a>,
+        <a href="<?= $this->url('faction', ['action' => 'show', 'id' => 'Zerg']) ?>">Zerg</a>,
+        <a href="<?= $this->url('faction', ['action' => 'show', 'id' => 'HumanAlliance']) ?>">Human Alliance</a>,
+        <a href="<?= $this->url('faction', ['action' => 'show', 'id' => 'UndeadScourge']) ?>">Undead Scourge</a>,
+        <a href="<?= $this->url('faction', ['action' => 'show', 'id' => 'NightElf']) ?>">Night Elf</a>,
+        <a href="<?= $this->url('faction', ['action' => 'show', 'id' => 'OrcishHord']) ?>">Orcish Hord</a>,
+        etc. based on the backstory of the race. The race menu is then categorized by those factions.
     </p>
 	<p>
         Players gain experience from kills and obtaining objectives, such as capping a flag, which are then used to gain levels in the race they are currently playing.
@@ -34,12 +43,18 @@
         <h2 class="card-header text-center">Crystals & Vespene</h2>
         <div class="card-body">
             <p>
-                Players will also earn crystals and/or vespene from kills and/or objectives that allow them to purchase items in the shopmenu to add to their arsenal of abilities.
-                Most are passive, but there are some items, such as jetpack, nades and mines, that are invoked by using a key bound to a +item command.
-                Most items are lost when a player dies unless they own the Ankh of Reincarnation.
+                Players will also earn crystals and/or vespene from kills and/or objectives that allow them to purchase <a href="<?= $this->url('item', ['action' => 'index']) ?>">items</a>
+                in the shopmenu to add to their arsenal of abilities.
+                Most are passive, but there are some items, such as
+                <a href="<?= $this->url('item', ['action' => 'show', 'name' => 'mine']) ?>">Mines</a>,
+                <a href="<?= $this->url('item', ['action' => 'show', 'name' => 'tripmine']) ?>">Tripmines</a> and
+                <a href="<?= $this->url('item', ['action' => 'show', 'name' => 'gloves']) ?>">Flaming Gloves of Warmth</a> (grenades),
+                that are invoked by using a key bound to a +item command. Most items are lost when a player dies unless they own the
+                <a href="<?= $this->url('item', ['action' => 'show', 'name' => 'ankh']) ?>">Ankh of Reincarnation</a>.
             </p>
             <p>
-                Several race's upgrades also consume Vespene, such as Zerg Drone's Mutate, and won't function without a sufficient vespene supply.
+                Several race's upgrades also consume Vespene, such as <a href="<?= $this->url('race', ['action' => 'show', 'name' => 'drone']) ?>">Zerg Drone</a>'s Mutate,
+                and won't function without a sufficient vespene supply.
             </p>
         </div>
     </div>
@@ -60,7 +75,8 @@
         <div class="card-body">
             <p>
                 Sourcecraft options are accessed by typing 'menu' into chat. From there you can do just about anything.
-                For a description of the different races and what their abilities do type "raceinfo" into chat or refer to this web site.
+                For a description of the different races and what their abilities do type "raceinfo" into chat, refer to the 
+                <a href="<?= $this->url('race', ['action' => 'index']) ?>">race list</a> or the <a href="https://bitbucket.org/sourcecraft/sourcecraft/wiki/Home">SourceCraft wiki</a>.
                 You can access the shop menu through the mod menu or by typing 'buy into chat.
                 Upgrades can be reassigned any time through the mod menu or by typing "reset" into chat.
                 The next time you spawn you will be asked to reassign your upgrade points.

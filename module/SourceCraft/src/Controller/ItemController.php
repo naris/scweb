@@ -81,6 +81,17 @@ class ItemController extends AbstractActionController
 		}
 		else
 		{
+			$name = $this->params()->fromRoute('name');
+			if ($name)
+			{
+				$item = $this->itemRepository->findItemByName($name);
+				if ($item)
+				{
+					return new ViewModel(['item' => $item]);
+				}
+				else
+					return new ViewModel(['error' => 'Item  ' . $name . ' was not found',]);
+			}
 			/*
 			$name = $this->getRequest()->getParam('name');
 			if ($name)

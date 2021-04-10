@@ -1,7 +1,8 @@
 /* Stylesheet 1 -------------------------------*/
 
 html,body{
-    height: 100%
+    height: 100%;
+	width: 100%;
 }
 
 body { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/bg2.jpg); }
@@ -14,6 +15,7 @@ ul { padding:10px; }
 li { list-style:none; background:url(/sc/img/bullet2.gif) 0 10px no-repeat;  padding-left:30px; line-height:25px;  }
 
 #everything {
+	width: 100%;
 	min-height: 100%;
 	position:relative;
  }
@@ -60,7 +62,12 @@ li { list-style:none; background:url(/sc/img/bullet2.gif) 0 10px no-repeat;  pad
 }
 
 #footer {
+	width: 100%;
 	height: 60px;
+	overflow: auto;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
 	position: absolute;
 	bottom: 0;
 }
