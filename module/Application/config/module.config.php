@@ -39,11 +39,64 @@ return [
             ],
         ],
     ],
+
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
         ],
     ],
+
+    'navigation' => [
+        'default' => [
+            [
+                'label' => 'Home',
+                'route' => 'home',
+            ],
+            [
+                'label' => 'Factions',
+                'route' => 'faction',
+                'pages' => [
+                    [
+                        'label'  => 'List',
+                        'route'  => 'faction',
+                        'action' => 'index',
+                    ],
+                    [
+                        'label'  => 'Show',
+                        'route'  => 'faction',
+                        'action' => 'show',
+                    ],
+                ],
+            ],
+            [
+                'label' => 'Races',
+                'route' => 'race',
+                'pages' => [
+                    [
+                        'label'  => 'List',
+                        'route'  => 'race',
+                        'action' => 'index',
+                    ],
+                    /*[
+                        'label'  => 'Find',
+                        'route'  => 'race',
+                        'action' => 'find',
+                    ],*/
+                    [
+                        'label'  => 'Show',
+                        'route'  => 'race',
+                        'action' => 'show',
+                    ],
+                    /*[
+                        'label'  => 'Match',
+                        'route'  => 'race',
+                        'action' => 'match',
+                    ],*/
+                ],
+            ],
+        ],
+    ],
+
     'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
