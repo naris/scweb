@@ -94,6 +94,32 @@ return [
                     ],*/
                 ],
             ],
+            [
+                'label' => 'Items',
+                'route' => 'item',
+                'pages' => [
+                    [
+                        'label'  => 'List',
+                        'route'  => 'item',
+                        'action' => 'index',
+                    ],
+                    /*[
+                        'label'  => 'Find',
+                        'route'  => 'item',
+                        'action' => 'find',
+                    ],*/
+                    [
+                        'label'  => 'Show',
+                        'route'  => 'item',
+                        'action' => 'show',
+                    ],
+                    /*[
+                        'label'  => 'Match',
+                        'route'  => 'item',
+                        'action' => 'match',
+                    ],*/
+                ],
+            ],
         ],
     ],
 

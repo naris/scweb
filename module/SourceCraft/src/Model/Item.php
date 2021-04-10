@@ -7,9 +7,12 @@
  * @version 
  */
 
-require_once ('App_Db_Table_Abstract.php');
+namespace SourceCraft\Model;
 
-class Item extends App_Db_Table_Abstract
+#require_once ('App_Db_Table_Abstract.php');
+#class Item extends App_Db_Table_Abstract
+
+class Item
 {
 	private $item_ident;
 	private $item_name;

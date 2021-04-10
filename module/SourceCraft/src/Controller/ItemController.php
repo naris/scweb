@@ -7,21 +7,59 @@
  * @version 
  */
 
-require_once 'Zend/Controller/Action.php';
+namespace SourceCraft\Controller;
 
-require_once 'Item.php';
+#require_once 'Zend/Controller/Action.php';
+use Laminas\View\Model\ViewModel;
+use Laminas\Mvc\Controller\AbstractActionController;
 
-class Sc_ItemController extends Zend_Controller_Action
+#require_once 'Item.php';
+use SourceCraft\Model\Item;
+use SourceCraft\Model\ItemRepositoryInterface;
+
+#class Sc_ItemController extends Zend_Controller_Action
+class ItemController extends AbstractActionController
 {
     /**
-     * @var Zend_Session_Namespace
+     * @var ItemRepositoryInterface
      */
+    private $itemRepository;
+
+    public function __construct(ItemRepositoryInterface $itemRepository)
+    {
+        $this->itemRepository = $itemRepository;
+    }
+
+	/**
+	 * The default action - show the list of items
+	 */
+    public function indexAction()
+    {
+		// Grab the paginator from the Repository:
+		$paginator = $this->itemRepository->fetchAll(true);
+
+		// Set the current page to what has been passed in query string,
+		// or to 1 if none is set, or the page is invalid:
+		$page = (int) $this->params()->fromQuery('page', 1);
+		$page = ($page < 1) ? 1 : $page;
+		$paginator->setCurrentPageNumber($page);
+
+		// Set the number of items per page to 10:
+		$paginator->setItemCountPerPage(10);
+
+		return new ViewModel(['paginator' => $paginator]);
+    }	
+
+/***************************************************************************************
+	/**
+     * @var Zend_Session_Namespace
+     *
     protected $session = null;
 
     /**
      * Overriding the init method to also load the session from the registry
      *
-     */
+     *
     public function init()
     {
         parent::init();
@@ -40,7 +78,7 @@ class Sc_ItemController extends Zend_Controller_Action
     
 	/**
 	 * The default action - show the home page
-	 */
+	 *
 	public function indexAction()
 	{
 		$this->_forward('list');
@@ -251,5 +289,6 @@ class Sc_ItemController extends Zend_Controller_Action
 		$this->view->paginator = $paginator;
 		$this->render();
 	}
+ ***************************************************************************************/
 }
 ?>
