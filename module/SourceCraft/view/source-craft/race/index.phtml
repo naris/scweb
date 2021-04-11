@@ -13,6 +13,18 @@ $this->headTitle($title);
     <a href="<?= $this->url('race', ['action' => 'add']) ?>">Add new race</a>
 </p-->
 
+<?= $this->paginationControl(
+    // The paginator object:
+    $this->paginator,
+    // The scrolling style:
+    'sliding',
+    // The partial to use to render the control:
+    'partial/paginator',
+    // The route to link to when a user clicks a control link:
+    ['route' => 'race']
+)
+?>
+
 <div class="race_container" width="100%">
 	<table>
         <?php foreach ($this->paginator as $race) : ?>

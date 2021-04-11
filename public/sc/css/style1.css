@@ -27,11 +27,19 @@ li { list-style:none; background:url(/sc/img/bullet2.gif) 0 10px no-repeat;  pad
 	padding:0 350px;
 }
 
-#header a { color:#98ffff; }
+#header a { color:#a8ffff; }
 #header a:hover { color:white } 
 #header h1 { padding-top:50px; margin:0; color:white; }
 
 .navbar { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/bg2.jpg); }
+#navigation a { background:url(/sc/img/buttons2.gif) no-repeat; width:135px; height:25px; display:block; padding-left:25px; margin:5px 0;
+	font-size:13px; color:white; text-decoration:none; line-height:25px;}
+#navigation a:hover { background-position:0 bottom;  }
+
+#subnav { margin:10px 0;}	
+#subnav a { color:#22afcd; }
+#subnav a:hover { color:#98ffff } 	
+
 .card { margin:0; font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/background_2.jpg); }
 .jumbotron, .breadcrumb { font:12px Tahoma; color:#DDEEFF; background:url(/sc/img/extras_bg2.jpg); }
 
@@ -72,19 +80,12 @@ li { list-style:none; background:url(/sc/img/bullet2.gif) 0 10px no-repeat;  pad
 	bottom: 0;
 }
 
-#subnav { margin:10px 0;}	
-#subnav a { color:#22afcd; }
-#subnav a:hover { color:#98ffff } 
 .copyright { font-size:10px;}
 
-	
 #left_column { width:195px; float:left; }
 .horizontal #left_column { width:auto; float:none; }
-	#navigation a { background:url(/sc/img/buttons2.gif) no-repeat; width:135px; height:25px; display:block; padding-left:25px; margin:5px 0;
-					font-size:13px; color:white; text-decoration:none; line-height:25px;}
-	#navigation a:hover { background-position:0 bottom;  }
-	.horizontal #navigation a { float:left; } 
-	#more_information { padding-top:15px;}
+.horizontal #navigation a { float:left; } 
+#more_information { padding-top:15px;}
 	
 #middle_column { float:left; width:100%; margin:0px 20px; }
 #middle_column.two_column { float:left; width:75%; } 

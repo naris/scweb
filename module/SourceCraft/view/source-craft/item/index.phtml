@@ -18,18 +18,29 @@ $this->headTitle($title);
 		<?= $this->escapeHtml($this->error); ?>
 	</div>
 <?php elseif ($this->paginator && count($this->paginator)): ?>
+	<?= $this->paginationControl(
+		// The paginator object:
+		$this->paginator,
+		// The scrolling style:
+		'sliding',
+		// The partial to use to render the control:
+		'partial/paginator',
+		// The route to link to when a user clicks a control link:
+		['route' => 'item']
+	)?>
+	
 	<div class="item_container" width="100%">
 		<table class="item_list">
 			<tr class="item_header">
 				<th width="50px"></th>
 				<th width="200px">Item</th>
-				<th>Category</th>
-				<th>Description</th>
-				<th>Cost</th>
-				<th>Vespene</th>
-				<th>Max</th>
-				<th>Level</th>
-				<th>Short Name</th>
+				<th width="90px">Category</th>
+				<th width="200px">Description</th>
+				<th width="50px">Cost</th>
+				<th width="80px">Vespene</th>
+				<th width="50px">Max</th>
+				<th width="50px">Level</th>
+				<th width="80px">Short Name</th>
 			</tr>
 			<?php foreach ($this->paginator as $item): ?>
 				<tr class='item_detail'>
@@ -39,7 +50,7 @@ $this->headTitle($title);
 						<td width="50px"><a href="<?= $this->url('item', ['action' => 'show', 'id' => $item->getId()]) ?>"><img src="/sc/img/<?= $item->getImage() ?>" width="38px" /></td>
 					<?php endif; ?>
 					<td width="200px"><a href="<?= $this->url('item', ['action' => 'show', 'id' => $item->getId()]) ?>"><?=$this->escapeHtml($item->getLongName()) ?></td>
-					<td><?= $this->escapeHtml($item->getCategory()) ?></td>
+					<td><?= $this->escapeHtml($item->getSimpleCategory()) ?></td>
 					<td><?= $this->escapeHtml($item->getDescription()) ?></td>
 
 					<?php if ($item->getCrystals() > 0): ?>
@@ -71,6 +82,7 @@ $this->headTitle($title);
 			<?php endforeach; ?>
 		</table>
 	</div>
+
 	<?= $this->paginationControl(
 		// The paginator object:
 		$this->paginator,
@@ -80,10 +92,7 @@ $this->headTitle($title);
 		'partial/paginator',
 		// The route to link to when a user clicks a control link:
 		['route' => 'item']
-	)
-	?>
+	)?>
 <?php else: ?>
 	No items have been selected.
 <?php endif; ?>
-
-<!--?= $this->render('partials/html_footer.phtml'); ?-->

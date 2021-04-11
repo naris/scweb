@@ -125,6 +125,14 @@ class Item
     /**
      * @return string
      */
+    public function getSimpleCategory()
+    {
+        return trim(str_replace("Items", "", $this->category));
+    }
+
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
