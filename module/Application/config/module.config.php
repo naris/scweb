@@ -119,6 +119,32 @@ return [
                         'action' => 'match',
                     ],*/
                 ],
+                [
+                    'label' => 'Players',
+                    'route' => 'player',
+                    'pages' => [
+                        [
+                            'label'  => 'List',
+                            'route'  => 'player',
+                            'action' => 'index',
+                        ],
+                        /*[
+                            'label'  => 'Find',
+                            'route'  => 'player',
+                            'action' => 'find',
+                        ],*/
+                        [
+                            'label'  => 'Show',
+                            'route'  => 'player',
+                            'action' => 'show',
+                        ],
+                        /*[
+                            'label'  => 'Match',
+                            'route'  => 'player',
+                            'action' => 'match',
+                        ],*/
+                    ],
+                ],
             ],
         ],
     ],

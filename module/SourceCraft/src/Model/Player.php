@@ -1,9 +1,156 @@
 <?php
 
-require_once ('App_Db_Table_Abstract.php');
+/**
+ * Player
+ *  
+ * @author wilsonmu
+ * @version 
+ */
 
-class Player extends App_Db_Table_Abstract
+namespace SourceCraft\Model;
+
+#require_once ('App_Db_Table_Abstract.php');
+#class Player extends App_Db_Table_Abstract
+class Player
 {
+	private $player_ident;
+	private $steamid;
+	private $name;
+	private $race_ident;
+	private $crystals;
+	private $vespene;
+	private $settings;
+	private $last_update;
+	private $username;
+
+    /**
+     * @param string      $steamid
+     * @param string      $name
+     * @param int         $race_ident
+     * @param int         $crystals
+     * @param int         $vespene
+     * @param int         $settings
+     * @param timestamp   $last_update
+     * @param string|null $faction_name
+     * @param string|null $parent_long_name
+     * @param int|null    $id
+     */
+    public function __construct($steamid=null, $name=null, $race_ident=null,
+                                $crystals=null, $vespene=null, $settings=null,
+                                $last_update=null, $username=null, $id=null)
+    {
+        $this->player_ident     = $id;
+        $this->steamid          = $steamid;
+        $this->name             = $name;
+        $this->race_ident       = $race_ident;
+        $this->crystals         = $crystals;
+        $this->vespene          = $vespene;
+        $this->settings         = $settings;
+        $this->last_update      = $last_update;
+        $this->username         = $username;
+    }
+
+    public function exchangeArray(array $data)
+    {
+        $this->player_ident     = !empty($data['player_ident'])     ? $data['player_ident']     : null;
+        $this->steamid          = !empty($data['steamid'])          ? $data['steamid']          : null;
+        $this->name             = !empty($data['name'])             ? $data['name']             : null;
+        $this->race_ident       = !empty($data['race_ident'])       ? $data['race_ident']       : null;
+        $this->crystals         = !empty($data['crystals'])         ? $data['crystals']         : null;
+        $this->vespene          = !empty($data['vespene'])          ? $data['vespene']          : null;
+        $this->settings         = !empty($data['settings'])         ? $data['settings']         : null;
+        $this->last_update      = !empty($data['last_update'])      ? $data['last_update']      : null;
+        $this->username         = !empty($data['username'])         ? $data['username']         : null;
+    }
+	
+    public function getArrayCopy()
+    {
+        return [
+            'player_ident'     => $this->player_ident,
+            'steamid'          => $this->steamid,
+            'name'             => $this->name,
+            'race_ident'       => $this->race_ident,
+            'crystals'         => $this->crystals,
+            'vespene'          => $this->vespene,
+            'settings'         => $this->settings,
+            'last_update'      => $this->last_update,
+            'username'         => $this->username,
+        ];
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId()
+    {
+        return $this->player_ident;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSteamid()
+    {
+        return $this->steamid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRaceIdent()
+    {
+        return $this->race_ident;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCrystals()
+    {
+        return $this->crystals;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVespene()
+    {
+        return $this->vespene;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+    /**
+     * @return timestamp
+     */
+    public function getLastUpdate()
+    {
+        return $this->last_update;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserName()
+    {
+        return $this->username;
+    }
+
+/***************************************************************************************
 	protected $_use_adapter = "sc";
 	protected $_name = "sc_players";
 	protected $_primary = "player_ident";
@@ -20,81 +167,7 @@ class Player extends App_Db_Table_Abstract
 		'last_update' 	=> 'last_update',
 		'username'		=> 'username'
 	);
-
-	public function getPlayerList($fetch=false)
-	{
-		$select = $this->getPlayerSelect();
-
-		return $fetch ? $this->fetchAll($select) : $select;		
-	}
-
-	public function getPlayerForIdent($ident)
-	{
-		$select = $this->getPlayerSelect()
-			->where('player_ident = ?', $ident);
-
-		return $this->fetchRow($select);
-	}
-
-	public function getPlayerForSteamid($steamid)
-	{
-		$select = $this->getPlayerSelect()
-			->where('steamid = ?', $steamid);
-
-		return $this->fetchRow($select);
-	}
-
-	public function getPlayerForUsername($username)
-	{
-		$select = $this->getPlayerSelect()
-			->where('username = ?', $username);
-
-		return $this->fetchRow($select);
-	}
-
-	public function getPlayerForName($name)
-	{
-		$select = $this->getPlayerSelect()
-			->where('name like ?', '%' . $name . '%');
-
-		return $this->fetchAll($select);
-	}
-
-	private function getPlayerSelect()
-	{
-		return $this->select()
-			->from(array('p' => 'sc_players'),
-				array('player_ident', 'steamid', 'overall_level',
-			       		'name', 'crystals', 'vespene', 'last_update',
-			      		'last_update_date' => "DATE_FORMAT(last_update, '%m/%d/%y')"));
-	}
-
-	public function getPlayerListMatchingName($name, $fetch=false)
-	{
-		$select_players = $this->select()
-					->setIntegrityCheck(false)
-					->from(array('p' => 'sc_players'),
-						array('player_ident', 'steamid', 'overall_level',
-					       		'crystals', 'vespene', 'name'))
-					->where('name like ?', '%' . $name . '%');
-
-		$select_aliases = $this->select()
-					->setIntegrityCheck(false)
-					->from(array('p' => 'sc_players'),
-						array('player_ident', 'steamid', 'overall_level',
-					       		'crystals', 'vespene'))
-					->join(array('pa' => 'sc_player_alias'),
-				      			"pa.player_ident = p.player_ident",
-				      			"name")
-					->where('pa.name like ?', '%' . $name . '%');
-
-		$select_union = $this->select()
-					->setIntegrityCheck(false)
-					->union(array($select_players, $select_aliases))
-					->order('name');
-
-		return $fetch ? $this->fetchAll($select_union) : $select_union;		
-	}
+ ***************************************************************************************/    
 }
 
 ?>

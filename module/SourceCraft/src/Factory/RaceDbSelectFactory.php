@@ -22,7 +22,7 @@ class RaceDbSelectFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new RaceDbSelect($container->get(AdapterInterface::class),
-        new ReflectionHydrator(),
-        new Race());
+                                new ReflectionHydrator(),
+                                new Race());
     }
 }

@@ -11,6 +11,7 @@ return [
             Model\RaceRepositoryInterface::class => Model\RaceDbSelect::class,
             Model\UpgradeRepositoryInterface::class => Model\UpgradeDbSelect::class,
             Model\FactionRepositoryInterface::class => Model\FactionDbSelect::class,
+            Model\PlayerRepositoryInterface::class => Model\PlayerDbSelect::class,
         ],
         'factories' => [
             Model\ItemRepository::class => InvokableFactory::class,
@@ -26,6 +27,10 @@ return [
             Model\FactionRepository::class => InvokableFactory::class,
             Model\FactionDbSelect::class => Factory\FactionDbSelectFactory::class,
             Controller\FactionController::class => Factory\FactionControllerFactory::class,
+
+            Model\PlayerRepository::class => InvokableFactory::class,
+            Model\PlayerDbSelect::class => Factory\PlayerDbSelectFactory::class,
+            Controller\PlayerController::class => Factory\PlayerControllerFactory::class,
         ],
     ],
 
@@ -40,6 +45,9 @@ return [
 
             Model\FactionRepository::class => InvokableFactory::class,
             Controller\FactionController::class => Factory\FactionControllerFactory::class,
+
+            Model\PlayerRepository::class => InvokableFactory::class,
+            Controller\PlayerController::class => Factory\PlayerControllerFactory::class,
         ],
     ],
 	/**/
@@ -88,6 +96,21 @@ return [
                     ],
                     'defaults' => [
                         'controller' => Controller\ItemController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+            'player' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route' => '/player[/:action[/:id][/name/:name]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                        'name'   => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\PlayerController::class,
                         'action'     => 'index',
                     ],
                 ],

@@ -22,7 +22,7 @@ class ItemDbSelectFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new ItemDbSelect($container->get(AdapterInterface::class),
-        new ReflectionHydrator(),
-        new Item());
+                                new ReflectionHydrator(),
+                                new Item());
     }
 }

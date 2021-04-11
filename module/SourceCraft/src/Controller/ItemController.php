@@ -10,8 +10,8 @@
 namespace SourceCraft\Controller;
 
 #require_once 'Zend/Controller/Action.php';
-use Laminas\View\Model\ViewModel;
 use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
 #require_once 'Item.php';
 use SourceCraft\Model\Item;

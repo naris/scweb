@@ -7,25 +7,112 @@
  * @version 
  */
 
-require_once 'Zend/Controller/Action.php';
+namespace SourceCraft\Controller;
 
-require_once 'Player.php';
-require_once 'PlayerAlias.php';
-require_once 'Faction.php';
-require_once 'Upgrade.php';
-require_once 'Race.php';
+#require_once 'Zend/Controller/Action.php';
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 
-class Sc_PlayerController extends Zend_Controller_Action
+#require_once 'Player.php';
+use SourceCraft\Model\Player;
+use SourceCraft\Model\PlayerRepositoryInterface;
+
+#require_once 'PlayerAlias.php';
+
+#require_once 'Faction.php';
+
+#require_once 'Upgrade.php';
+use SourceCraft\Model\Upgrade;
+use SourceCraft\Model\UpgradeRepositoryInterface;
+
+#class Sc_PlayerController extends Zend_Controller_Action
+class PlayerController extends AbstractActionController
 {
     /**
-     * @var Zend_Session_Namespace
+     * @var PlayerRepositoryInterface
      */
+    private $playerRepository;
+
+    public function __construct(PlayerRepositoryInterface $playerRepository)
+    {
+        $this->playerRepository = $playerRepository;
+    }
+
+	/**
+	 * The default action - show the list of players
+	 */
+    public function indexAction()
+    {
+		// Grab the paginator from the Repository:
+		$paginator = $this->playerRepository->fetchAll(true);
+
+		// Set the current page to what has been passed in query string,
+		// or to 1 if none is set, or the page is invalid:
+		$page = (int) $this->params()->fromQuery('page', 1);
+		$page = ($page < 1) ? 1 : $page;
+		$paginator->setCurrentPageNumber($page);
+
+		// Set the number of items per page to 4:
+		$paginator->setItemCountPerPage(4);
+
+		return new ViewModel(['paginator' => $paginator]);
+    }	
+
+	/**
+	 * The show action - show a single player
+	 */
+	public function showAction()
+	{
+		$ident = $this->params()->fromRoute('id');
+		if ($ident)
+		{
+			#$player_table = new Player();
+			#$view = $this->initView();
+			#$player = $player_table->getPlayerForIdent($ident);
+			$player = $this->playerRepository->findPlayer($ident);
+			if ($player)
+			{
+				return new ViewModel(['player' => $player]);
+			}
+			else
+				return new ViewModel(['error' => 'Player Ident ' . $ident . ' was not found',]);
+		}
+		else
+		{
+			$name = $this->params()->fromRoute('name');
+			if ($name)
+			{
+				$player = $this->playerRepository->findPlayerByName($name);
+				if ($player)
+				{
+					return new ViewModel(['player' => $player]);
+				}
+				else
+					return new ViewModel(['error' => 'Player  ' . $name . ' was not found',]);
+			}
+		}
+
+		if ($player)
+			return new ViewModel(['player' => $player]);
+		else
+			return new ViewModel(['error' => 'Player Ident ' . $ident . ' was not found',]);
+	}
+
+/***************************************************************************************
+    public function __construct(PlayerRepositoryInterface $playerRepository)
+    {
+        $this->playerRepository = $playerRepository;
+    }
+
+    /**
+     * @var Zend_Session_Namespace
+     *
     protected $session = null;
 
     /**
      * Overriding the init method to also load the session from the registry
      *
-     */
+     *
     public function init()
     {
         parent::init();
@@ -44,7 +131,7 @@ class Sc_PlayerController extends Zend_Controller_Action
     
     /**
      * The default action - show the home page
-     */
+     *
     public function indexAction()
     {
 	    $this->_forward('list');
@@ -178,8 +265,8 @@ class Sc_PlayerController extends Zend_Controller_Action
 		    $tech_table 	= new Faction();
 		    $view->tech 	= $tech_table->getFactionListForPlayer($player->player_ident, true);
 
-		    $race_table 	= new Race();
-		    $view->races 	= $race_table->getRaceListForPlayer($player->player_ident, true);
+		    $player_table 	= new Player();
+		    $view->players 	= $player_table->getPlayerListForPlayer($player->player_ident, true);
 
 		    $upgrade_table 	= new Upgrade();
 		    $view->upgrades	= $upgrade_table->getUpgradeListForPlayer($player->player_ident, true);
@@ -238,5 +325,6 @@ class Sc_PlayerController extends Zend_Controller_Action
 	    $this->view->paginator = $paginator;
 	    $this->render();
     }
+ ***************************************************************************************/
 }
 ?>
