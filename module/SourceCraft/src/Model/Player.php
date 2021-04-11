@@ -19,6 +19,7 @@ class Player
 	private $race_ident;
 	private $crystals;
 	private $vespene;
+	private $overall_level;
 	private $settings;
 	private $last_update;
 	private $username;
@@ -29,6 +30,7 @@ class Player
      * @param int         $race_ident
      * @param int         $crystals
      * @param int         $vespene
+     * @param int         $overall_level
      * @param int         $settings
      * @param timestamp   $last_update
      * @param string|null $faction_name
@@ -36,8 +38,9 @@ class Player
      * @param int|null    $id
      */
     public function __construct($steamid=null, $name=null, $race_ident=null,
-                                $crystals=null, $vespene=null, $settings=null,
-                                $last_update=null, $username=null, $id=null)
+                                $crystals=null, $vespene=null, $overall_level=null,
+                                $settings=null, $last_update=null, $username=null,
+                                $id=null)
     {
         $this->player_ident     = $id;
         $this->steamid          = $steamid;
@@ -45,6 +48,7 @@ class Player
         $this->race_ident       = $race_ident;
         $this->crystals         = $crystals;
         $this->vespene          = $vespene;
+        $this->overall_level    = $overall_level;
         $this->settings         = $settings;
         $this->last_update      = $last_update;
         $this->username         = $username;
@@ -58,6 +62,7 @@ class Player
         $this->race_ident       = !empty($data['race_ident'])       ? $data['race_ident']       : null;
         $this->crystals         = !empty($data['crystals'])         ? $data['crystals']         : null;
         $this->vespene          = !empty($data['vespene'])          ? $data['vespene']          : null;
+        $this->overall_level    = !empty($data['overall_level'])    ? $data['overall_level']    : null;
         $this->settings         = !empty($data['settings'])         ? $data['settings']         : null;
         $this->last_update      = !empty($data['last_update'])      ? $data['last_update']      : null;
         $this->username         = !empty($data['username'])         ? $data['username']         : null;
@@ -72,6 +77,7 @@ class Player
             'race_ident'       => $this->race_ident,
             'crystals'         => $this->crystals,
             'vespene'          => $this->vespene,
+            'overall_level'    => $this->overall_level,
             'settings'         => $this->settings,
             'last_update'      => $this->last_update,
             'username'         => $this->username,
@@ -89,7 +95,7 @@ class Player
     /**
      * @return string
      */
-    public function getSteamid()
+    public function getSteamId()
     {
         return $this->steamid;
     }
@@ -124,6 +130,14 @@ class Player
     public function getVespene()
     {
         return $this->vespene;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOverallLevel()
+    {
+        return $this->overall_level;
     }
 
     /**

@@ -8,10 +8,8 @@
 $title = 'Race List:';
 $this->headTitle($title);
 ?>
+
 <h1><?= $this->escapeHtml($title) ?></h1>
-<!--p>
-    <a href="<?= $this->url('race', ['action' => 'add']) ?>">Add new race</a>
-</p-->
 
 <?= $this->paginationControl(
     // The paginator object:

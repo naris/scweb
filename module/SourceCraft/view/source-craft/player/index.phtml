@@ -5,48 +5,70 @@
  * @version $Id: list.phtml,v 1.4 2007-12-04 16:54:49 seva Exp $
  */
 
-require_once 'Zend/Controller/Front.php';
+#require_once 'Zend/Controller/Front.php';
 
 // Render common HTML header
-echo $this->render('partials/html_header.phtml');
+#echo $this->render('partials/html_header.phtml');
 
+$title = 'Player List:';
+$this->headTitle($title);
 ?>
 
-	<h2>Player List:</h2>
+<h2><?= $this->escapeHtml($title) ?></h2>
+
 <?php if (isset($this->error)): ?>
 	<div class="error">
 		<?= $this->escape($this->error); ?>
 	</div>
 <?php elseif (count($this->paginator)): ?>
+
+	<?= $this->paginationControl(
+		// The paginator object:
+		$this->paginator,
+		// The scrolling style:
+		'sliding',
+		// The partial to use to render the control:
+		'partial/paginator',
+		// The route to link to when a user clicks a control link:
+		['route' => 'race']
+	)?>
+
 	<table class="player_list">
 		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Steam ID</th>
-			<th>Overall Level</th>
-			<th>Crystals</th>
-			<th>Vespene</th>
+			<th width="50px">ID</th>
+			<th width="200px">Name</th>
+			<th width="200px">Steam ID</th>
+			<th width="100px">Overall Level</th>
+			<th width="100px">Crystals</th>
+			<th width="100px">Vespene</th>
 		</tr>
-<?php foreach ($this->paginator as $item): ?>
-		<tr>
-			<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/player/show/ident/' . $this->escape($item['player_ident']) ?>"><?= 
-				$this->escape($item['player_ident']) ?></a></td>
-			<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/player/show/ident/' . $this->escape($item['player_ident']) ?>"><?= 
-				$this->escape($item['name']) ?></a></td>
-			<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/player/show/ident/' . $this->escape($item['player_ident']) ?>"><?= 
-				$this->escape($item['steamid']) ?></a></td>
-			<td><?= $this->escape($item['overall_level']) ?></td>
-			<td><?= $this->escape($item['crystals']) ?></td>
-			<td><?= $this->escape($item['vespene']) ?></td>
-		</tr>
-<?php endforeach; ?>
+		<?php foreach ($this->paginator as $player): ?>
+			<tr>
+				<td><a href="<?= $this->url('player', ['action' => 'show', 'id' => $player->getId()]) ?>">
+					<?= $this->escapeHtml($player->getId()) ?></a></td>
+				<td><a href="<?= $this->url('player', ['action' => 'show', 'id' => $player->getId()]) ?>">
+					<?= $this->escapeHtml($player->getName()) ?></a></td>
+				<td><a href="<?= $this->url('player', ['action' => 'show', 'id' => $player->getId()]) ?>">
+					<?= $this->escapeHtml($player->getSteamId()) ?></a></td>
+				<td><?= $this->escapeHtml($player->getOverallLevel()) ?></td>
+				<td><?= $this->escapeHtml($player->getCrystals()) ?></td>
+				<td><?= $this->escapeHtml($player->getVespene()) ?></td>
+			</tr>
+		<?php endforeach; ?>
 	</table>
-	<?= $this->paginationControl($this->paginator, 'Sliding', 'pagination_control.phtml'); ?>
+
+	<?= $this->paginationControl(
+		// The paginator object:
+		$this->paginator,
+		// The scrolling style:
+		'sliding',
+		// The partial to use to render the control:
+		'partial/paginator',
+		// The route to link to when a user clicks a control link:
+		['route' => 'race']
+	)?>
 <?php else: ?>
 	No player has been selected.
 <?php endif; ?>
 
-<?= $this->render('partials/html_footer.phtml'); ?>
+<!--?= $this->render('partials/html_footer.phtml'); ?-->
