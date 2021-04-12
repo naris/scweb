@@ -52,8 +52,8 @@ class PlayerController extends AbstractActionController
 		$page = ($page < 1) ? 1 : $page;
 		$paginator->setCurrentPageNumber($page);
 
-		// Set the number of items per page to 4:
-		$paginator->setItemCountPerPage(4);
+		// Set the number of items per page to 10:
+		$paginator->setItemCountPerPage(10);
 
 		return new ViewModel(['paginator' => $paginator]);
     }	
