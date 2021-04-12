@@ -16,9 +16,9 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 use Laminas\Paginator\Paginator;
 
-use SourceCraft\Model\RaceRepositoryInterface;
+use SourceCraft\Model\RaceDbInterface;
 
-class RaceDbSelect implements RaceRepositoryInterface
+class RaceDbSelect implements RaceDbInterface
 {
     /**
      * @var AdapterInterface

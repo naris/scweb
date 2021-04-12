@@ -15,17 +15,17 @@ use Laminas\View\Model\ViewModel;
 
 #require_once 'Item.php';
 use SourceCraft\Model\Item;
-use SourceCraft\Model\ItemRepositoryInterface;
+use SourceCraft\Model\ItemDbInterface;
 
 #class Sc_ItemController extends Zend_Controller_Action
 class ItemController extends AbstractActionController
 {
     /**
-     * @var ItemRepositoryInterface
+     * @var ItemDbInterface
      */
     private $itemRepository;
 
-    public function __construct(ItemRepositoryInterface $itemRepository)
+    public function __construct(ItemDbInterface $itemRepository)
     {
         $this->itemRepository = $itemRepository;
     }

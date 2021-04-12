@@ -6,7 +6,7 @@ use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 use SourceCraft\Controller\ItemController;
-use SourceCraft\Model\ItemRepositoryInterface;
+use SourceCraft\Model\ItemDbInterface;
 
 class ItemControllerFactory implements FactoryInterface
 {
@@ -18,6 +18,6 @@ class ItemControllerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new ItemController($container->get(ItemRepositoryInterface::class));
+        return new ItemController($container->get(ItemDbInterface::class));
     }
 }

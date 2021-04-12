@@ -16,9 +16,9 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 use Laminas\Paginator\Paginator;
 
-use SourceCraft\Model\PlayerRepositoryInterface;
+use SourceCraft\Model\PlayerDbInterface;
 
-class PlayerDbSelect implements PlayerRepositoryInterface
+class PlayerDbSelect implements PlayerDbInterface
 {
     /**
      * @var AdapterInterface

@@ -6,8 +6,8 @@ use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 use SourceCraft\Controller\FactionController;
-use SourceCraft\Model\FactionRepositoryInterface;
-use SourceCraft\Model\RaceRepositoryInterface;
+use SourceCraft\Model\FactionDbInterface;
+use SourceCraft\Model\RaceDbInterface;
 
 class FactionControllerFactory implements FactoryInterface
 {
@@ -19,7 +19,7 @@ class FactionControllerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new FactionController($container->get(FactionRepositoryInterface::class),
-                                     $container->get(RaceRepositoryInterface::class));
+        return new FactionController($container->get(FactionDbInterface::class),
+                                     $container->get(RaceDbInterface::class));
     }
 }

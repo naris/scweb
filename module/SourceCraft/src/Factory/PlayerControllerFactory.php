@@ -6,7 +6,7 @@ use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 use SourceCraft\Controller\PlayerController;
-use SourceCraft\Model\PlayerRepositoryInterface;
+use SourceCraft\Model\PlayerDbInterface;
 
 class PlayerControllerFactory implements FactoryInterface
 {
@@ -18,6 +18,6 @@ class PlayerControllerFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new PlayerController($container->get(PlayerRepositoryInterface::class));
+        return new PlayerController($container->get(PlayerDbInterface::class));
     }
 }

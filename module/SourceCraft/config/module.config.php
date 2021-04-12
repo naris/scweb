@@ -7,11 +7,11 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 return [
     'service_manager' => [
         'aliases' => [
-            Model\ItemRepositoryInterface::class => Model\ItemDbSelect::class,
-            Model\RaceRepositoryInterface::class => Model\RaceDbSelect::class,
-            Model\UpgradeRepositoryInterface::class => Model\UpgradeDbSelect::class,
-            Model\FactionRepositoryInterface::class => Model\FactionDbSelect::class,
-            Model\PlayerRepositoryInterface::class => Model\PlayerDbSelect::class,
+            Model\ItemDbInterface::class => Model\ItemDbSelect::class,
+            Model\RaceDbInterface::class => Model\RaceDbSelect::class,
+            Model\UpgradeDbInterface::class => Model\UpgradeDbSelect::class,
+            Model\FactionDbInterface::class => Model\FactionDbSelect::class,
+            Model\PlayerDbInterface::class => Model\PlayerDbSelect::class,
         ],
         'factories' => [
             Model\ItemRepository::class => InvokableFactory::class,

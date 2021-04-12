@@ -15,11 +15,11 @@ use Laminas\View\Model\ViewModel;
 
 #require_once 'Faction.php';
 use SourceCraft\Model\Faction;
-use SourceCraft\Model\FactionRepositoryInterface;
+use SourceCraft\Model\FactionDbInterface;
 
 #require_once 'Race.php';
 use SourceCraft\Model\Race;
-use SourceCraft\Model\RaceRepositoryInterface;
+use SourceCraft\Model\RaceDbInterface;
 
 #require_once 'Upgrade.php';
 
@@ -27,17 +27,17 @@ use SourceCraft\Model\RaceRepositoryInterface;
 class FactionController extends AbstractActionController
 {
     /**
-     * @var FactionRepositoryInterface
+     * @var FactionDbInterface
      */
     private $factionRepository;
 
     /**
-     * @var RaceRepositoryInterface
+     * @var RaceDbInterface
      */
     private $raceRepository;
 
-    public function __construct(FactionRepositoryInterface $factionRepository,
-	                            RaceRepositoryInterface $raceRepository)
+    public function __construct(FactionDbInterface $factionRepository,
+	                            RaceDbInterface $raceRepository)
     {
         $this->factionRepository = $factionRepository;
         $this->raceRepository = $raceRepository;

@@ -16,9 +16,9 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 use Laminas\Paginator\Paginator;
 
-use SourceCraft\Model\UpgradeRepositoryInterface;
+use SourceCraft\Model\UpgradeDbInterface;
 
-class UpgradeDbSelect implements UpgradeRepositoryInterface
+class UpgradeDbSelect implements UpgradeDbInterface
 {
     /**
      * @var AdapterInterface

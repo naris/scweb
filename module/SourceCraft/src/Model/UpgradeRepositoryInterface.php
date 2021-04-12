@@ -1,7 +1,7 @@
 <?php
 namespace SourceCraft\Model;
 
-interface UpgradeRepositoryInterface
+interface UpgradeDbInterface
 {
     /**
      * Return a set of all upgrades that belong to a race.

@@ -15,7 +15,7 @@ use Laminas\View\Model\ViewModel;
 
 #require_once 'Player.php';
 use SourceCraft\Model\Player;
-use SourceCraft\Model\PlayerRepositoryInterface;
+use SourceCraft\Model\PlayerDbInterface;
 
 #require_once 'PlayerAlias.php';
 
@@ -23,17 +23,17 @@ use SourceCraft\Model\PlayerRepositoryInterface;
 
 #require_once 'Upgrade.php';
 use SourceCraft\Model\Upgrade;
-use SourceCraft\Model\UpgradeRepositoryInterface;
+use SourceCraft\Model\UpgradeDbInterface;
 
 #class Sc_PlayerController extends Zend_Controller_Action
 class PlayerController extends AbstractActionController
 {
     /**
-     * @var PlayerRepositoryInterface
+     * @var PlayerDbInterface
      */
     private $playerRepository;
 
-    public function __construct(PlayerRepositoryInterface $playerRepository)
+    public function __construct(PlayerDbInterface $playerRepository)
     {
         $this->playerRepository = $playerRepository;
     }
@@ -99,7 +99,7 @@ class PlayerController extends AbstractActionController
 	}
 
 /***************************************************************************************
-    public function __construct(PlayerRepositoryInterface $playerRepository)
+    public function __construct(PlayerDbInterface $playerRepository)
     {
         $this->playerRepository = $playerRepository;
     }

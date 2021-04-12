@@ -1,7 +1,7 @@
 <?php
 namespace SourceCraft\Model;
 
-interface ItemRepositoryInterface
+interface ItemDbInterface
 {
     /**
      * Return a set of all sourcecraft items that we can iterate over.

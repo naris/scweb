@@ -15,30 +15,30 @@ use Laminas\View\Model\ViewModel;
 
 #require_once 'Race.php';
 use SourceCraft\Model\Race;
-use SourceCraft\Model\RaceRepositoryInterface;
+use SourceCraft\Model\RaceDbInterface;
 
 #use SourceCraft\Model\RaceTable;
 #use SourceCraft\Form\RaceForm;
 
 #require_once 'Upgrade.php';
 use SourceCraft\Model\Upgrade;
-use SourceCraft\Model\UpgradeRepositoryInterface;
+use SourceCraft\Model\UpgradeDbInterface;
 
 #class Sc_RaceController extends Zend_Controller_Action
 class RaceController extends AbstractActionController
 {
     /**
-     * @var RaceRepositoryInterface
+     * @var RaceDbInterface
      */
     private $raceRepository;
 
     /**
-     * @var UpgradeRepositoryInterface
+     * @var UpgradeDbInterface
      */
     private $upgradeRepository;
 
-    public function __construct(RaceRepositoryInterface $raceRepository,
-	                            UpgradeRepositoryInterface $upgradeRepository)
+    public function __construct(RaceDbInterface $raceRepository,
+	                            UpgradeDbInterface $upgradeRepository)
     {
         $this->raceRepository = $raceRepository;
         $this->upgradeRepository = $upgradeRepository;

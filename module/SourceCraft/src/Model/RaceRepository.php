@@ -1,7 +1,7 @@
 <?php
 namespace SourceCraft\Model;
 
-class RaceRepository implements RaceRepositoryInterface
+class RaceRepository implements RaceDbInterface
 {
     private $data = [
         1 => [

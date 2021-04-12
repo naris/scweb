@@ -1,7 +1,7 @@
 <?php
 namespace SourceCraft\Model;
 
-interface FactionRepositoryInterface
+interface FactionDbInterface
 {
     /**
      * Return a set of all sourcecraft races that we can iterate over.

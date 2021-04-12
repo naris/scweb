@@ -16,9 +16,9 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 use Laminas\Paginator\Paginator;
 
-use SourceCraft\Model\FactionRepositoryInterface;
+use SourceCraft\Model\FactionDbInterface;
 
-class FactionDbSelect implements FactionRepositoryInterface
+class FactionDbSelect implements FactionDbInterface
 {
     /**
      * @var AdapterInterface
