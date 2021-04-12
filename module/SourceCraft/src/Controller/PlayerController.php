@@ -17,6 +17,10 @@ use Laminas\View\Model\ViewModel;
 use SourceCraft\Model\Player;
 use SourceCraft\Model\PlayerDbInterface;
 
+#require_once 'Race.php';
+use SourceCraft\Model\Race;
+use SourceCraft\Model\RaceDbInterface;
+
 #require_once 'PlayerAlias.php';
 
 #require_once 'Faction.php';
@@ -33,10 +37,24 @@ class PlayerController extends AbstractActionController
      */
     private $playerRepository;
 
-    public function __construct(PlayerDbInterface $playerRepository)
+    /**
+     * @var RaceDbInterface
+     */
+    private $raceRepository;
+
+    /**
+     * @var UpgradeDbInterface
+     */
+    private $upgradeRepository;
+
+    public function __construct(PlayerDbInterface $playerRepository,
+								RaceDbInterface $raceRepository,
+	                            UpgradeDbInterface $upgradeRepository)
     {
-        $this->playerRepository = $playerRepository;
-    }
+        $this->playerRepository  = $playerRepository;
+		$this->raceRepository    = $raceRepository;
+        $this->upgradeRepository = $upgradeRepository;
+	}
 
 	/**
 	 * The default action - show the list of players
@@ -70,12 +88,6 @@ class PlayerController extends AbstractActionController
 			#$view = $this->initView();
 			#$player = $player_table->getPlayerForIdent($ident);
 			$player = $this->playerRepository->findPlayer($ident);
-			if ($player)
-			{
-				return new ViewModel(['player' => $player]);
-			}
-			else
-				return new ViewModel(['error' => 'Player Ident ' . $ident . ' was not found',]);
 		}
 		else
 		{
@@ -83,17 +95,17 @@ class PlayerController extends AbstractActionController
 			if ($name)
 			{
 				$player = $this->playerRepository->findPlayerByName($name);
-				if ($player)
-				{
-					return new ViewModel(['player' => $player]);
-				}
-				else
-					return new ViewModel(['error' => 'Player  ' . $name . ' was not found',]);
 			}
 		}
 
-		if ($player)
-			return new ViewModel(['player' => $player]);
+	    if (isset($player) && $player)
+		{
+			$races = $this->raceRepository->fetchRacesForPlayer($ident);
+			$upgrades = $this->upgradeRepository->fetchUpgradesForPlayer($ident);
+			return new ViewModel(['player' => $player,
+			                      'races' => $races,
+								  'upgrades' => $upgrades]);
+		}
 		else
 			return new ViewModel(['error' => 'Player Ident ' . $ident . ' was not found',]);
 	}

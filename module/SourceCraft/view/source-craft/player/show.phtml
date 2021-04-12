@@ -5,11 +5,13 @@
  * @version $Id: show.phtml,v 1.4 2007-12-04 16:54:49 seva Exp $
  */
 
-require_once 'Zend/Controller/Front.php';
+#require_once 'Zend/Controller/Front.php';
 
 // Render common HTML header
-echo $this->render('partials/html_header.phtml');
+#echo $this->render('partials/html_header.phtml');
 
+$title = 'Player:';
+$this->headTitle($title);
 ?>
 
 <?php if (isset($this->error)): ?>
@@ -22,32 +24,32 @@ echo $this->render('partials/html_header.phtml');
 	<table class="player_detail">
 		<tr>
 			<th width="20%">Name :</th>
-			<td width="25%"><?= $this->escape($this->player->name) ?></td>
+			<td width="25%"><?= $this->escapeHtml($player->getName()) ?></td>
 			<td width="55%">&nbsp;</td>
 		</tr>
 		<tr>
 			<th width="20%">Steam ID :</th>
-			<td width="25%"><?= $this->escape($this->player->steamid) ?></td>
+			<td width="25%"><?= $this->escapeHtml($player->getSteamId()) ?></td>
 			<td width="55%">&nbsp;</td>
 		</tr>
 		<tr>
 			<th width="20%">Overall Level :</th>
-			<td width="25%"><?= $this->escape($this->player->overall_level) ?></td>
+			<td width="25%"><?= $this->escapeHtml($player->getOverallLevel()) ?></td>
 			<td width="55%">&nbsp;</td>
 		</tr>
 		<tr>
 			<th width="20%">Crystals :</th>
-			<td width="25%"><?= $this->escape($this->player->crystals) ?></td>
+			<td width="25%"><?= $this->escapeHtml($player->getCrystals()) ?></td>
 			<td width="55%">&nbsp;</td>
 		</tr>
 		<tr>
 			<th width="20%">Vespene :</th>
-			<td width="25%"><?= $this->escape($this->player->vespene) ?></td>
+			<td width="25%"><?= $this->escapeHtml($player->getVespene()) ?></td>
 			<td width="55%">&nbsp;</td>
 		</tr>
 		<tr>
 			<th width="20%">Last Time on Server :</th>
-			<td width="25%"><?= $this->escape($this->player->last_update_date) ?></td>
+			<td width="25%"><?= $this->escapeHtml($player->getLastUpdate()) ?></td>
 			<td width="55%">&nbsp;</td>
 		</tr>
 	</table>
@@ -94,8 +96,8 @@ echo $this->render('partials/html_header.phtml');
 	<br/>
 <?php endif; ?>
 
-<?php if (isset($this->races) && !empty($this->races)): ?>
-<?php foreach ($this->races as $race): ?>
+<?php if (isset($races) && !empty($races)): ?>
+<?php foreach ($races as $race): ?>
 	<div class="race_container" width="100%">
 	<table class="race_detail" width="100%">
 		<tr>
@@ -106,56 +108,68 @@ echo $this->render('partials/html_header.phtml');
 				<tr>
 					<table width="100%">
 						<tr>
-							<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/race/show/ident/' . urlencode($race['race_ident']) ?>"><img src="/sc/img/<?= $this->escape($race['image']) ?>" width="250" /></a></td>
+							<td>
+								<a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>">
+									<img src="/sc/img/<?= $race->getImage() ?>" width="250" />
+								</a>
+							</td>
 							<td width="100%" style="vertical-align:top">
 								<table class="race_title" width="100%">
 									<tr>
-										<th width='100%' style="text-align: center;"><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/race/show/ident/' . urlencode($race['race_ident']) ?>"><?= $this->escape($race['long_name']) ?></a></th>
+										<th width='100%' style="text-align: center;">
+											<a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>">
+												<?= $this->escapeHtml($race->getLongName()) ?>
+											</a>
+										</th>
 									</tr>
 								</table>
 								<table class="race_data">
 									<tr>
 										<th width="75px">Faction :</th>
-										<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/faction/show/id/' . urlencode($race['faction']) ?>"><?= $this->escape($race['faction_name']) ?></a></td>
+										<td>
+											<a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>">
+												<?= $this->escapeHtml($race->getFactionName()) ?>
+											</a>
+										</td>
 									</tr>
 									<tr>
 										<th width="75px">Type :</th>
-										<td><?= $this->escape($race['type']) ?></td>
+										<td><?=  $this->escapeHtml($race->getType()) ?></td>
 									</tr>
-<?php if (isset($race['parent_name']) && !empty($race['parent_name'])): ?>
-									<tr>
-										<th width="150px" align="right">Summoned From :</th>
-										<td><a href="<?= Zend_Controller_Front::getInstance()->getBaseUrl() . 
-			'/sc/race/show/name/' . urlencode($race['parent_name']) ?>"><?= $this->escape($race['parent_long_name']) ?></a></td>
-									</tr>
-<?php endif; ?>
-<?php if (isset($race['required_level']) && $race['required_level'] > 0): ?>
-									<tr>
-										<th width="150px" align="right">Required Level :</th>
-										<td><?= $this->escape($race['required_level']) ?></td>
-									</tr>
-<?php endif; ?>
-<?php if (isset($race['tech_level']) && $race['tech_level'] > 0): ?>
-									<tr>
-										<th width="150px" align="right">Required Tech Level :</th>
-										<td><?= $this->escape($race['tech_level']) ?></td>
-									</tr>
-<?php endif; ?>
+									<?php if (!empty($race->getParentName())): ?>
+										<tr>
+											<th width="150px" align="right">Summoned From :</th>
+											<td>
+												<a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>">
+													<?= $this->escapeHtml($race->getParentLongName()) ?>
+												</a>
+											</td>
+										</tr>
+									<?php endif; ?>
+									<?php if ($race->getRequiredLevel() > 0): ?>
+										<tr>
+											<th width="150px" align="right">Required Level :</th>
+											<td><?= $this->escapeHtml($race->getRequiredLevel()) ?></td>
+										</tr>
+									<?php endif; ?>
+									<?php if ($race->getTechLevel() > 0): ?>
+										<tr>
+											<th width="150px" align="right">Required Tech Level :</th>
+											<td><?= $this->escapeHtml($race->getTechLevel()) ?></td>
+										</tr>
+									<?php endif; ?>
 									<tr>
 										<th width="75px">XP :</th>
-										<td><?= $this->escape($race['xp']) ?></td>
+										<td><?= $this->escapeHtml($race->getXP()) ?></td>
 									</tr>
 									<tr>
 										<th width="75px">Level :</th>
-										<td><?= $this->escape($race['level']) ?></td>
+										<td><?= $this->escapeHtml($race->getLevel()) ?></td>
 									</tr>
 								</table>
 								<table width="100%">
 									<tr>
-										<td><?= $race['description'] ?></td>
+										<td><?= $this->escapeHtml($race->getDescription()) ?></td>
 									</tr>
 								</table>
 							</td>
@@ -188,28 +202,32 @@ echo $this->render('partials/html_header.phtml');
 			<th><center>Second</center></th>
 			<th>Description</th>
 		</tr>
-<?php foreach ($this->upgrades as $upgrade): ?>
-<?php if ($upgrade['race_ident'] == $race['race_ident']): ?>
-		<tr class='player_upgrades' width='100%'>
-<?php if (empty($upgrade['image'])): ?>
-			<td></td>
-<?php else: ?>
-			<td><img src="/sc/img/<?= $this->escape($upgrade['image']) ?>" width="38px" /></td>
-<?php endif; ?>
-			<td><b><?= $this->escape($upgrade['long_name']) ?><?= (($upgrade['category'] > 0) ? "<br><font color='cyan'> +ultimate" . $upgrade['category'] . "</font>" : "") ?></b></td>
-			<td><center><?= intval($upgrade['upgrade_level'])."/".$upgrade['max_level'] ?></center></td>
-			<td><center><?= ($upgrade['required_level'] > 1) ? $upgrade['required_level'] : "" ?></center></td>
-			<td><center><?= ($upgrade['cost_crystals'] > 0) ? $upgrade['cost_crystals'] : "" ?></center></td>
-			<td><center><?= ($upgrade['cost_vespene'] > 0) ? $upgrade['cost_vespene'] : "" ?></center></td>
-			<td><center><?= ($upgrade['energy'] > 0) ? $upgrade['energy'] : "" ?></center></td>
-			<td><center><?= ($upgrade['crystals'] > 0) ? $upgrade['crystals'] : "" ?></center></td>
-			<td><center><?= ($upgrade['vespene'] > 0) ? $upgrade['vespene'] : "" ?></center></td>
-			<td><center><?= ($upgrade['recurring_energy'] > 0) ? $upgrade['recurring_energy'] : "" ?></center></td>
-			<td><?= $upgrade['description'].'&nbsp'.$upgrade['invoke'].'&nbsp'.$upgrade['bind'] ?></td>
-		</tr>
-
-<?php endif; ?>
-<?php endforeach; ?>
+		<?php $upgrades->buffer(); ?>
+		<?php foreach ($upgrades as $upgrade): ?>
+			<?php if ($upgrade->getRaceIdent() == $race->getId()): ?>
+				<tr class='player_upgrades' width='100%'>
+					<?php if (empty($upgrade->getImage())): ?>
+						<td></td>
+					<?php else: ?>
+						<td><img src="/sc/img/<?= $upgrade->getImage() ?>" width="38px" /></td>
+					<?php endif; ?>
+					<td>
+						<b>
+							<?= $this->escapeHtml($upgrade->getLongName()) ?>
+							<?= (($upgrade->getCategory() > 0) ? "<br><font color='cyan'> +ultimate" . $upgrade->getCategory() . "</font>" : "") ?></b>
+					</td>
+					<td><center><?= intval($upgrade->getUpgradeLevel())."/".$upgrade->getMaxLevel() ?></center></td>
+					<td><center><?= ($upgrade->getRequiredLevel() > 1) ? $upgrade->getRequiredLevel() : "" ?></center></td>
+					<td><center><?= ($upgrade->getCostCrystals() > 0) ? $upgrade->getCostCrystals() : "" ?></center></td>
+					<td><center><?= ($upgrade->getCostVespene() > 0) ? $upgrade->getCostVespene() : "" ?></center></td>
+					<td><center><?= ($upgrade->getEnergy() > 0) ?$upgrade->getEnergy() : "" ?></center></td>
+					<td><center><?= ($upgrade->getCrystals() > 0) ? $upgrade->getCrystals() : "" ?></center></td>
+					<td><center><?= ($upgrade->getVespene() > 0) ? $upgrade->getVespene() : "" ?></center></td>
+					<td><center><?= ($upgrade->getRecurringEnergy() > 0) ? $upgrade->getRecurringEnergy() : "" ?></center></td>
+					<td><?= $upgrade->getDescription().'&nbsp'.$upgrade->getInvoke().'&nbsp'.$upgrade->getBind() ?></td>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		<tr>
 			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
 			<td><img src="/images/spacer.gif" width="100px" height="1"/></td>
@@ -232,4 +250,4 @@ echo $this->render('partials/html_header.phtml');
 <?php endif; ?>
 </div>
 
-<?= $this->render('partials/html_footer.phtml'); ?>
+<!--?= $this->render('partials/html_footer.phtml'); ?-->

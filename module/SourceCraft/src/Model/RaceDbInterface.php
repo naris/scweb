@@ -34,7 +34,7 @@ interface RaceDbInterface
      *
      * @param  int $name name of the race to match.
      * @param  bool $paginated true to return paginated results.
-     * @return Race
+     * @return Race[]
      */
 	public function findMatchingRaces($name, $paginated = false);
 
@@ -43,7 +43,16 @@ interface RaceDbInterface
      *
      * @param  int $factionId the faction to get races for.
      * @param  bool $paginated true to return paginated results.
-     * @return Race
+     * @return Race[]
      */
     public function fetchRacesForFaction($factionId, $paginated = false);
+
+    /**
+     * Return a set of all races that belong to a player.
+     *
+     * @param  int $playerId the player to get races for.
+     * @param  bool $paginated true to return paginated results.
+     * @return Race[]
+     */
+    public function fetchRacesForPlayer($playerId, $paginated = false);
 }

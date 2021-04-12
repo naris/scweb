@@ -35,6 +35,9 @@ class Upgrade
 	private $cooldown;
 	private $add_date;
 
+	// Columns from joins to other tables
+    private $upgrade_level;
+
     /**
      * @param int         $race_ident
      * @param int         $upgrade
@@ -57,15 +60,17 @@ class Upgrade
      * @param int         $vespene
      * @param int         $cooldown
      * @param timestamp   $add_date
+     * @param int         $upgrade_level
      */
-    public function __construct($race_ident=0, $upgrade=0, $category=0,
+    public function __construct($race_ident=null, $upgrade=null, $category=null,
 	                            $upgrade_name=null, $long_name=null,
 								$description=null, $invoke=null, $bind=null,
-								$image=null, $required_level=0, $max_level=0,
-                                $cost_crystals=0, $cost_vespene=0, $energy=0,
-								$accumulated=0, $recurring_energy=0,
-								$recurring_interval=0, $crystals=0,
-								$vespene=0, $cooldown=0, $add_date=null)
+								$image=null, $required_level=null, $max_level=null,
+                                $cost_crystals=null, $cost_vespene=null, $energy=null,
+								$accumulated=null, $recurring_energy=null,
+								$recurring_interval=null, $crystals=null,
+								$vespene=0, $cooldown=null, $add_date=null,
+                                $upgrade_level=null)
     {
         $this->race_ident         = $race_ident;
         $this->upgrade            = $upgrade;
@@ -88,6 +93,8 @@ class Upgrade
         $this->vespene            = $vespene;
         $this->cooldown           = $cooldown;
         $this->add_date           = $add_date;
+
+        $this->upgrade_level      = $upgrade_level;
     }
 
     public function exchangeArray(array $data)
@@ -113,6 +120,8 @@ class Upgrade
         $this->vespene            = !empty($data['vespene'])            ? $data['vespene']            : null;
         $this->cooldown           = !empty($data['cooldown'])           ? $data['cooldown']           : null;
         $this->add_date           = !empty($data['add_date'])           ? $data['add_date']           : null;
+
+        $this->upgrade_level      = !empty($data['upgrade_level'])      ? $data['upgrade_level']      : null;
     }
 	
     public function getArrayCopy()
@@ -139,6 +148,8 @@ class Upgrade
             'vespene'            => $this->vespene,
             'cooldown'           => $this->cooldown,
             'add_date'           => $this->add_date,
+
+            'upgrade_level'      => $this->upgrade_level,
         ];
     }
 
@@ -309,4 +320,40 @@ class Upgrade
     {
         return $this->add_date;
     }
+
+    /**
+     * @return int
+     */
+    public function getUpgradeLevel()
+    {
+        return $this->upgrade_level;
+    }
+
+/***************************************************************************************
+	protected $_use_adapter = "sc";
+	protected $_name = 'sc_upgrades';
+	protected $_primary = array("race_ident", "upgrade");
+	protected $_cols = array(
+		'race_ident'    	=> 'race_ident',
+		'upgrade'  			=> 'upgrade',
+		'category'      	=> 'category',
+		'upgrade_name'  	=> 'upgrade_name',
+		'long_name'  		=> 'long_name',
+		'description'		=> 'description',
+		'invoke'			=> 'invoke',
+		'bind'				=> 'bind',
+		'image'				=> 'image',
+		'required_level'	=> 'required_level',
+		'max_level'			=> 'max_level',
+		'cost_crystals'		=> 'cost_crystals',
+		'cost_vespene'		=> 'cost_vespene',
+		'energy'			=> 'energy',
+		'accumulated'		=> 'accumulated',
+		'recurring_energy'	=> 'recurring_energy',
+		'crystals'			=> 'crystals',
+		'vespene'			=> 'vespene',
+		'cooldown'			=> 'cooldown',
+		'add_date'			=> 'add_date'
+	);
+ ***************************************************************************************/
 }

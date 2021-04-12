@@ -27,13 +27,19 @@ $this->layout()->setVariable('disableFooter', true);
 				<td width="100%" style="vertical-align:top">
 					<table class="race_title" width="100%">
 						<tr>
-							<th width='100%' style="text-align: center;"><?= $this->escapeHtml($race->getLongName()) ?></th>
+							<th width='100%' style="text-align: center;">
+								<?= $this->escapeHtml($race->getLongName()) ?>
+							</th>
 						</tr>
 					</table>
 					<table class="race_data">
 						<tr>
 							<th width="150px" align="right">Faction :</th>
-							<td><a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>"><?= $this->escapeHtml($race->getFactionName()) ?></a></td>
+							<td>
+								<a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>">
+									<?= $this->escapeHtml($race->getFactionName()) ?>
+								</a>
+							</td>
 						</tr>
 						<tr>
 							<th width="150px" align="right">Type :</th>
@@ -42,7 +48,11 @@ $this->layout()->setVariable('disableFooter', true);
 						<?php if (!empty($race->getParentName())): ?>
 							<tr>
 								<th width="150px" align="right">Summoned From :</th>
-								<td><a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>"><?= $this->escapeHtml($race->getParentLongName()) ?></a></td>
+								<td>
+									<a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>">
+										<?= $this->escapeHtml($race->getParentLongName()) ?>
+									</a>
+								</td>
 							</tr>
 						<?php endif; ?>
 						<?php if ($race->getRequiredLevel() > 0): ?>

@@ -47,12 +47,39 @@ class UpgradeDbSelect implements UpgradeDbInterface
         $this->prototype = $prototype;
     }
 
-    public function fetchUpgradesForRace($race_ident, $paginated = false)
+    /**
+     * {@inheritDoc}
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
+    public function fetchUpgradesForRace($raceId, $paginated = false)
 	{
         $sql    = new Sql($this->db);
 		$select = $this->getSelect($sql)
-			->where(['u.race_ident' => $race_ident])
+			->where(['u.race_ident' => $raceId])
 			->order(['race_ident', 'upgrade']);
+
+		//print "sql=".$select->getSqlString();
+        return $this->fetchSelect($sql, $select, $paginated);
+	}
+
+    /**
+     * {@inheritDoc}
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
+	public function fetchUpgradesForPlayer($playerId, $paginated=false)
+	{
+        $sql    = new Sql($this->db);
+		$select = $this->getSelect($sql);
+        $select = $select->join(['pr' => 'sc_player_races'],
+								'pr.race_ident = u.race_ident and pr.player_ident = pr.player_ident',
+								['xp', 'level'], $select::JOIN_LEFT)
+						 ->join(['pu' => 'sc_player_upgrades'],
+								'pu.race_ident = u.race_ident and pu.upgrade = u.upgrade and pu.player_ident = pr.player_ident',
+                                ['upgrade_level'], $select::JOIN_LEFT)
+                         ->where(['pr.player_ident' => $playerId])
+                         ->order('pr.race_ident', 'pr.upgrade');
 
 		//print "sql=".$select->getSqlString();
         return $this->fetchSelect($sql, $select, $paginated);
@@ -104,53 +131,16 @@ class UpgradeDbSelect implements UpgradeDbInterface
 	{
         $select = $sql->select();
 		return $select->from(['u' => 'sc_upgrades'])
-            ->columns(['upgrade', 
-			          'long_name'        => 'long_name',
-			          'image'            => 'image',
-				      'description' 	 => 'description',
-				      'invoke' 			 => 'invoke',
-				      'bind' 			 => 'bind',
-				      'category' 		 => 'category',
-				      'required_level'	 => 'required_level',
-				      'max_level'		 => 'max_level',
-				      'cost_crystals'	 => 'cost_crystals',
-				      'cost_vespene'	 => 'cost_vespene',
-				      'energy'			 => 'energy',
-				      'accumulated'		 => 'accumulated',
-				      'recurring_energy' => 'recurring_energy',
-				      'crystals'		 => 'crystals',
-				      'vespene'			 => 'vespene',
-				      'cooldown'		 => 'cooldown']);
+            ->columns(['race_ident', 'upgrade', 'long_name', 'image',
+				      'description', 'invoke', 'bind', 'category',
+				      'required_level', 'max_level', 'cost_crystals',
+				      'cost_vespene', 'energy', 'accumulated',
+				      'recurring_energy', 'crystals', 'vespene',
+				      'cooldown']);
 	}
 
     
 /***************************************************************************************
-	protected $_use_adapter = "sc";
-	protected $_name = 'sc_upgrades';
-	protected $_primary = array("race_ident", "upgrade");
-	protected $_cols = array(
-		'race_ident'    	=> 'race_ident',
-		'upgrade'  			=> 'upgrade',
-		'category'      	=> 'category',
-		'upgrade_name'  	=> 'upgrade_name',
-		'long_name'  		=> 'long_name',
-		'description'		=> 'description',
-		'invoke'			=> 'invoke',
-		'bind'				=> 'bind',
-		'image'				=> 'image',
-		'required_level'	=> 'required_level',
-		'max_level'			=> 'max_level',
-		'cost_crystals'		=> 'cost_crystals',
-		'cost_vespene'		=> 'cost_vespene',
-		'energy'			=> 'energy',
-		'accumulated'		=> 'accumulated',
-		'recurring_energy'	=> 'recurring_energy',
-		'crystals'			=> 'crystals',
-		'vespene'			=> 'vespene',
-		'cooldown'			=> 'cooldown',
-		'add_date'			=> 'add_date'
-	);
-
 	public function getUpgradeListForFaction($factionId, $fetch=false)
 	{
 		$select = $this->select()

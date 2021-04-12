@@ -76,13 +76,6 @@ class RaceController extends AbstractActionController
 			#$view = $this->initView();
 			#$race = $race_table->getRaceForIdent($ident);
 			$race = $this->raceRepository->findRace($ident);
-			if ($race)
-			{
-				$upgrades = $this->upgradeRepository->fetchUpgradesForRace($ident);
-				return new ViewModel(['race' => $race, 'upgrades' => $upgrades]);
-			}
-			else
-				return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
 		}
 		else
 		{
@@ -90,13 +83,6 @@ class RaceController extends AbstractActionController
 			if ($name)
 			{
 				$race = $this->raceRepository->findRaceByName($name);
-				if ($race)
-				{
-					$upgrades = $this->upgradeRepository->fetchUpgradesForRace($race->getId());
-					return new ViewModel(['race' => $race, 'upgrades' => $upgrades]);
-				}
-				else
-					return new ViewModel(['error' => 'Race  ' . $name . ' was not found',]);
 				/*
 				else
 				{
@@ -134,6 +120,14 @@ class RaceController extends AbstractActionController
 			}
 		}
 
+	    if (isset($race) && $race)
+		{
+			$upgrades = $this->upgradeRepository->fetchUpgradesForRace($ident);
+			return new ViewModel(['race' => $race, 'upgrades' => $upgrades]);
+		}
+		else
+			return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
+
 		/*
 		if (isset($race) && $race)
 		{
@@ -146,12 +140,6 @@ class RaceController extends AbstractActionController
 			$this->_forward('index');
 		}
 		*/
-
-		if ($race)
-			return new ViewModel(['race' => $race,
-			                      'upgrade_table' => $upgradeList]);
-		else
-			return new ViewModel(['error' => 'Race Ident ' . $ident . ' was not found',]);
 	}
 
 /***************************************************************************************

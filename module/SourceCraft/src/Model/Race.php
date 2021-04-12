@@ -40,6 +40,9 @@ class Race
 	private $faction_name;
 	private $parent_long_name;
 
+    private $xp;
+	private $level;
+
     /**
      * @param string      $race_name
      * @param string      $long_name
@@ -57,8 +60,9 @@ class Race
      */
     public function __construct($race_name=null, $long_name=null, $parent_name=null,
                                 $faction=null, $type=null, $description=null, $image=null,
-                                $required_level=0, $tech_level=0, $add_date=null,
-                                $faction_name=null, $parent_long_name=null, $id=null)
+                                $required_level=null, $tech_level=null, $add_date=null,
+                                $faction_name=null, $parent_long_name=null,
+                                $xp=null, $level=null, $id=null)
     {
         $this->race_ident       = $id;
         $this->race_name        = $race_name;
@@ -74,6 +78,9 @@ class Race
 
         $this->faction_name     = $faction_name;
         $this->parent_long_name = $parent_long_name;
+
+        $this->xp               = $xp;
+        $this->level            = $level;
     }
 
     public function exchangeArray(array $data)
@@ -92,6 +99,9 @@ class Race
 
         $this->faction_name     = !empty($data['faction_name'])     ? $data['faction_name']     : null;
         $this->parent_long_name = !empty($data['parent_long_name']) ? $data['parent_long_name'] : null;
+
+        $this->xp               = !empty($data['xp'])               ? $data['xp']               : null;
+        $this->level            = !empty($data['level'])            ? $data['level']            : null;
     }
 	
     public function getArrayCopy()
@@ -111,6 +121,9 @@ class Race
 			
             'faction_name'     => $this->faction_name,
             'parent_long_name' => $this->parent_long_name,
+			
+            'xp'               => $this->xp,
+            'level'            => $this->level,
         ];
     }
 
@@ -217,4 +230,39 @@ class Race
     {
         return $this->parent_long_name;
     }
+
+    /**
+     * @return int
+     */
+    public function getXP()
+    {
+        return $this->xp;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+
+/***************************************************************************************
+	protected $_use_adapter = "sc";
+	protected $_name = 'sc_races';
+	protected $_primary = array("race_ident");
+	protected $_cols = array(
+		'race_ident'    	=> 'race_ident',
+		'race_name'  		=> 'race_name',
+		'long_name'  		=> 'long_name',
+		'parent_name'  		=> 'parent_name',
+		'faction'  		    => 'faction',
+		'type'  		    => 'type',
+		'description'  		=> 'description',
+		'image'  		    => 'image',
+		'required_level'  	=> 'required_level',
+		'tech_level'  		=> 'tech_level',
+		'add_date'		    => 'add_date'
+	);
+ ***************************************************************************************/
 }

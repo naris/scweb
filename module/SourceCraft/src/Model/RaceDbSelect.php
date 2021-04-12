@@ -128,6 +128,11 @@ class RaceDbSelect implements RaceDbInterface
         return $result;
     }
 
+    /**
+     * {@inheritDoc}
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
 	public function findMatchingRaces($name, $paginated = false)
 	{
         $sql    = new Sql($this->db);
@@ -140,12 +145,35 @@ class RaceDbSelect implements RaceDbInterface
         return $this->fetchSelect($sql, $select, $paginated);
 	}
 
+    /**
+     * {@inheritDoc}
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
     public function fetchRacesForFaction($factionId, $paginated = false)
 	{
         $sql    = new Sql($this->db);
 		$select = $this->getSelect($sql)
 			->where(['r.faction' => $factionId])
 			->order('long_name');
+
+        return $this->fetchSelect($sql, $select, $paginated);
+	}
+
+    /**
+     * {@inheritDoc}
+     * @throws InvalidArgumentException
+     * @throws RuntimeException
+     */
+    public function fetchRacesForPlayer($playerId, $paginated = false)
+	{
+        $sql    = new Sql($this->db);
+		$select = $this->getSelect($sql);
+        $select = $select->join(['pr' => 'sc_player_races'],
+                                'pr.race_ident = r.race_ident',
+                                ['xp', 'level'], $select::JOIN_LEFT)
+                         ->where(['pr.player_ident' => $playerId])
+                         ->order('long_name');
 
         return $this->fetchSelect($sql, $select, $paginated);
 	}
