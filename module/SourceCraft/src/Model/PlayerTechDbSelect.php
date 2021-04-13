@@ -16,9 +16,9 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 use Laminas\Paginator\Paginator;
 
-use SourceCraft\Model\PlayerAliasDbInterface;
+use SourceCraft\Model\PlayerDbInterface;
 
-class PlayerAliasDbSelect implements PlayerAliasDbInterface
+class PlayerTechDbSelect implements PlayerTechDbInterface
 {
     /**
      * @var AdapterInterface
@@ -40,7 +40,7 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
      */
     public function __construct(AdapterInterface $db,
                                 HydratorInterface $hydrator,
-                                PlayerAlias $prototype)
+                                Player $prototype)
     {
         $this->db        = $db;
         $this->hydrator  = $hydrator;
@@ -63,11 +63,11 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function fetchAliasesForPlayer($id)
+    public function findPlayer($id)
     {
         $sql    = new Sql($this->db);
         $select = $this->getSelect($sql);
-        $select->where(['pa.player_ident = ?' => $id]);
+        $select->where(['p.player_ident = ?' => $id]);
     
         $statement = $sql->prepareStatementForSqlObject($select);
         $result    = $statement->execute();
@@ -83,12 +83,12 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
         $resultSet->initialize($result);
         $result = $resultSet->current();
     
-        /*if (! $result) {
+        if (! $result) {
             throw new InvalidArgumentException(sprintf(
                 'Player with identifier "%s" not found.',
                 $id
             ));
-        }*/
+        }
     
         return $result;
     }
@@ -98,7 +98,7 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function fetchAliasesForName($name)
+    public function findPlayerbyName($name)
     {
         $sql    = new Sql($this->db);
         $select = $this->getSelect($sql);
@@ -116,10 +116,19 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
     
         $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
         $resultSet->initialize($result);
-        return $resultSet;
+        $result = $resultSet->current();
+    
+        if (! $result) {
+            throw new InvalidArgumentException(sprintf(
+                'Player with name "%s" not found.',
+                $name
+            ));
+        }
+    
+        return $result;
     }
 
-	public function fetchAliasesMatchingName($name, $paginated = false)
+	public function findMatchingPlayers($name, $paginated = false)
 	{
         $sql    = new Sql($this->db);
         $select = $this->getSelect($sql);
@@ -176,46 +185,86 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
     private function getSelect($sql)
 	{
         $select = $sql->select();
-		return $select->from(['pa' => 'sc_player_alias'])
-            ->columns(['player_ident', 'steamid', 'name',
-                       'last_used']);
+		return $select->from(['p' => 'sc_players'])
+            ->columns(['player_ident', 'steamid', 'overall_level',
+                       'name', 'crystals', 'vespene',
+                       'last_update']); //  => "DATE_FORMAT(last_update, '%m/%d/%y')"]);
 	}
 
 /***************************************************************************************
-	public function getAliasesForPlayer($player_ident)
+	public function getPlayerList($fetch=false)
 	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('player_ident = ?', $player_ident)
-					->order(array('last_used','name')));
+		$select = $this->getPlayerSelect();
+
+		return $fetch ? $this->fetchAll($select) : $select;		
 	}
 
-	public function getAliasesForSteamid($steamid)
+	public function getPlayerForIdent($ident)
 	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('steamid = ?', $steamid)
-					->order(array('last_used','name')));
+		$select = $this->getPlayerSelect()
+			->where('player_ident = ?', $ident);
+
+		return $this->fetchRow($select);
 	}
 
-	public function getAliasesForName($name)
+	public function getPlayerForSteamid($steamid)
 	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('name = ?', $name)
-					->order(array('last_used','name')));
+		$select = $this->getPlayerSelect()
+			->where('steamid = ?', $steamid);
+
+		return $this->fetchRow($select);
 	}
 
-	public function getAliasesMatchingName($name)
+	public function getPlayerForUsername($username)
 	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('name like ?', $name)->order('name')
-					->order(array('last_used','name')));
+		$select = $this->getPlayerSelect()
+			->where('username = ?', $username);
+
+		return $this->fetchRow($select);
 	}
 
-	private function getAliasSelect()
+	public function getPlayerForName($name)
+	{
+		$select = $this->getPlayerSelect()
+			->where('name like ?', '%' . $name . '%');
+
+		return $this->fetchAll($select);
+	}
+
+	private function getPlayerSelect()
 	{
 		return $this->select()
-			->from(array('pa' => 'sc_player_alias'),
-				array('steamid', 'name', 'last_used',
-			      		'last_used_date' => "DATE_FORMAT(last_used, '%m/%d/%y')"));
+			->from(array('p' => 'sc_players'),
+				array('player_ident', 'steamid', 'overall_level',
+			       		'name', 'crystals', 'vespene', 'last_update',
+			      		'last_update_date' => "DATE_FORMAT(last_update, '%m/%d/%y')"));
+	}
+
+	public function getPlayerListMatchingName($name, $fetch=false)
+	{
+		$select_players = $this->select()
+					->setIntegrityCheck(false)
+					->from(array('p' => 'sc_players'),
+						array('player_ident', 'steamid', 'overall_level',
+					       		'crystals', 'vespene', 'name'))
+					->where('name like ?', '%' . $name . '%');
+
+		$select_aliases = $this->select()
+					->setIntegrityCheck(false)
+					->from(array('p' => 'sc_players'),
+						array('player_ident', 'steamid', 'overall_level',
+					       		'crystals', 'vespene'))
+					->join(array('pa' => 'sc_player_alias'),
+				      			"pa.player_ident = p.player_ident",
+				      			"name")
+					->where('pa.name like ?', '%' . $name . '%');
+
+		$select_union = $this->select()
+					->setIntegrityCheck(false)
+					->union(array($select_players, $select_aliases))
+					->order('name');
+
+		return $fetch ? $this->fetchAll($select_union) : $select_union;		
 	}
  ***************************************************************************************/    
 }
