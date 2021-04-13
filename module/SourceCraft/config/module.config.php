@@ -8,28 +8,25 @@ return [
     'service_manager' => [
         'aliases' => [
             Model\ItemDbInterface::class => Model\ItemDbSelect::class,
+            Model\FactionDbInterface::class => Model\FactionDbSelect::class,
             Model\RaceDbInterface::class => Model\RaceDbSelect::class,
             Model\UpgradeDbInterface::class => Model\UpgradeDbSelect::class,
-            Model\FactionDbInterface::class => Model\FactionDbSelect::class,
             Model\PlayerDbInterface::class => Model\PlayerDbSelect::class,
+            Model\PlayerAliasDbInterface::class => Model\PlayerAliasDbSelect::class,
         ],
         'factories' => [
-            Model\ItemRepository::class => InvokableFactory::class,
             Model\ItemDbSelect::class => Factory\ItemDbSelectFactory::class,
             Controller\ItemController::class => Factory\ItemControllerFactory::class,
 
-            Model\RaceRepository::class => InvokableFactory::class,
-            Model\RaceDbSelect::class => Factory\RaceDbSelectFactory::class,
-            Controller\RaceController::class => Factory\RaceControllerFactory::class,
-
-            Model\UpgradeDbSelect::class => Factory\UpgradeDbSelectFactory::class,
-
-            Model\FactionRepository::class => InvokableFactory::class,
             Model\FactionDbSelect::class => Factory\FactionDbSelectFactory::class,
             Controller\FactionController::class => Factory\FactionControllerFactory::class,
 
-            Model\PlayerRepository::class => InvokableFactory::class,
+            Model\RaceDbSelect::class => Factory\RaceDbSelectFactory::class,
+            Model\UpgradeDbSelect::class => Factory\UpgradeDbSelectFactory::class,
+            Controller\RaceController::class => Factory\RaceControllerFactory::class,
+
             Model\PlayerDbSelect::class => Factory\PlayerDbSelectFactory::class,
+            Model\PlayerAliasDbSelect::class => Factory\PlayerAliasDbSelectFactory::class,
             Controller\PlayerController::class => Factory\PlayerControllerFactory::class,
         ],
     ],
@@ -37,16 +34,9 @@ return [
     /**/
     'controllers' => [
         'factories' => [
-            Model\ItemRepository::class => InvokableFactory::class,
             Controller\ItemController::class => Factory\ItemControllerFactory::class,
-
-            Model\RaceRepository::class => InvokableFactory::class,
-            Controller\RaceController::class => Factory\RaceControllerFactory::class,
-
-            Model\FactionRepository::class => InvokableFactory::class,
             Controller\FactionController::class => Factory\FactionControllerFactory::class,
-
-            Model\PlayerRepository::class => InvokableFactory::class,
+            Controller\RaceController::class => Factory\RaceControllerFactory::class,
             Controller\PlayerController::class => Factory\PlayerControllerFactory::class,
         ],
     ],

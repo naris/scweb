@@ -7,10 +7,16 @@
  * @version 
  */
 
-require_once 'App_Db_Table_Abstract.php';
+namespace SourceCraft\Model;
 
-class PlayerTech extends App_Db_Table_Abstract
+#require_once 'App_Db_Table_Abstract.php';
+#class PlayerTech extends App_Db_Table_Abstract
+
+class PlayerTech
 {
+	private $player_ident;
+
+/***************************************************************************************
 	protected $_use_adapter = "sc";
 	protected $_name = "sc_player_tech";
 	protected $_primary = array("player_ident", "faction");
@@ -20,4 +26,5 @@ class PlayerTech extends App_Db_Table_Abstract
 		'tech_count'    => 'tech_count',
 		'tech_level'    => 'tech_level'
 	);
+ ***************************************************************************************/
 }

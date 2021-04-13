@@ -7,11 +7,10 @@ use Laminas\ServiceManager\Factory\FactoryInterface;
 
 use SourceCraft\Controller\PlayerController;
 use SourceCraft\Model\PlayerDbInterface;
+use SourceCraft\Model\PlayerAliasDbInterface;
 
 use SourceCraft\Controller\RaceController;
 use SourceCraft\Model\RaceDbInterface;
-
-use SourceCraft\Controller\UpgradeController;
 use SourceCraft\Model\UpgradeDbInterface;
 
 class PlayerControllerFactory implements FactoryInterface
@@ -26,6 +25,7 @@ class PlayerControllerFactory implements FactoryInterface
     {
         return new PlayerController($container->get(PlayerDbInterface::class),
                                     $container->get(RaceDbInterface::class),
-                                    $container->get(UpgradeDbInterface::class));
+                                    $container->get(UpgradeDbInterface::class),
+                                    $container->get(PlayerAliasDbInterface::class));
     }
 }

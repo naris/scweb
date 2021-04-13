@@ -53,22 +53,22 @@ $this->headTitle($title);
 			<td width="55%">&nbsp;</td>
 		</tr>
 	</table>
-<?php if (isset($this->alias) && !empty($this->alias) && count($this->alias) > 0): ?>
-	<table class="alias_detail" width='100%'>
-		<tr>
-			<th width="10%">Date</th>
-			<th width="25%">SteamID</th>
-			<th width="65%" style="text-align: left;">Alias</th>
-		</tr>
-<?php foreach ($this->alias as $alias): ?>
-		<tr width='100%'>
-			<td width="10%"><?= $this->escape($alias['last_used_date']) ?></td>
-			<td width="25%"><?= $this->escape($alias['steamid']) ?></td>
-			<td width="65%" style="text-align: left;"><?= $this->escape($alias['name']) ?></td>
-		</tr>
-<?php endforeach; ?>
-	</table>
-<?php endif; ?>
+		<?php if (isset($aliases) && !empty($aliases) && count($aliases) > 1): ?>
+			<table class="alias_detail" width='100%'>
+				<tr>
+					<th width="10%">Date</th>
+					<th width="25%">SteamID</th>
+					<th width="65%" style="text-align: left;">Alias</th>
+				</tr>
+				<?php foreach ($aliases as $alias): ?>
+					<tr width='100%'>
+						<td width="10%"><?= $this->escapeHtml($alias->getLastUsed()) ?></td>
+						<td width="25%"><?= $this->escapeHtml($alias->getSteamId()) ?></td>
+						<td width="65%" style="text-align: left;"><?= $this->escapeHtml($alias->getName()) ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</table>
+		<?php endif; ?>
 
 <?php if (isset($this->tech) && !empty($this->tech)): ?>
 	<table class="tech_detail" width="100%">
@@ -84,11 +84,11 @@ $this->headTitle($title);
 			<?php if (empty($tech['image'])): ?>
 						<td width="50px"></td>
 			<?php else: ?>
-						<td width="50px"><img src="/sc/img/<?= $this->escape($tech['image']) ?>" width="38px" /></td>
+						<td width="50px"><img src="/sc/img/<?= $this->escapeHtml($tech['image']) ?>" width="38px" /></td>
 			<?php endif; ?>
-			<td width="25%"><?= $this->escape($tech['long_name']) ?></td>
-			<td width="10%" style="text-align: center;"><?= $this->escape($tech['tech_count']) ?></td>
-			<td width="10%" style="text-align: center;"><?= $this->escape($tech['tech_level']) ?></td>
+			<td width="25%"><?= $this->escapeHtml($tech['long_name']) ?></td>
+			<td width="10%" style="text-align: center;"><?= $this->escescapeHtmlape($tech['tech_count']) ?></td>
+			<td width="10%" style="text-align: center;"><?= $this->escapeHtml($tech['tech_level']) ?></td>
 			<td width="55%">&nbsp;</td>
 		</tr>
 <?php endforeach; ?>

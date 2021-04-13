@@ -16,6 +16,7 @@ use Laminas\View\Model\ViewModel;
 #require_once 'Player.php';
 use SourceCraft\Model\Player;
 use SourceCraft\Model\PlayerDbInterface;
+use SourceCraft\Model\PlayerAliasDbInterface;
 
 #require_once 'Race.php';
 use SourceCraft\Model\Race;
@@ -47,13 +48,20 @@ class PlayerController extends AbstractActionController
      */
     private $upgradeRepository;
 
+    /**
+     * @var PlayerAliasDbInterface
+     */
+    private $aliasRepository;
+
     public function __construct(PlayerDbInterface $playerRepository,
 								RaceDbInterface $raceRepository,
-	                            UpgradeDbInterface $upgradeRepository)
+	                            UpgradeDbInterface $upgradeRepository,
+								PlayerAliasDbInterface $aliasRepository)
     {
         $this->playerRepository  = $playerRepository;
 		$this->raceRepository    = $raceRepository;
-        $this->upgradeRepository = $upgradeRepository;
+		$this->upgradeRepository = $upgradeRepository;
+        $this->aliasRepository   = $aliasRepository;
 	}
 
 	/**
@@ -102,9 +110,11 @@ class PlayerController extends AbstractActionController
 		{
 			$races = $this->raceRepository->fetchRacesForPlayer($ident);
 			$upgrades = $this->upgradeRepository->fetchUpgradesForPlayer($ident);
+			$aliases = $this->aliasRepository->fetchAliasesForPlayer($ident);
 			return new ViewModel(['player' => $player,
 			                      'races' => $races,
-								  'upgrades' => $upgrades]);
+								  'upgrades' => $upgrades,
+								  'alises' => $aliases]);
 		}
 		else
 			return new ViewModel(['error' => 'Player Ident ' . $ident . ' was not found',]);

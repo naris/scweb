@@ -7,10 +7,84 @@
  * @version 
  */
 
-require_once 'App_Db_Table_Abstract.php';
+namespace SourceCraft\Model;
 
-class PlayerAlias extends App_Db_Table_Abstract
+#require_once 'App_Db_Table_Abstract.php';
+#class PlayerAlias extends App_Db_Table_Abstract
+
+class PlayerAlias
 {
+	private $player_ident;
+	private $steamid;
+	private $name;
+	private $last_used;
+
+    /**
+     * @param string      $steamid
+     * @param string      $name
+     * @param timestamp   $last_used
+     * @param int|null    $id
+     */
+    public function __construct($steamid=null, $name=null, $last_used=null,
+                                $id=null)
+    {
+        $this->player_ident = $id;
+        $this->steamid      = $steamid;
+        $this->name         = $name;
+        $this->last_used    = $last_used;
+    }
+
+    public function exchangeArray(array $data)
+    {
+        $this->player_ident = !empty($data['player_ident']) ? $data['player_ident'] : null;
+        $this->steamid      = !empty($data['steamid'])      ? $data['steamid']      : null;
+        $this->name         = !empty($data['name'])         ? $data['name']         : null;
+        $this->last_used    = !empty($data['last_used'])    ? $data['last_used']    : null;
+    }
+	
+    public function getArrayCopy()
+    {
+        return [
+            'player_ident' => $this->player_ident,
+            'steamid'      => $this->steamid,
+            'name'         => $this->name,
+            'last_used'    => $this->last_used,
+        ];
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getId()
+    {
+        return $this->player_ident;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSteamId()
+    {
+        return $this->steamid;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return timestamp
+     */
+    public function getLastUsed()
+    {
+        return $this->last_used;
+    }
+
+/***************************************************************************************
 	protected $_use_adapter = "sc";
 	protected $_name = "sc_player_alias";
 	protected $_primary = array("player_ident", "steamid", "name");
@@ -20,40 +94,5 @@ class PlayerAlias extends App_Db_Table_Abstract
 		'name'       	=> 'name',
 		'last_used'     => 'last_used'
 	);
-
-	public function getAliasesForPlayer($player_ident)
-	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('player_ident = ?', $player_ident)
-					->order(array('last_used','name')));
-	}
-
-	public function getAliasesForSteamid($steamid)
-	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('steamid = ?', $steamid)
-					->order(array('last_used','name')));
-	}
-
-	public function getAliasesForName($name)
-	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('name = ?', $name)
-					->order(array('last_used','name')));
-	}
-
-	public function getAliasesMatchingName($name)
-	{
-		return $this->fetchAll($this->getAliasSelect()
-					->where('name like ?', $name)->order('name')
-					->order(array('last_used','name')));
-	}
-
-	private function getAliasSelect()
-	{
-		return $this->select()
-			->from(array('pa' => 'sc_player_alias'),
-				array('steamid', 'name', 'last_used',
-			      		'last_used_date' => "DATE_FORMAT(last_used, '%m/%d/%y')"));
-	}
+ ***************************************************************************************/
 }
