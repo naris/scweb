@@ -13,6 +13,7 @@ return [
             Model\UpgradeDbInterface::class => Model\UpgradeDbSelect::class,
             Model\PlayerDbInterface::class => Model\PlayerDbSelect::class,
             Model\PlayerAliasDbInterface::class => Model\PlayerAliasDbSelect::class,
+            Model\PlayerTechDbInterface::class => Model\PlayerTechDbSelect::class,
         ],
         'factories' => [
             Model\ItemDbSelect::class => Factory\ItemDbSelectFactory::class,
@@ -27,6 +28,7 @@ return [
 
             Model\PlayerDbSelect::class => Factory\PlayerDbSelectFactory::class,
             Model\PlayerAliasDbSelect::class => Factory\PlayerAliasDbSelectFactory::class,
+            Model\PlayerTechDbSelect::class => Factory\PlayerTechDbSelectFactory::class,
             Controller\PlayerController::class => Factory\PlayerControllerFactory::class,
         ],
     ],

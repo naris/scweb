@@ -19,40 +19,39 @@ $this->headTitle($title);
 		<?= $this->escape($this->error); ?>
 	</div>
 <?php elseif (! empty($this->player)): ?>
-
-<div class="player_container">
-	<table class="player_detail">
-		<tr>
-			<th width="20%">Name :</th>
-			<td width="25%"><?= $this->escapeHtml($player->getName()) ?></td>
-			<td width="55%">&nbsp;</td>
-		</tr>
-		<tr>
-			<th width="20%">Steam ID :</th>
-			<td width="25%"><?= $this->escapeHtml($player->getSteamId()) ?></td>
-			<td width="55%">&nbsp;</td>
-		</tr>
-		<tr>
-			<th width="20%">Overall Level :</th>
-			<td width="25%"><?= $this->escapeHtml($player->getOverallLevel()) ?></td>
-			<td width="55%">&nbsp;</td>
-		</tr>
-		<tr>
-			<th width="20%">Crystals :</th>
-			<td width="25%"><?= $this->escapeHtml($player->getCrystals()) ?></td>
-			<td width="55%">&nbsp;</td>
-		</tr>
-		<tr>
-			<th width="20%">Vespene :</th>
-			<td width="25%"><?= $this->escapeHtml($player->getVespene()) ?></td>
-			<td width="55%">&nbsp;</td>
-		</tr>
-		<tr>
-			<th width="20%">Last Time on Server :</th>
-			<td width="25%"><?= $this->escapeHtml($player->getLastUpdate()) ?></td>
-			<td width="55%">&nbsp;</td>
-		</tr>
-	</table>
+	<div class="player_container">
+		<table class="player_detail">
+			<tr>
+				<th width="20%">Name :</th>
+				<td width="25%"><?= $this->escapeHtml($player->getName()) ?></td>
+				<td width="55%">&nbsp;</td>
+			</tr>
+			<tr>
+				<th width="20%">Steam ID :</th>
+				<td width="25%"><?= $this->escapeHtml($player->getSteamId()) ?></td>
+				<td width="55%">&nbsp;</td>
+			</tr>
+			<tr>
+				<th width="20%">Overall Level :</th>
+				<td width="25%"><?= $this->escapeHtml($player->getOverallLevel()) ?></td>
+				<td width="55%">&nbsp;</td>
+			</tr>
+			<tr>
+				<th width="20%">Crystals :</th>
+				<td width="25%"><?= $this->escapeHtml($player->getCrystals()) ?></td>
+				<td width="55%">&nbsp;</td>
+			</tr>
+			<tr>
+				<th width="20%">Vespene :</th>
+				<td width="25%"><?= $this->escapeHtml($player->getVespene()) ?></td>
+				<td width="55%">&nbsp;</td>
+			</tr>
+			<tr>
+				<th width="20%">Last Time on Server :</th>
+				<td width="25%"><?= $this->escapeHtml($player->getLastUpdate()) ?></td>
+				<td width="55%">&nbsp;</td>
+			</tr>
+		</table>
 		<br>
 		<?php if (isset($this->aliases) && !empty($aliases) && count($this->aliases) > 1): ?>
 			<table class="alias_detail" width='100%'>
@@ -71,184 +70,184 @@ $this->headTitle($title);
 			</table>
 		<?php endif; ?>
 
-<?php if (isset($this->tech) && !empty($this->tech)): ?>
-	<table class="tech_detail" width="100%">
-		<tr>
-			<th width="50px"></th>
-			<th width="10%">Faction</th>
-			<th width="10%">Race Count</th>
-			<th width="10%">Tech Level</th>
-			<th width="70%">&nbsp;</th>
-		</tr>
-<?php foreach ($this->tech as $tech): ?>
-		<tr>
-			<?php if (empty($tech['image'])): ?>
-						<td width="50px"></td>
-			<?php else: ?>
-						<td width="50px"><img src="/sc/img/<?= $this->escapeHtml($tech['image']) ?>" width="38px" /></td>
-			<?php endif; ?>
-			<td width="25%"><?= $this->escapeHtml($tech['long_name']) ?></td>
-			<td width="10%" style="text-align: center;"><?= $this->escescapeHtmlape($tech['tech_count']) ?></td>
-			<td width="10%" style="text-align: center;"><?= $this->escapeHtml($tech['tech_level']) ?></td>
-			<td width="55%">&nbsp;</td>
-		</tr>
-<?php endforeach; ?>
-	</table>
-	<br/>
-<?php endif; ?>
-
-<?php if (isset($races) && !empty($races)): ?>
-<?php foreach ($races as $race): ?>
-	<div class="race_container" width="100%">
-	<table class="race_detail" width="100%">
-		<tr>
-			<td width="100%"><img src="/sc/img/spacer.gif" width="100%" height="1"/></td>
-		</tr>
-		<tr>
-			<td width="100%"><table width="100%">
+		<?php if (isset($this->tech_levels) && !empty($this->tech_levels)): ?>
+			<table class="tech_detail" width="100%">
 				<tr>
-					<table width="100%">
-						<tr>
-							<td>
-								<a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>">
-									<img src="/sc/img/<?= $race->getImage() ?>" width="250" />
-								</a>
-							</td>
-							<td width="100%" style="vertical-align:top">
-								<table class="race_title" width="100%">
-									<tr>
-										<th width='100%' style="text-align: center;">
-											<a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>">
-												<?= $this->escapeHtml($race->getLongName()) ?>
-											</a>
-										</th>
-									</tr>
-								</table>
-								<table class="race_data">
-									<tr>
-										<th width="75px">Faction :</th>
-										<td>
-											<a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>">
-												<?= $this->escapeHtml($race->getFactionName()) ?>
-											</a>
-										</td>
-									</tr>
-									<tr>
-										<th width="75px">Type :</th>
-										<td><?=  $this->escapeHtml($race->getType()) ?></td>
-									</tr>
-									<?php if (!empty($race->getParentName())): ?>
-										<tr>
-											<th width="150px" align="right">Summoned From :</th>
-											<td>
-												<a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>">
-													<?= $this->escapeHtml($race->getParentLongName()) ?>
-												</a>
-											</td>
-										</tr>
-									<?php endif; ?>
-									<?php if ($race->getRequiredLevel() > 0): ?>
-										<tr>
-											<th width="150px" align="right">Required Level :</th>
-											<td><?= $this->escapeHtml($race->getRequiredLevel()) ?></td>
-										</tr>
-									<?php endif; ?>
-									<?php if ($race->getTechLevel() > 0): ?>
-										<tr>
-											<th width="150px" align="right">Required Tech Level :</th>
-											<td><?= $this->escapeHtml($race->getTechLevel()) ?></td>
-										</tr>
-									<?php endif; ?>
-									<tr>
-										<th width="75px">XP :</th>
-										<td><?= $this->escapeHtml($race->getXP()) ?></td>
-									</tr>
-									<tr>
-										<th width="75px">Level :</th>
-										<td><?= $this->escapeHtml($race->getLevel()) ?></td>
-									</tr>
-								</table>
+					<th width="50px"></th>
+					<th width="10%">Faction</th>
+					<th width="10%">Race Count</th>
+					<th width="10%">Tech Level</th>
+					<th width="70%">&nbsp;</th>
+				</tr>
+				<?php foreach ($this->tech_levels as $tech): ?>
+					<tr>
+						<?php if (empty($tech->getImage())): ?>
+							<td width="50px"></td>
+						<?php else: ?>
+							<td width="50px"><img src="/sc/img/<?= $tech->getImage() ?>" width="38px" /></td>
+						<?php endif; ?>
+						<td width="25%"><?= $this->escapeHtml($tech->getLongName()) ?></td>
+						<td width="10%" style="text-align: center;"><?= $this->escapeHtml($tech->getTechCount()) ?></td>
+						<td width="10%" style="text-align: center;"><?= $this->escapeHtml($tech->getTechLevel()) ?></td>
+						<td width="55%">&nbsp;</td>
+					</tr>
+				<?php endforeach; ?>
+			</table>
+			<br/>
+		<?php endif; ?>
+
+		<?php if (isset($races) && !empty($races)): ?>
+			<?php foreach ($races as $race): ?>
+				<div class="race_container" width="100%">
+				<table class="race_detail" width="100%">
+					<tr>
+						<td width="100%"><img src="/sc/img/spacer.gif" width="100%" height="1"/></td>
+					</tr>
+					<tr>
+						<td width="100%"><table width="100%">
+							<tr>
 								<table width="100%">
 									<tr>
-										<td><?= $this->escapeHtml($race->getDescription()) ?></td>
+										<td>
+											<a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>">
+												<img src="/sc/img/<?= $race->getImage() ?>" width="250" />
+											</a>
+										</td>
+										<td width="100%" style="vertical-align:top">
+											<table class="race_title" width="100%">
+												<tr>
+													<th width='100%' style="text-align: center;">
+														<a href="<?= $this->url('race', ['action' => 'show', 'id' => $race->getId()]) ?>">
+															<?= $this->escapeHtml($race->getLongName()) ?>
+														</a>
+													</th>
+												</tr>
+											</table>
+											<table class="race_data">
+												<tr>
+													<th width="75px">Faction :</th>
+													<td>
+														<a href="<?= $this->url('faction', ['action' => 'show', 'id' => $race->getFaction()]) ?>">
+															<?= $this->escapeHtml($race->getFactionName()) ?>
+														</a>
+													</td>
+												</tr>
+												<tr>
+													<th width="75px">Type :</th>
+													<td><?=  $this->escapeHtml($race->getType()) ?></td>
+												</tr>
+												<?php if (!empty($race->getParentName())): ?>
+													<tr>
+														<th width="150px" align="right">Summoned From :</th>
+														<td>
+															<a href="<?= $this->url('race', ['action' => 'show', 'name' => $race->getParentName()]) ?>">
+																<?= $this->escapeHtml($race->getParentLongName()) ?>
+															</a>
+														</td>
+													</tr>
+												<?php endif; ?>
+												<?php if ($race->getRequiredLevel() > 0): ?>
+													<tr>
+														<th width="150px" align="right">Required Level :</th>
+														<td><?= $this->escapeHtml($race->getRequiredLevel()) ?></td>
+													</tr>
+												<?php endif; ?>
+												<?php if ($race->getTechLevel() > 0): ?>
+													<tr>
+														<th width="150px" align="right">Required Tech Level :</th>
+														<td><?= $this->escapeHtml($race->getTechLevel()) ?></td>
+													</tr>
+												<?php endif; ?>
+												<tr>
+													<th width="75px">XP :</th>
+													<td><?= $this->escapeHtml($race->getXP()) ?></td>
+												</tr>
+												<tr>
+													<th width="75px">Level :</th>
+													<td><?= $this->escapeHtml($race->getLevel()) ?></td>
+												</tr>
+											</table>
+											<table width="100%">
+												<tr>
+													<td><?= $this->escapeHtml($race->getDescription()) ?></td>
+												</tr>
+											</table>
+										</td>
 									</tr>
 								</table>
-							</td>
-						</tr>
-					</table>
-				</tr>
-			</td></table>
-		</tr>
-	</table>
-	<ul><table class="upgrade_detail" width='100%'>
-		<tr>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th colspan="3"><center>-Upgrade Requirement-</center></th>
-			<th colspan="3"><center>----- Cost to Invoke -----</center></th>
-			<th>Energy/</th>
-			<th></th>
-		</tr>
-		<tr>
-			<th></th>
-			<th>Upgrade</th>
-			<th><center>Levels</center></th>
-			<th><center>Min Lvl</center></th>
-			<th><center>Crystals</center></th>
-			<th><center>Vespene</center></th>
-			<th><center>Energy</center></th>
-			<th><center>Crystals</center></th>
-			<th><center>Vespene</center></th>
-			<th><center>Second</center></th>
-			<th>Description</th>
-		</tr>
-		<?php $upgrades->buffer(); ?>
-		<?php foreach ($upgrades as $upgrade): ?>
-			<?php if ($upgrade->getRaceIdent() == $race->getId()): ?>
-				<tr class='player_upgrades' width='100%'>
-					<?php if (empty($upgrade->getImage())): ?>
-						<td></td>
-					<?php else: ?>
-						<td><img src="/sc/img/<?= $upgrade->getImage() ?>" width="38px" /></td>
-					<?php endif; ?>
-					<td>
-						<b>
-							<?= $this->escapeHtml($upgrade->getLongName()) ?>
-							<?= (($upgrade->getCategory() > 0) ? "<br><font color='cyan'> +ultimate" . $upgrade->getCategory() . "</font>" : "") ?></b>
-					</td>
-					<td><center><?= intval($upgrade->getUpgradeLevel())."/".$upgrade->getMaxLevel() ?></center></td>
-					<td><center><?= ($upgrade->getRequiredLevel() > 1) ? $upgrade->getRequiredLevel() : "" ?></center></td>
-					<td><center><?= ($upgrade->getCostCrystals() > 0) ? $upgrade->getCostCrystals() : "" ?></center></td>
-					<td><center><?= ($upgrade->getCostVespene() > 0) ? $upgrade->getCostVespene() : "" ?></center></td>
-					<td><center><?= ($upgrade->getEnergy() > 0) ?$upgrade->getEnergy() : "" ?></center></td>
-					<td><center><?= ($upgrade->getCrystals() > 0) ? $upgrade->getCrystals() : "" ?></center></td>
-					<td><center><?= ($upgrade->getVespene() > 0) ? $upgrade->getVespene() : "" ?></center></td>
-					<td><center><?= ($upgrade->getRecurringEnergy() > 0) ? $upgrade->getRecurringEnergy() : "" ?></center></td>
-					<td><?= $upgrade->getDescription().'&nbsp'.$upgrade->getInvoke().'&nbsp'.$upgrade->getBind() ?></td>
-				</tr>
-			<?php endif; ?>
-		<?php endforeach; ?>
-		<tr>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="100px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
-			<td width="100%"></td>
-		</tr>
-	</table></ul>
+							</tr>
+						</td></table>
+					</tr>
+				</table>
+				<ul><table class="upgrade_detail" width='100%'>
+					<tr>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th colspan="3"><center>-Upgrade Requirement-</center></th>
+						<th colspan="3"><center>----- Cost to Invoke -----</center></th>
+						<th>Energy/</th>
+						<th></th>
+					</tr>
+					<tr>
+						<th></th>
+						<th>Upgrade</th>
+						<th><center>Levels</center></th>
+						<th><center>Min Lvl</center></th>
+						<th><center>Crystals</center></th>
+						<th><center>Vespene</center></th>
+						<th><center>Energy</center></th>
+						<th><center>Crystals</center></th>
+						<th><center>Vespene</center></th>
+						<th><center>Second</center></th>
+						<th>Description</th>
+					</tr>
+					<?php $upgrades->buffer(); ?>
+					<?php foreach ($upgrades as $upgrade): ?>
+						<?php if ($upgrade->getRaceIdent() == $race->getId()): ?>
+							<tr class='player_upgrades' width='100%'>
+								<?php if (empty($upgrade->getImage())): ?>
+									<td></td>
+								<?php else: ?>
+									<td><img src="/sc/img/<?= $upgrade->getImage() ?>" width="38px" /></td>
+								<?php endif; ?>
+								<td>
+									<b>
+										<?= $this->escapeHtml($upgrade->getLongName()) ?>
+										<?= (($upgrade->getCategory() > 0) ? "<br><font color='cyan'> +ultimate" . $upgrade->getCategory() . "</font>" : "") ?></b>
+								</td>
+								<td><center><?= intval($upgrade->getUpgradeLevel())."/".$upgrade->getMaxLevel() ?></center></td>
+								<td><center><?= ($upgrade->getRequiredLevel() > 1) ? $upgrade->getRequiredLevel() : "" ?></center></td>
+								<td><center><?= ($upgrade->getCostCrystals() > 0) ? $upgrade->getCostCrystals() : "" ?></center></td>
+								<td><center><?= ($upgrade->getCostVespene() > 0) ? $upgrade->getCostVespene() : "" ?></center></td>
+								<td><center><?= ($upgrade->getEnergy() > 0) ?$upgrade->getEnergy() : "" ?></center></td>
+								<td><center><?= ($upgrade->getCrystals() > 0) ? $upgrade->getCrystals() : "" ?></center></td>
+								<td><center><?= ($upgrade->getVespene() > 0) ? $upgrade->getVespene() : "" ?></center></td>
+								<td><center><?= ($upgrade->getRecurringEnergy() > 0) ? $upgrade->getRecurringEnergy() : "" ?></center></td>
+								<td><?= $upgrade->getDescription().'&nbsp'.$upgrade->getInvoke().'&nbsp'.$upgrade->getBind() ?></td>
+							</tr>
+						<?php endif; ?>
+					<?php endforeach; ?>
+					<tr>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="100px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td><img src="/images/spacer.gif" width="40px" height="1"/></td>
+						<td width="100%"></td>
+					</tr>
+				</table></ul>
+				</div>
+			<?php endforeach; ?>
+		<?php endif; ?>
 	</div>
-<?php endforeach; ?>
-<?php endif; ?>
 <?php else: ?>
 	No player has been selected.
 <?php endif; ?>
-</div>
 
 <!--?= $this->render('partials/html_footer.phtml'); ?-->

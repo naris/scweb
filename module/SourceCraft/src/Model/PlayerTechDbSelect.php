@@ -16,7 +16,7 @@ use Laminas\Db\ResultSet\ResultSet;
 use Laminas\Paginator\Adapter\LaminasDb\DbSelect;
 use Laminas\Paginator\Paginator;
 
-use SourceCraft\Model\PlayerDbInterface;
+use SourceCraft\Model\PlayerTechDbInterface;
 
 class PlayerTechDbSelect implements PlayerTechDbInterface
 {
@@ -40,7 +40,7 @@ class PlayerTechDbSelect implements PlayerTechDbInterface
      */
     public function __construct(AdapterInterface $db,
                                 HydratorInterface $hydrator,
-                                Player $prototype)
+                                PlayerTech $prototype)
     {
         $this->db        = $db;
         $this->hydrator  = $hydrator;
@@ -63,82 +63,15 @@ class PlayerTechDbSelect implements PlayerTechDbInterface
      * @throws InvalidArgumentException
      * @throws RuntimeException
      */
-    public function findPlayer($id)
+    public function fetchTechForPlayer($id)
     {
         $sql    = new Sql($this->db);
         $select = $this->getSelect($sql);
-        $select->where(['p.player_ident = ?' => $id]);
-    
-        $statement = $sql->prepareStatementForSqlObject($select);
-        $result    = $statement->execute();
-    
-        if (! $result instanceof ResultInterface || ! $result->isQueryResult()) {
-            throw new RuntimeException(sprintf(
-                'Failed retrieving player with identifier "%s"; unknown database error.',
-                $id
-            ));
-        }
-    
-        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
-        $resultSet->initialize($result);
-        $result = $resultSet->current();
-    
-        if (! $result) {
-            throw new InvalidArgumentException(sprintf(
-                'Player with identifier "%s" not found.',
-                $id
-            ));
-        }
-    
-        return $result;
-    }
+        $select->where(["pt.player_ident = ?" => $id]);
 
-    /**
-     * {@inheritDoc}
-     * @throws InvalidArgumentException
-     * @throws RuntimeException
-     */
-    public function findPlayerbyName($name)
-    {
-        $sql    = new Sql($this->db);
-        $select = $this->getSelect($sql);
-        $select->where(['p.name = ?' => $name]);
-    
-        $statement = $sql->prepareStatementForSqlObject($select);
-        $result    = $statement->execute();
-    
-        if (! $result instanceof ResultInterface || ! $result->isQueryResult()) {
-            throw new RuntimeException(sprintf(
-                'Failed retrieving player with name "%s"; unknown database error.',
-                $name
-            ));
-        }
-    
-        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
-        $resultSet->initialize($result);
-        $result = $resultSet->current();
-    
-        if (! $result) {
-            throw new InvalidArgumentException(sprintf(
-                'Player with name "%s" not found.',
-                $name
-            ));
-        }
-    
-        return $result;
-    }
-
-	public function findMatchingPlayers($name, $paginated = false)
-	{
-        $sql    = new Sql($this->db);
-        $select = $this->getSelect($sql);
-		$select->where(function (Where $where) {
-                    $where->like('p.name', '%'.$name.'%');
-               })
-               ->order('name');
-
+        //print "<br>id=".$id.", sql=".$select->getSqlString()."<br>";
         return $this->fetchSelect($sql, $select, $paginated);
-	}
+    }
 
     private function fetchSelect($sql, $select, $paginated = false)
     {
@@ -185,10 +118,10 @@ class PlayerTechDbSelect implements PlayerTechDbInterface
     private function getSelect($sql)
 	{
         $select = $sql->select();
-		return $select->from(['p' => 'sc_players'])
-            ->columns(['player_ident', 'steamid', 'overall_level',
-                       'name', 'crystals', 'vespene',
-                       'last_update']); //  => "DATE_FORMAT(last_update, '%m/%d/%y')"]);
+		return $select->from(['pt' => 'sc_player_tech'])
+            ->columns(['player_ident', 'faction', 'tech_count', 'tech_level'])
+			->join(['f' => 'sc_factions'], 'f.faction = pt.faction',
+				   ['long_name', 'image'], $select::JOIN_LEFT);
 	}
 
 /***************************************************************************************

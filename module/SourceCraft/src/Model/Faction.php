@@ -26,8 +26,8 @@ class Faction
      * @param string      $image
      * @param timestamp   $add_date
      */
-    public function __construct($faction='', $long_name='', $description='',
-								$image='', $add_date=null)
+    public function __construct($faction=null, $long_name=null, $description=null,
+								$image=null, $add_date=null)
     {
         $this->faction     = $faction;
         $this->long_name   = $long_name;

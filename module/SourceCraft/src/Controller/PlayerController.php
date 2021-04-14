@@ -16,6 +16,7 @@ use Laminas\View\Model\ViewModel;
 #require_once 'Player.php';
 use SourceCraft\Model\Player;
 use SourceCraft\Model\PlayerDbInterface;
+use SourceCraft\Model\PlayerTechDbInterface;
 use SourceCraft\Model\PlayerAliasDbInterface;
 
 #require_once 'Race.php';
@@ -53,15 +54,22 @@ class PlayerController extends AbstractActionController
      */
     private $aliasRepository;
 
+    /**
+     * @var PlayerTechDbInterface
+     */
+    private $techRepository;
+
     public function __construct(PlayerDbInterface $playerRepository,
 								RaceDbInterface $raceRepository,
 	                            UpgradeDbInterface $upgradeRepository,
+								PlayerTechDbInterface $techRepository,
 								PlayerAliasDbInterface $aliasRepository)
     {
         $this->playerRepository  = $playerRepository;
 		$this->raceRepository    = $raceRepository;
 		$this->upgradeRepository = $upgradeRepository;
         $this->aliasRepository   = $aliasRepository;
+        $this->techRepository    = $techRepository;
 	}
 
 	/**
@@ -111,10 +119,12 @@ class PlayerController extends AbstractActionController
 			$races = $this->raceRepository->fetchRacesForPlayer($ident);
 			$upgrades = $this->upgradeRepository->fetchUpgradesForPlayer($ident);
 			$aliases = $this->aliasRepository->fetchAliasesForPlayer($ident);
+			$tech_levels = $this->techRepository->fetchTechForPlayer($ident);
 			return new ViewModel(['player' => $player,
 			                      'races' => $races,
 								  'upgrades' => $upgrades,
-								  'aliases' => $aliases]);
+								  'aliases' => $aliases,
+								  'tech_levels' => $tech_levels]);
 		}
 		else
 			return new ViewModel(['error' => 'Player Ident ' . $ident . ' was not found',]);

@@ -14,27 +14,10 @@ interface PlayerTechDbInterface
     public function fetchAll($paginated = false);
 
     /**
-     * Return a single race.
+     * Return tech levels for a player.
      *
-     * @param  int $id Identifier of the race to return.
-     * @return Player
+     * @param  int $id Identifier of the player to return aliases for.
+     * @return PlayerAlias[]
      */
-    public function findPlayer($id);
-
-    /**
-     * Return a single race by name.
-     *
-     * @param  int $name name of the race to return.
-     * @return Player
-     */
-    public function findPlayerbyName($name);
-
-    /**
-     * Return a set of all races that match $name (have $name in them).
-     *
-     * @param  int $name name of the race to match.
-     * @param  bool $paginated true to return paginated results.
-     * @return Player
-     */
-	public function findMatchingPlayers($name, $paginated = false);
+    public function fetchTechForPlayer($id);
 }

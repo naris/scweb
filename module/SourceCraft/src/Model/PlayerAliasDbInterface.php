@@ -14,7 +14,7 @@ interface PlayerAliasDbInterface
     public function fetchAll($paginated = false);
 
     /**
-     * Return a single race.
+     * Return aliases for a player.
      *
      * @param  int $id Identifier of the player to return aliases for.
      * @return PlayerAlias[]
@@ -22,7 +22,7 @@ interface PlayerAliasDbInterface
     public function fetchAliasesForPlayer($id);
 
     /**
-     * Return a single race by name.
+     * Return aliases for a player with the given name.
      *
      * @param  int $name name of the player to return aliases of.
      * @return PlayerAlias[]
@@ -30,7 +30,7 @@ interface PlayerAliasDbInterface
     public function fetchAliasesForName($name);
 
     /**
-     * Return a set of all aliases that match $name (have $name in them).
+     * Return a set of all aliases that match players with $name (have $name in them).
      *
      * @param  int $name name of the race to match.
      * @param  bool $paginated true to return paginated results.
