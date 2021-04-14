@@ -114,7 +114,7 @@ class PlayerController extends AbstractActionController
 			return new ViewModel(['player' => $player,
 			                      'races' => $races,
 								  'upgrades' => $upgrades,
-								  'alises' => $aliases]);
+								  'aliases' => $aliases]);
 		}
 		else
 			return new ViewModel(['error' => 'Player Ident ' . $ident . ' was not found',]);

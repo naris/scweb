@@ -59,7 +59,7 @@ class UpgradeDbSelect implements UpgradeDbInterface
 			->where(['u.race_ident' => $raceId])
 			->order(['race_ident', 'upgrade']);
 
-		//print "sql=".$select->getSqlString();
+		//print "id=".$raceId.", sql=".$select->getSqlString();
         return $this->fetchSelect($sql, $select, $paginated);
 	}
 
@@ -81,7 +81,7 @@ class UpgradeDbSelect implements UpgradeDbInterface
                          ->where(['pr.player_ident' => $playerId])
                          ->order('pr.race_ident', 'pr.upgrade');
 
-		//print "sql=".$select->getSqlString();
+		//print "id=".$raceId.", sql=".$select->getSqlString();
         return $this->fetchSelect($sql, $select, $paginated);
 	}
 

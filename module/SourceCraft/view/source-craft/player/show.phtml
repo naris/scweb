@@ -53,14 +53,15 @@ $this->headTitle($title);
 			<td width="55%">&nbsp;</td>
 		</tr>
 	</table>
-		<?php if (isset($aliases) && !empty($aliases) && count($aliases) > 1): ?>
+		<br>
+		<?php if (isset($this->aliases) && !empty($aliases) && count($this->aliases) > 0): ?>
 			<table class="alias_detail" width='100%'>
 				<tr>
-					<th width="10%">Date</th>
+					<th width="20%">Date</th>
 					<th width="25%">SteamID</th>
-					<th width="65%" style="text-align: left;">Alias</th>
+					<th width="45%" style="text-align: left;">Alias</th>
 				</tr>
-				<?php foreach ($aliases as $alias): ?>
+				<?php foreach ($this->aliases as $alias): ?>
 					<tr width='100%'>
 						<td width="10%"><?= $this->escapeHtml($alias->getLastUsed()) ?></td>
 						<td width="25%"><?= $this->escapeHtml($alias->getSteamId()) ?></td>

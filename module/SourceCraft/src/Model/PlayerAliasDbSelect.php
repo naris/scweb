@@ -67,30 +67,10 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
     {
         $sql    = new Sql($this->db);
         $select = $this->getSelect($sql);
-        $select->where(['pa.player_ident = ?' => $id]);
-    
-        $statement = $sql->prepareStatementForSqlObject($select);
-        $result    = $statement->execute();
-    
-        if (! $result instanceof ResultInterface || ! $result->isQueryResult()) {
-            throw new RuntimeException(sprintf(
-                'Failed retrieving player with identifier "%s"; unknown database error.',
-                $id
-            ));
-        }
-    
-        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
-        $resultSet->initialize($result);
-        $result = $resultSet->current();
-    
-        /*if (! $result) {
-            throw new InvalidArgumentException(sprintf(
-                'Player with identifier "%s" not found.',
-                $id
-            ));
-        }*/
-    
-        return $result;
+        $select->where(["pa.player_ident = ?" => $id]);
+
+        //print "<br>id=".$id.", sql=".$select->getSqlString()."<br>";
+        return $this->fetchSelect($sql, $select, $paginated);
     }
 
     /**
@@ -107,16 +87,7 @@ class PlayerAliasDbSelect implements PlayerAliasDbInterface
         $statement = $sql->prepareStatementForSqlObject($select);
         $result    = $statement->execute();
     
-        if (! $result instanceof ResultInterface || ! $result->isQueryResult()) {
-            throw new RuntimeException(sprintf(
-                'Failed retrieving player with name "%s"; unknown database error.',
-                $name
-            ));
-        }
-    
-        $resultSet = new HydratingResultSet($this->hydrator, $this->prototype);
-        $resultSet->initialize($result);
-        return $resultSet;
+        return $this->fetchSelect($sql, $select, $paginated);
     }
 
 	public function fetchAliasesMatchingName($name, $paginated = false)
